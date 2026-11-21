@@ -1516,6 +1516,8 @@ ded:[
  {a:"loves_szog", b:"balkezes", g:"nem_ongyilkos", t:"Egy balkezes ember a jobb kezével, elölről, lőpornyom nélkül. Ez nem öngyilkosság. Ez rendezés."},
  {a:"midazolam", b:"loves_szog", g:"nem_ongyilkos", t:"Öntudatlan volt, amikor lőttek. Valaki beadta neki az altatót, aztán a kezébe adta a fegyvert, és meghúzta a ravaszt helyette."},
  {a:"piros_suzuki", b:"erika_auto", g:"erika_villanal", t:"KSN. Piros Suzuki Swift. Egy újpesti ház előtt áll, ahol egy özvegy minden este egyedül vacsorázik."},
+ {a:"piros_suzuki", b:"suzuki_anpr", g:"erika_villanal", t:"KSN a fényképen, 21:50-kor a villa kapujában. KSN-314 a rendszámolvasón, 21:32-kor észak felé, 23:55-kor vissza. Üzembentartó: Kónya Attiláné."},
+ {a:"erika_auto", b:"suzuki_anpr", g:"erika_villanal", t:"Az újpesti ház előtt álló piros Suzuki, KSN-314. Ugyanez a rendszám vasárnap este 21:32-kor a villa felé tartott, és csak éjfél előtt jött vissza."},
  {a:"midazolam", b:"korhazi_hiany", g:"erika_midazolam", t:"Két ampulla midazolam tűnt el vasárnap a Szent Jánosban. Somogyi vérében midazolam. A kiadó: Kónya Attiláné."},
  {a:"piros_suzuki", b:"mate_test", g:"mate_tanu", t:"Vasárnap este Máté lefényképezett egy autót a villa kapujában. Kedd éjjel a gát tövében feküdt. Lehet, hogy túl sokat látott. Lehet, hogy nem."},
  {a:"lapat_seb", b:"kun_lapat", g:"kun_lapat_ded", t:"Lapos, éles perem. Egy homokzsáklapát, frissen lemosva, ott, ahol senki nem mos lapátot."},
@@ -1548,7 +1550,7 @@ locs:{
    {id:"kamera", l:"A biztonsági rendszer", t:"A kamerarendszer vezérlője a dolgozószobai gépen. A napló szerint vasárnap 21:40-kor kikapcsolták, a helyes jelszóval. Valaki ismerte, vagy Somogyi maga adta meg.", ev:"kamera_ki"}
  ]},
  erikahaz:{m:"Kónya-ház", n:"Kónya-ház, Újpest", x:735, y:58, side:"P", d:"A kockaház, ahol decemberben Kónya Attilát megtalálták. A garázsajtó bezárva, a kerítésen még ott a karácsonyi égősor, kikapcsolva.", hs:[
-   {id:"auto", l:"Az utca", t:"A ház előtt egy piros Suzuki Swift, KSN-314. A szélvédőn egy kórházi parkolókártya. A kerekeken friss, szürke iszap, pedig Újpesten nem volt áradás.", ev:"erika_auto"}
+   {id:"auto", l:"A ház előtti autó", t:"A ház előtt egy piros Suzuki Swift, KSN-314. A szélvédőn egy kórházi parkolókártya. A kerekeken friss, szürke iszap, pedig Újpesten nem volt áradás.", ev:"erika_auto"}
  ]},
  berkeshaz:{m:"Berkes lakás", n:"Berkes lakása, Pasarét", x:262, y:150, side:"B", d:"Pasaréti bérlakás, kartondobozok, egy elkezdett költözés. A klinika óta itt lakik, egyedül.", hs:[
    {id:"taska", l:"Az orvosi táska", req:["met_berkes"], t:"Az előszobában egy régi orvosi táska. Benne vérnyomásmérő, kötszer, és egy doboz midazolam-ampulla. A felfüggesztett engedély ide vagy oda.", ev:"berkes_midazolam"}
@@ -1692,7 +1694,7 @@ leads:[
  {need:["v2_found"], not:["mate_test"], x:"Holttest a csepeli gát tövében. Nézd meg a helyszínt."},
  {need:["mate_telefon"], not:["doc:mate_kepek"], x:"Máté telefonja vizes, de ép. Halász kiolvashatja (Stáb)."},
  {need:["body2"], not:["doc:boncolas_m"], x:"Máté boncolása még hátravan (Stáb)."},
- {need:["piros_suzuki"], not:["erika_auto","suzuki_anpr"], x:"KSN, piros Suzuki Swift. Kinek van ilyen autója? A rendszámolvasó is megmondhatja."},
+ {need:["piros_suzuki"], not:["erika_auto","suzuki_anpr"], x:"KSN, piros Suzuki Swift. Kinek van ilyen autója? A rendszámolvasó-adatok (Stáb, Bence) megmondják a teljes rendszámot és a tulajdonost. Utána a táblán kösd össze a fényképpel, vagy menj el a tulajdonos házához."},
  {need:["v2_found"], not:["kun_gat"], x:"A gáton éjjel-nappal önkéntesek dolgoznak. Valaki láthatott valamit kedd éjjel."},
  {need:["met_kun"], not:["kun_eroszak"], x:"Máté anyja a bal karját gipszben hordja. Beszélj vele, amikor Kun nem figyel."},
  {need:["met_erika"], not:["erika_ejjeles"], x:"Hol volt Erika kedd éjjel, amikor Máté meghalt? A kórházi gyógyszertárban tudják, ki dolgozott."},
