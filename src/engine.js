@@ -19,7 +19,7 @@ function saveMeta(m){try{localStorage.setItem(META,JSON.stringify(m))}catch(e){}
 function fresh(cid){
   setCase(cid);const m=meta(),ps=m.persist;
   const s={case:cid,t:CASE.start.t,loc:CASE.start.loc,fat:35,alc:18,crave:30,money:ps?Math.max(ps.money,50000):40000,bottle:3,pat:100,
-    ev:{},f:{},docs:{},done:{},hs:{},tr:{},staff:{},loy:{},pending:[],board:{},verd:{},rejects:0,ended:null,log:[],fired:{},notes:[],
+    ev:{},seenEv:{},hints:[],f:{},docs:{},done:{},hs:{},tr:{},staff:{},loy:{},pending:[],board:{},verd:{},rejects:0,ended:null,log:[],fired:{},notes:[],
     view:'loc',tab:null,doc:null,sel:[],day:0,visited:{},prev:m.done||{}};
   STAFF.forEach(id=>{s.staff[id]={busy:0,load:0};s.loy[id]=ps&&ps.loy&&ps.loy[id]!=null?ps.loy[id]:60});
   if(ps&&ps.f)PERSIST.forEach(k=>{if(ps.f[k])s.f[k]=1});
@@ -237,8 +237,8 @@ const DYN={
   vargaStatus(){
     const boss=CASE.bossLine||'„Ne magyarázz. Hozz egy nevet és bizonyítékot, vagy holnaptól a rakparti forgalmat irányítod.”';
     if(S.pat<40)return boss;
-    const ld=leads();
-    if(ld.length&&nEv()>=5)return'„Hol tartasz?” Elmondod. Bólint. „És ezzel mi van?” Rábök a jegyzeteidre: <i>'+ld[0]+'</i>';
+    const h=nEv()>=5?takeHint():null;
+    if(h)return'„Hol tartasz?” Elmondod. Bólint. „És ezzel mi van?” Rábök a jegyzeteidre: <i>'+h+'</i>';
     if(nEv()<5)return'„Ennyi? A sajtó okosabb nálunk, Dénes. Mozdulj.”';
     return'„Látom a táblát. Ha megvan, ne üldögélj rajta. Vádemelés, három pillér: indíték, alkalom, módszer. Az ügyész nem hisz a megérzésekben.”';
   },
@@ -288,7 +288,7 @@ const vKnown=v=>!v.known||has(v.known);
 const supOf=id=>(E[id].sup||[]);
 const supMatch=(id,s,r,v)=>supOf(id).some(x=>x[0]===s&&x[1]===r&&(!x[2]||x[2]==='*'||x[2]===v));
 function clearsOf(id,s,v){const c=E[id].clears;if(!c)return false;const L2=typeof c==='string'?[[c,'*']]:(Array.isArray(c[0])?c:[c]);return L2.some(x=>x[0]===s&&(x[1]==='*'||x[1]===v))}
-function selCard(id){if(!S.ev[id])return;
+function selCard(id){if(!S.ev[id])return;(S.seenEv=S.seenEv||{})[id]=1;
   const i=S.sel.indexOf(id);
   if(i>=0)S.sel.splice(i,1);else{S.sel.push(id);if(S.sel.length>2)S.sel.shift()}
   render();
@@ -305,7 +305,7 @@ function deduce(){
     const near=[a,b].find(id=>open.some(x=>x.a===id||x.b===id));
     note(near?`Ez a két nyom közvetlenül nem függ össze. Ennek viszont van párja a táblán, csak nem ez: <b>${E[near].n}</b>.`:'Ez a két nyom közvetlenül nem függ össze. Próbálj más párt.','bad');render();return}
   if(S.ev[d.g]){note('Ezt már összeraktad.');render();return}
-  addEv(d.g);if(d.f)setF(d.f);
+  addEv(d.g);(S.seenEv=S.seenEv||{})[d.g]=1;if(d.f)setF(d.f);
   modal(`<h2>${E[d.g].n}</h2><p>${d.t}</p>`,[['Felírod a táblára','close']]);
 }
 const openVict=()=>VICT.filter(v=>vKnown(v)&&!S.verd[v.id]);
@@ -371,6 +371,10 @@ function finish(k,s){
   else{title=k==='win'?'Ügy lezárva':'Rossz ember';body=k==='win'?CASE.end.win(S,API):(CASE.end.wrong[s]||'')}
   const gr=grade();
   const m=meta();m.done[S.case]={res:k,g:gr.g,t:Date.now()};
+  const ekey=k+'|'+Object.entries(S.verd).map(([v,x])=>v+':'+x.s).sort().join(',')+(CASE.endKey?'|'+CASE.endKey(S):'');
+  m.endings=m.endings||{};const el=(m.endings[S.case]=m.endings[S.case]||[]);
+  const elabel=title+(Object.keys(S.verd).length?' — vád: '+[...new Set(Object.values(S.verd).map(x=>CASE.suspects[x.s].short))].join(', '):'')+(CASE.endLabel?' · '+CASE.endLabel(S):'');
+  if(!el.some(x=>x.k===ekey))el.push({k:ekey,l:elabel});
   m.persist={money:S.money,loy:S.loy,f:Object.fromEntries(PERSIST.filter(x=>S.f[x]).map(x=>[x,1]))};
   saveMeta(m);save();
   const idx=CASE_IDS.indexOf(S.case),next=CASE_IDS[idx+1];
@@ -391,7 +395,7 @@ function closeModal(){$('#modal').hidden=true;if(Q.length)nextModal();render()}
 function meter(l,v,cls){return`<div class="meter ${cls||''}"><span>${l}</span><i style="--v:${v}%"></i></div>`}
 function renderHUD(){
   const warn=[S.fat>85?'alig látsz':'',S.crave>70?'remeg a kezed':'',S.alc>55?'részeg vagy':''].filter(Boolean).join(' · ');
-  const nd=Object.values(S.docs).filter(d=>d.n).length,nl=leads().length;
+  const nd=Object.values(S.docs).filter(d=>d.n).length,nl=autoLeads().length+shownHints().length;
   $('#hud').innerHTML=`<div class="when"><b>${clock(S.t)}</b><span>${dayLabel(S.t)}</span></div>
   <div class="meters">${meter('Fáradtság',S.fat,S.fat>85?'hot':'')}${meter('Alkohol',S.alc,S.alc>55?'hot':'')}${meter('Sóvárgás',S.crave,S.crave>70?'hot':'')}${meter('Főnöki türelem',Math.max(0,S.pat),S.pat<40?'hot':'')}</div>
   <div class="cash"><b>${S.money.toLocaleString('hu-HU')} Ft</b><span>${warn||'&nbsp;'}</span></div>
@@ -457,7 +461,8 @@ function loyBar(id){const v=S.loy[id];return`<span class="loy"><i style="--v:${v
 function card(id,extra){
   const e=E[id],sel=S.sel.includes(id);
   const vt=e.v&&VICT.length>1?`<small class="vt">${(VICT.find(x=>x.id===e.v)||{}).s||''}</small>`:'';
-  return`<button class="card${sel?' sel':''}${e.ded?' ded':''}${e.clears?' clr':''}${extra||''}" data-a="card:${id}">${vt}<b>${e.n}</b><span>${e.d}</span></button>`;
+  const seen=S.seenEv&&S.seenEv[id];
+  return`<button class="card${sel?' sel':''}${e.ded?' ded':''}${e.clears?' clr':''}${seen?'':' unseen'}${extra||''}" data-a="card:${id}">${vt}<b>${e.n}</b>${seen?`<span>${e.d}</span>`:'<span class="nw">Új nyom – kattints rá, hogy elolvasd</span>'}</button>`;
 }
 function renderBoard(){
   const pool=Object.keys(S.ev).filter(id=>!S.board[id]);
@@ -501,6 +506,19 @@ function renderStaff(){
   <h3>Kiadható feladatok</h3>${tasks.length?tasks.map(tk=>`<div class="task"><b>${tk.l}</b><span>${Math.round(tk.dur/60)} óra</span><div>${Object.keys(tk.fit).map(sid=>`<button data-a="disp:${tk.id}:${sid}" ${staffState(sid).k!=='free'?'disabled':''}>${P[sid].n.split(' ').slice(-1)[0]} · ${fitW(tk,sid)}</button>`).join('')}</div></div>`).join(''):'<p class="mut">Most nincs kiadható feladat. Nyomozz tovább.</p>'}</div>`;
 }
 function openMarks(id){return[...CASE.docs[id].b.matchAll(/\[\[(\w+)\|/g)].filter(m=>!S.ev[m[1]]).length}
+function autoLeads(){
+  const out=[];
+  const mk=Object.keys(S.docs).reduce((a,id)=>a+openMarks(id),0);
+  if(mk)out.push(`Az aktákban ${mk} kiemelt sor vár. Nyisd meg az Akták fület, és kattints rájuk.`);
+  const un=Object.keys(S.ev).filter(id=>!(S.seenEv&&S.seenEv[id])).length;
+  if(un)out.push(`A táblán ${un} új nyom vár, amit még nem olvastál el.`);
+  const tk=CASE.tasks.filter(taskAvail).length;
+  if(tk)out.push(`A Stáb fülön ${tk} kiadható feladat vár.`);
+  return out;
+}
+function hintPool(){return leads().filter(x=>!/^Az aktákban|^A Stáb fülön/.test(x))}
+function takeHint(){const pool=hintPool();S.hints=S.hints||[];const h=pool.find(x=>!S.hints.includes(x));if(h)S.hints.push(h);return h}
+function shownHints(){const pool=hintPool();return(S.hints||[]).filter(x=>pool.includes(x))}
 function leads(){
   const out=[];
   const mk=Object.keys(S.docs).reduce((a,id)=>a+openMarks(id),0);
@@ -513,11 +531,12 @@ function leads(){
   if(tk)out.push(`A Stáb fülön ${tk} kiadható feladat vár.`);
   return out;
 }
-function renderLog(){const ld=leads(),U=S.ui||{};
-  const evs=Object.keys(S.ev).sort((a,b)=>S.ev[a]-S.ev[b]);
+function renderLog(){const U=S.ui||{};const ld=autoLeads().concat(shownHints().map(x=>'<span class="hintmark">Súgó:</span> '+x));
+  const evs=Object.keys(S.ev).filter(id=>S.seenEv&&S.seenEv[id]).sort((a,b)=>S.ev[a]-S.ev[b]);
+  const morehint=hintPool().some(x=>!(S.hints||[]).includes(x));
   const tm=t=>`<time>${dayLabel(t).split(' · ')[0]} ${clock(t)}</time>`;
   return`<div class="pane wide"><h1>Napló</h1>
-  <details data-ui="leads" ${U.leads===false?'':'open'}><summary>Nyitott szálak <span>${ld.length}</span></summary>${ld.length?`<ul class="leads">${ld.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p class="mut">Nincs nyitott szál. Ha megvan a tettes, a táblán emelhetsz vádat.</p>'}</details>
+  <details data-ui="leads" ${U.leads===false?'':'open'}><summary>Nyitott szálak <span>${ld.length}</span></summary>${ld.length?`<ul class="leads">${ld.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p class="mut">Nincs nyitott szál, amiről tudsz.</p>'}<div class="list"><button class="act" data-a="hint" ${morehint?'':'disabled'}>${morehint?'Elakadtam: kérek egy tippet (30 perc töprengés)':'Nincs több tipp'}</button></div></details>
   <details data-ui="evid" ${U.evid?'open':''}><summary>Bizonyítékok <span>${evs.length}</span></summary><dl class="evl">${evs.map(id=>`<dt>${E[id].n}${tm(S.ev[id])}</dt><dd>${E[id].d}</dd>`).join('')}</dl></details>
   <details data-ui="notes" ${U.notes?'open':''}><summary>Helyszíni jegyzetek <span>${S.notes.length}</span></summary><dl class="evl">${S.notes.map(x=>`<dt>${x.loc}: ${x.l}${tm(x.t)}</dt><dd>${x.x}</dd>`).join('')}</dl></details>
   <details data-ui="events" ${U.events?'open':''}><summary>Események <span>${S.log.length}</span></summary><ul class="log">${S.log.map(x=>`<li>${tm(x.t)}${x.x}</li>`).join('')}</ul></details></div>`}
@@ -530,6 +549,8 @@ function renderSave(){
 function render(){
   if(!S)return;
   if(!S.ended&&CASE.over&&Object.keys(S.verd||{}).length&&CASE.over(S,API)){finish('multi');return}
+  if(!S.seenLoc){S.seenLoc={};Object.entries(L).forEach(([id,l])=>{if(visible(l))S.seenLoc[id]=1})}
+  Object.entries(L).forEach(([id,l])=>{if(visible(l)&&!S.seenLoc[id]){S.seenLoc[id]=1;note('Új helyszín a térképen: <b>'+l.n+'</b>','loc')}});
   const t=S.tab;
   $('#game').classList.toggle('full',!!t&&t!=='map');
   renderHUD();renderMap();
@@ -542,7 +563,8 @@ function titleScreen(){
   const m=meta(),cur=load();
   const rows=CASE_IDS.map((id,i)=>{const c=CASES[id],d=m.done[id];
     const st=d?`Lezárva · ${d.g}`:(cur&&cur.case===id&&!cur.ended?'Folyamatban':'');
-    return`<li><div><b>${i+1}. ${c.title}</b><span>${c.tagline||''}</span>${st?`<em>${st}</em>`:''}</div><button data-a="startcase:${id}">${cur&&cur.case===id&&!cur.ended?'Újrakezdés':'Indítás'}</button></li>`}).join('');
+    const en=(m.endings&&m.endings[id])||[];
+    return`<li><div><b>${i+1}. ${c.title}</b><span>${c.tagline||''}</span>${st?`<em>${st}</em>`:''}${en.length?`<details class="ends"><summary>Felfedezett befejezések: ${en.length}</summary><ul>${en.map(x=>`<li>${x.l}</li>`).join('')}</ul></details>`:''}</div><button data-a="startcase:${id}">${cur&&cur.case===id&&!cur.ended?'Újrakezdés':'Indítás'}</button></li>`}).join('');
   const cont=cur&&!cur.ended&&CASES[cur.case]?[[`Folytatás: ${CASES[cur.case].title}`,'continue']]:[];
   modal(`<div class="title"><h2>Redemption</h2><p class="deck">Mátrai Dénes ügyei</p><ul class="cases">${rows}</ul><p class="mut">Az ügyek egymásra épülnek: a személyes döntéseid (lányod, apád, Nóra, a stáb) átkerülnek a következő ügybe.</p></div>`,cont.concat(S&&!S.ended?[['Vissza','close']]:[]));
 }
@@ -572,7 +594,8 @@ function handle(a){
     case'acc?':accuse(x);break;
     case'acc':judge(x);break;
     case'doc':{if(!S.docs[x])break;const first=S.docs[x].n;S.doc=x;S.docs[x].n=0;if(first)act(10);render();$('.paper')?.scrollIntoView({block:'nearest'});break}
-    case'mark':addEv(x);render();break;
+    case'hint':{act(30);const h=takeHint();note(h?'<b>Tipp:</b> '+h:'Nincs több tipp.','msg');render();break}
+    case'mark':addEv(x);(S.seenEv=S.seenEv||{})[x]=1;render();break;
     case'disp':dispatch(x,y);break;
     case'close':closeModal();break;
     case'title':titleScreen();break;
@@ -584,7 +607,7 @@ function handle(a){
     case'import':{try{const v=JSON.parse(decodeURIComponent(escape(atob($('#imp').value.trim()))));if(v&&v.t){S=v;S.case=S.case||'c1';setCase(S.case);upgrade();S.tab=null;render();note('Mentés betöltve.')}}catch(e){note('Ez nem érvényes mentéskód.','bad')}break}
   }
 }
-function upgrade(){S.loy=S.loy||{};STAFF.forEach(id=>{if(S.loy[id]==null)S.loy[id]=60});S.notes=S.notes||[];S.verd=S.verd||{};S.view=S.view||'loc';S.prev=S.prev||meta().done}
+function upgrade(){if(!S.seenEv){S.seenEv={};Object.keys(S.ev||{}).forEach(k=>S.seenEv[k]=1)}S.loy=S.loy||{};STAFF.forEach(id=>{if(S.loy[id]==null)S.loy[id]=60});S.notes=S.notes||[];S.verd=S.verd||{};S.view=S.view||'loc';S.prev=S.prev||meta().done}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b||b.disabled)return;e.preventDefault();handle(b.dataset.a)});
 document.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.ui&&S){(S.ui=S.ui||{})[d.dataset.ui]=d.open;save()}},true);
 document.addEventListener('keydown',e=>{

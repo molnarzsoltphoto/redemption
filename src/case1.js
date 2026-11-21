@@ -104,11 +104,11 @@ locs:{
  otthon:{m:"Lakás", n:"Lakás a Körúton", x:612, y:338, side:"P", d:"Harmadik emelet, udvari szoba. A hűtőben pálinka, a mosogatóban három hét. A falon semmi, mert minden, amit felakasztanál, valaki másé volt.", hs:[]},
  kapitanysag:{m:"Kapitányság", n:"Főkapitányság", x:705, y:196, side:"P", d:"Szürke tömb, neoncsövek, a folyosón ázott kabátok szaga. Az osztály a harmadikon van. Halász laborja az alagsorban.", hs:[]},
  hordo:{m:"Hordó", n:"Hordó", x:648, y:462, side:"P", open:[15,3], d:"Füst nincs, mert tilos, de a falak emlékeznek rá. Laci a pult mögött, a nyerőgép villog a sarokban. Itt senki nem kérdezi, hányadik.", hs:[]},
- zsofi:{la:1, m:"Zsófia lakása", n:"Halmi Zsófia lakása", x:392, y:482, side:"B", d:"Lágymányosi panel, kilencedik emelet. A lift büdös, a lépcsőházban valaki sír. Fodor Réka nyit ajtót.", hs:[
+ zsofi:{la:1, m:"Zsófia lakása", n:"Halmi Zsófia lakása", x:392, y:482, side:"B", vis:"body", d:"Lágymányosi panel, kilencedik emelet. A lift büdös, a lépcsőházban valaki sír. Fodor Réka nyit ajtót.", hs:[
    {id:"ablak", l:"Az ablakpárkány", t:"Egy cserép elszáradt muskátli és egy fénykép: Zsófia egy kislánnyal, kórházi ágy mellett. A kép hátán ceruzával: „H. – bocsáss meg”."},
    {id:"asztal", l:"Az íróasztal", t:"Laptoptöltő, de laptop nincs. Egy füzet, kitépett lapokkal. Az utolsó oldalon nyomot hagyott a toll: „…kikötő… vasárnap… igazat…”", f:"laptop_hianyzik"}
  ]},
- klinika:{la:1, m:"Klinika", n:"Szent Lukács Klinika", x:236, y:296, side:"B", open:[7,19], d:"Üveg, márvány, halk zene a recepción. Itt a halál is fizetős. A parkolóban két fekete limuzin, az egyiknek kormányzati rendszáma van.", hs:[]},
+ klinika:{la:1, m:"Klinika", n:"Szent Lukács Klinika", x:236, y:296, side:"B", vis:"body", open:[7,19], d:"Üveg, márvány, halk zene a recepción. Itt a halál is fizetős. A parkolóban két fekete limuzin, az egyiknek kormányzati rendszáma van.", hs:[]},
  kikoto:{la:1, m:"Révész", n:"Déli kikötő – a Révész", x:548, y:618, side:"P", d:"A Révész a hatvanas években épült komp, rozsdás korláttal, évek óta nem jár. A rakparton sárga szalag, a vízen kék villogás. A daruk alatt a szél sós, pedig itt nincs tenger.", hs:[
    {id:"holttest", l:"A holttest", t:"A nő a fedélzeten fekszik, kezei a mellkasán összekulcsolva, mintha valaki ravatalra fektette volna. A nyakán vékony, mély barázda. Kötél volt, nem kéz. A táskájában igazolvány: Halmi Zsófia, 34 éves. Ápolói kártya, Szent Lukács Klinika. Pénztárca, kulcsok. Telefon nincs nála, sehol a fedélzeten.", ev:["aldozat","nincs_telefon"], f:"body"},
    {id:"erme", l:"Az áldozat szája", req:["body"], t:"A szája résnyire nyitva. A nyelve alatt egy tízforintos. Valaki gondosan tette oda, nem sietett. A régiek így fizettek a révésznek, hogy átvigye a halottat a túlpartra.", ev:"ermeszaj"},
@@ -118,7 +118,7 @@ locs:{
    {id:"csikk", l:"A rámpa alja", t:"Egy ázott Symphonia csikk. Ki tudja, mióta fekszik itt.", ev:"csikk"},
    {id:"kamera", l:"A daru oszlopa", t:"Városi térfigyelő kamera, 4471-es számú. A lencse épp a bejárati útra néz. Valakinek le kellene kérnie a felvételt.", f:"kamera"}
  ]},
- porta:{m:"Porta", n:"Kikötői porta", x:648, y:640, side:"P", d:"Bádogkalyiba sorompóval, az ablakban sárga fény. Bent rádió szól, valami régi táncdal. A falon egy bekeretezett fotó: egy komp, rajta egy bajuszos férfi és egy kisfiú.", hs:[
+ porta:{m:"Porta", n:"Kikötői porta", x:648, y:640, side:"P", vis:"body", d:"Bádogkalyiba sorompóval, az ablakban sárga fény. Bent rádió szól, valami régi táncdal. A falon egy bekeretezett fotó: egy komp, rajta egy bajuszos férfi és egy kisfiú.", hs:[
    {id:"csizma", l:"Az ajtó előtt", t:"Egy pár 45-ös gumicsizma, a talpán friss, szürke folyami sár. Valaki gondosan a lábtörlőre állította.", ev:"vamos_csizma"},
    {id:"auto", l:"A sorompó mellett", t:"Fehér Ford Transit, rendszáma JKL-417. A szélvédőn kikötői behajtási engedély. A motorháztető hideg.", ev:"vamos_auto"}
  ]},
@@ -126,7 +126,7 @@ locs:{
  platan:{m:"Platán otthon", n:"Platán Idősotthon", x:178, y:200, side:"B", open:[9,19], d:"Budai villa, fenyőillat és fertőtlenítő. A társalgóban a tévé hangtalanul megy. Apád a második emeleten lakik, az ablaka a Dunára néz, ha az ember tudja, merre keresse.", hs:[]},
  nora:{m:"Nóra", n:"Nóra lakása", x:716, y:396, side:"P", open:[20,4], d:"Józsefvárosi bérház, gangos udvar, a harmadikon egy ajtó, amin nincs névtábla. A lépcsőházban valaki mindig főz valamit.", hs:[]},
  zeneiskola:{la:1, m:"Zeneiskola", n:"Erzsébet Zeneiskola", x:318, y:392, side:"B", open:[17,20], day:2, vis:"lili_sms", d:"Szerdai növendékhangverseny. Műanyag székek, izgatott szülők, egy kicsit hamis zongora. Lili a negyedik a műsorban.", hs:[]},
- kertesz:{m:"Kertész", n:"Kertész műhelye", x:740, y:84, side:"P", open:[8,19], d:"Bádoggarázs a Váci út mögött, olajfolt, fémzene, egy félig szétszedett Opel. Kertész a csörlő mellett.", hs:[]}
+ kertesz:{m:"Kertész", n:"Kertész műhelye", x:740, y:84, side:"P", vis:"briefed|met_kertesz", open:[8,19], d:"Bádoggarázs a Váci út mögött, olajfolt, fémzene, egy félig szétszedett Opel. Kertész a csörlő mellett.", hs:[]}
 },
 
 // ---- SZEREPLŐK ----

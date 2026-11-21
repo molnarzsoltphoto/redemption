@@ -103,6 +103,10 @@ blockquote.seen{margin:14px 0;padding:12px 16px;border-left:3px solid var(--red)
 .card.clr{background:#d9e3d6}
 .card.sel{outline:3px solid var(--red);transform:none}
 .card.pinned span{display:none}
+.card.unseen{background:#f6f1e3;outline:2px dashed var(--red);outline-offset:-4px}.card .nw{color:var(--red2);font-style:italic}.card.pinned.unseen .nw{display:block}
+.hintmark{font:600 13px "Barlow Condensed",sans-serif;background:var(--red);color:#fff;padding:1px 6px;margin-right:4px}
+.ends{margin-top:6px}.ends summary{font:14px "Source Serif 4",serif;color:#5a554a;min-height:0;padding:2px 0}.ends ul{margin:4px 0;padding-left:18px;font-size:14px;color:#3d3a33}
+.toast.loc{border-left-color:#8fb3d1}
 /* akták */
 .dl{display:grid;grid-template-columns:minmax(200px,280px) minmax(0,1fr);gap:18px;margin-top:10px}
 .dlist{display:flex;flex-direction:column;gap:6px}
@@ -305,11 +309,11 @@ locs:{
  otthon:{m:"Lakás", n:"Lakás a Körúton", x:612, y:338, side:"P", d:"Harmadik emelet, udvari szoba. A hűtőben pálinka, a mosogatóban három hét. A falon semmi, mert minden, amit felakasztanál, valaki másé volt.", hs:[]},
  kapitanysag:{m:"Kapitányság", n:"Főkapitányság", x:705, y:196, side:"P", d:"Szürke tömb, neoncsövek, a folyosón ázott kabátok szaga. Az osztály a harmadikon van. Halász laborja az alagsorban.", hs:[]},
  hordo:{m:"Hordó", n:"Hordó", x:648, y:462, side:"P", open:[15,3], d:"Füst nincs, mert tilos, de a falak emlékeznek rá. Laci a pult mögött, a nyerőgép villog a sarokban. Itt senki nem kérdezi, hányadik.", hs:[]},
- zsofi:{la:1, m:"Zsófia lakása", n:"Halmi Zsófia lakása", x:392, y:482, side:"B", d:"Lágymányosi panel, kilencedik emelet. A lift büdös, a lépcsőházban valaki sír. Fodor Réka nyit ajtót.", hs:[
+ zsofi:{la:1, m:"Zsófia lakása", n:"Halmi Zsófia lakása", x:392, y:482, side:"B", vis:"body", d:"Lágymányosi panel, kilencedik emelet. A lift büdös, a lépcsőházban valaki sír. Fodor Réka nyit ajtót.", hs:[
    {id:"ablak", l:"Az ablakpárkány", t:"Egy cserép elszáradt muskátli és egy fénykép: Zsófia egy kislánnyal, kórházi ágy mellett. A kép hátán ceruzával: „H. – bocsáss meg”."},
    {id:"asztal", l:"Az íróasztal", t:"Laptoptöltő, de laptop nincs. Egy füzet, kitépett lapokkal. Az utolsó oldalon nyomot hagyott a toll: „…kikötő… vasárnap… igazat…”", f:"laptop_hianyzik"}
  ]},
- klinika:{la:1, m:"Klinika", n:"Szent Lukács Klinika", x:236, y:296, side:"B", open:[7,19], d:"Üveg, márvány, halk zene a recepción. Itt a halál is fizetős. A parkolóban két fekete limuzin, az egyiknek kormányzati rendszáma van.", hs:[]},
+ klinika:{la:1, m:"Klinika", n:"Szent Lukács Klinika", x:236, y:296, side:"B", vis:"body", open:[7,19], d:"Üveg, márvány, halk zene a recepción. Itt a halál is fizetős. A parkolóban két fekete limuzin, az egyiknek kormányzati rendszáma van.", hs:[]},
  kikoto:{la:1, m:"Révész", n:"Déli kikötő – a Révész", x:548, y:618, side:"P", d:"A Révész a hatvanas években épült komp, rozsdás korláttal, évek óta nem jár. A rakparton sárga szalag, a vízen kék villogás. A daruk alatt a szél sós, pedig itt nincs tenger.", hs:[
    {id:"holttest", l:"A holttest", t:"A nő a fedélzeten fekszik, kezei a mellkasán összekulcsolva, mintha valaki ravatalra fektette volna. A nyakán vékony, mély barázda. Kötél volt, nem kéz. A táskájában igazolvány: Halmi Zsófia, 34 éves. Ápolói kártya, Szent Lukács Klinika. Pénztárca, kulcsok. Telefon nincs nála, sehol a fedélzeten.", ev:["aldozat","nincs_telefon"], f:"body"},
    {id:"erme", l:"Az áldozat szája", req:["body"], t:"A szája résnyire nyitva. A nyelve alatt egy tízforintos. Valaki gondosan tette oda, nem sietett. A régiek így fizettek a révésznek, hogy átvigye a halottat a túlpartra.", ev:"ermeszaj"},
@@ -319,7 +323,7 @@ locs:{
    {id:"csikk", l:"A rámpa alja", t:"Egy ázott Symphonia csikk. Ki tudja, mióta fekszik itt.", ev:"csikk"},
    {id:"kamera", l:"A daru oszlopa", t:"Városi térfigyelő kamera, 4471-es számú. A lencse épp a bejárati útra néz. Valakinek le kellene kérnie a felvételt.", f:"kamera"}
  ]},
- porta:{m:"Porta", n:"Kikötői porta", x:648, y:640, side:"P", d:"Bádogkalyiba sorompóval, az ablakban sárga fény. Bent rádió szól, valami régi táncdal. A falon egy bekeretezett fotó: egy komp, rajta egy bajuszos férfi és egy kisfiú.", hs:[
+ porta:{m:"Porta", n:"Kikötői porta", x:648, y:640, side:"P", vis:"body", d:"Bádogkalyiba sorompóval, az ablakban sárga fény. Bent rádió szól, valami régi táncdal. A falon egy bekeretezett fotó: egy komp, rajta egy bajuszos férfi és egy kisfiú.", hs:[
    {id:"csizma", l:"Az ajtó előtt", t:"Egy pár 45-ös gumicsizma, a talpán friss, szürke folyami sár. Valaki gondosan a lábtörlőre állította.", ev:"vamos_csizma"},
    {id:"auto", l:"A sorompó mellett", t:"Fehér Ford Transit, rendszáma JKL-417. A szélvédőn kikötői behajtási engedély. A motorháztető hideg.", ev:"vamos_auto"}
  ]},
@@ -327,7 +331,7 @@ locs:{
  platan:{m:"Platán otthon", n:"Platán Idősotthon", x:178, y:200, side:"B", open:[9,19], d:"Budai villa, fenyőillat és fertőtlenítő. A társalgóban a tévé hangtalanul megy. Apád a második emeleten lakik, az ablaka a Dunára néz, ha az ember tudja, merre keresse.", hs:[]},
  nora:{m:"Nóra", n:"Nóra lakása", x:716, y:396, side:"P", open:[20,4], d:"Józsefvárosi bérház, gangos udvar, a harmadikon egy ajtó, amin nincs névtábla. A lépcsőházban valaki mindig főz valamit.", hs:[]},
  zeneiskola:{la:1, m:"Zeneiskola", n:"Erzsébet Zeneiskola", x:318, y:392, side:"B", open:[17,20], day:2, vis:"lili_sms", d:"Szerdai növendékhangverseny. Műanyag székek, izgatott szülők, egy kicsit hamis zongora. Lili a negyedik a műsorban.", hs:[]},
- kertesz:{m:"Kertész", n:"Kertész műhelye", x:740, y:84, side:"P", open:[8,19], d:"Bádoggarázs a Váci út mögött, olajfolt, fémzene, egy félig szétszedett Opel. Kertész a csörlő mellett.", hs:[]}
+ kertesz:{m:"Kertész", n:"Kertész műhelye", x:740, y:84, side:"P", vis:"briefed|met_kertesz", open:[8,19], d:"Bádoggarázs a Váci út mögött, olajfolt, fémzene, egy félig szétszedett Opel. Kertész a csörlő mellett.", hs:[]}
 },
 
 // ---- SZEREPLŐK ----
@@ -683,6 +687,7 @@ ded:[
 
 // ---- AKTÁK ----
 docs:{
+ uzsoras:{t:"Jelentés – Lévai uzsorása", b:"NYOMOZÓI FELJEGYZÉS\n\nMeghallgattam Horváth Gáspár (Gazsi) két emberét a Tavaszmező utcában. Kérésre nevüket nem írom le.\n\n[[levai_tisztazva|Mindketten állítják: vasárnap 23:05 és 23:35 között Lévai Márk a híd alatti pilléreknél fizetett Gazsinak, kétszázezer forintot a háromszázból. A lépcső felé nem ment.]]\n\nMegjegyzés: kerékpárost egyikük sem látott. Azt mondják, ők a pénzt nézték."},
  boncolas1:{t:"Boncolási jegyzőkönyv – Szalai Endre", b:"IGAZSÁGÜGYI ORVOSTANI INTÉZET\nVizsgálta: dr. Keleti Mária\nElosztás: Varga O., Mátrai D., Somogyi K. irodája, irattár\n\n[[halalido1|Halál beállta: 2026. 12. 06., 22:00 és 23:30 között.]]\n[[kalapacs_seb|Halál oka: koponyatörés. A tarkón kerek felületű, nehéz, tompa tárgy nyoma, legvalószínűbb egy kalapács.]]\nEgyetlen ütés, hátulról, közvetlen közelről. Védekezési sérülés nincs: nem számított rá.\n\n[[feher_kotozo1|A bal gyűrűsujján, a jegygyűrű alatt fehér műanyag gyorskötöző, szorosan meghúzva, a halál beállta után helyezték fel.]]\n\nVéralkoholszint: 0,4 ‰. Gyomortartalom: tea, pogácsa.\n\n— Kézzel a margón: „Dénes, ezt a kötözőt nem tetted ki a sajtónak. Ne is tedd. K. M.”"},
  hidkamera:{t:"Térfigyelő kamera – Vámház-híd, pesti hídfő", b:"FŐVÁROSI TÉRFIGYELŐ RENDSZER, 2207-es kamera\nIdőszak: 2026. 12. 06. 21:00 – 12. 07. 06:00\n\n22:21  idős férfi, sötét kabát, kalap, a villamosmegállóból a lépcső felé (azonosítva: Szalai E.)\n[[kerekpar_kamera|22:41  kerékpáros férfi érkezik dél felől, munkáskabát fényvisszaverő csíkkal, a lépcső aljánál leszáll. 22:58  ugyanő elhajt dél felé, Csepel irányába.]]\n[[levai_auto|22:50  fekete Audi A6 parkol le a hídfőnél, rendszám: LVM-208 (üzembentartó: dr. Lévai Márk). 23:40  elhajt.]]\n23:05  a parkoló Audiból kiszáll egy férfi, a híd alatti pillérek felé megy, 23:30-kor egy másik férfival együtt látható\n05:52  futó férfi a lépcsőnél (a holttest megtalálója)\n\nRáczné hadnagy megjegyzése: a kerékpáros arca nem látszik. — R. K."},
  boncolas2:{t:"Boncolási jegyzőkönyv – Vass Kitti", b:"IGAZSÁGÜGYI ORVOSTANI INTÉZET\nVizsgálta: dr. Keleti Mária\n\n[[halalido2|Halál beállta: 2026. 12. 08., 23:00 és 12. 09., 01:00 között.]]\nHalál oka: heroin-túladagolás, légzésbénulás.\n[[kenyszer_injekcio|A szúrás a jobb könyökhajlatban. Az elhunyt a családja szerint jobbkezes volt. A bal felkaron négy, ujjnyomnak megfelelő friss zúzódás: lefogták.]]\nKorábbi szúrásnyom: régi, legalább egyéves hegek. Friss használat jele nincs.\n[[feher_kotozo2|A bal gyűrűsujján, három olcsó fémgyűrű alatt fehér műanyag gyorskötöző, szorosan meghúzva.]]\n\n— K. M.: „Dénes. Ugyanaz az ujj. Tudod te is.”"},
@@ -715,7 +720,7 @@ locs:{
    {id:"kabat", l:"A kabát belső zsebe", req:["body1"], t:"A kifordított zsebek mellett megmaradt egy belső zseb. Benne egy gyűrött villamosjegy: tegnapi, 21:40, Rózsadomb. Szalai villamossal jött. Nem véletlenül volt itt.", ev:"villamosjegy"},
    {id:"kamera", l:"A híd oszlopa", t:"A hídfő oszlopán térfigyelő kamera, 2207-es szám. A lencse a lépcsőre és a parkolóra néz.", f:"hid_kamera"}
  ]},
- szalai:{m:"Szalai-villa", n:"Szalai-villa, Rózsadomb", x:318, y:142, side:"B", open:[8,22], d:"Harmincas évekbeli villa, kovácsoltvas kapu, a kertben hóval fedett rózsatövek. Az özvegy fekete ruhában nyit ajtót, és az előszobában Lévai Márk telefonál.", hs:[
+ szalai:{m:"Szalai-villa", n:"Szalai-villa, Rózsadomb", x:318, y:142, side:"B", vis:"briefed|body1", open:[8,22], d:"Harmincas évekbeli villa, kovácsoltvas kapu, a kertben hóval fedett rózsatövek. Az özvegy fekete ruhában nyit ajtót, és az előszobában Lévai Márk telefonál.", hs:[
    {id:"dolgozo", l:"Szalai dolgozószobája", t:"Könyvek, bekeretezett kinevezések, egy gyerekrajz a falon. Az íróasztalon nyitva egy feladó nélküli boríték, benne egy 2019-es ítélet másolata: Rajna Tamás, emberölés, 14 év. Valaki piros tollal ráírta: EMLÉKSZIK?", ev:"itelet_boritek"},
    {id:"naptar", l:"A konyhai naptár", t:"Falinaptár a hűtő mellett, Szalai rendezett kézírásával. Vasárnapra, a többi bejegyzéstől eltérő, remegő betűkkel: „22:30 – V.H. – Á.”", ev:"naptar"},
    {id:"garazs", l:"A garázs", req:["met_levai"], t:"Lévai Audija mellett felújítási anyagok: szigetelés, gipszkarton, és egy nyitott zacskó fehér gyorskötöző. Lévai a padlást csinálja. Mondja ő.", ev:"levai_kotozo"}
@@ -732,7 +737,7 @@ locs:{
    {id:"ajto", l:"A garázsajtó", t:"Nincs feszítésnyom, a zár ép. Kónya maga nyitotta ki, vagy valakivel együtt jött haza.", ev:"ismeros"},
    {id:"telefon", l:"Kónya telefonja", req:["body3"], t:"A telefon a kesztyűtartóban. Az utolsó elküldött üzenet szerda 22:10-kor, Gál Eszternek: „Holnap 10, Hírlap-kávézó. Hozok mindent. 2019 és 2020 is. –K.”", ev:"konya_eszter"}
  ]},
- torvenyszek:{m:"Törvényszék", n:"Fővárosi Törvényszék, irattár", x:582, y:252, side:"P", open:[8,16], d:"Pince, neoncső, végtelen polcok. Az irattár szaga: por, papír és régi ítéletek.", hs:[]},
+ torvenyszek:{m:"Törvényszék", n:"Fővárosi Törvényszék, irattár", x:582, y:252, side:"P", vis:"rajna_ugy|idezes_2019|itelet_boritek", open:[8,16], d:"Pince, neoncső, végtelen polcok. Az irattár szaga: por, papír és régi ítéletek.", hs:[]},
  rajna:{la:1, m:"Rajna műhely", n:"Rajna Ádám műhelye, Csepel", x:572, y:672, side:"P", vis:"rajna_cim", d:"Csepeli udvari műhely, villanyszerelő-cégér, a falnak támasztva egy kerékpár. A műhely rendes, mint egy kórterem.", hs:[
    {id:"fal", l:"A szerszámfal", req:["rajna_nev"], t:"Minden szerszám körberajzolva a falon, a helyén. Egy kalapács körvonala üres. Az udvari kukában megtalálod, gondosan lemosva, hipószagú.", ev:"kalapacs"},
    {id:"polc", l:"A polc", req:["rajna_nev"], t:"Kábelek, dobozolt anyagok, címkézve. Egy doboz fehér gyorskötöző, száz darabos, a fele hiányzik.", ev:"rajna_kotozo"},
@@ -869,7 +874,7 @@ people:{
 tasks:[
  {id:"boncolas1", l:"Szalai boncolása", req:["body1"], dur:300, fit:{keleti:1}, doc:"boncolas1", ok:"Keleti végzett Szalaival. Azt üzeni: nézd meg a gyűrűsujjat."},
  {id:"hidkamera", l:"Hídkamera felvételének átnézése", req:["hid_kamera"], dur:300, fit:{kata:.92, bence:.78, bodnar:.45}, doc:"hidkamera", ok:"Kész a 2207-es kamera kivonata.", fail:"Öt óra felvétel, a hóesés mindent eltakar. Valaki másnak jobb szeme lehet hozzá."},
- {id:"uzsoras", l:"Lévai uzsorásának ellenőrzése", req:["levai_vallomas"], dur:240, fit:{bodnar:.92, kata:.6, bence:.4}, ev:"levai_tisztazva", ok:"Bodnár beszélt Gazsi két emberével. Lévai vasárnap fél tizenkettőkor tényleg a híd alatt fizetett.", fail:"Gazsi emberei ma nem beszélnek. Holnap talán."},
+ {id:"uzsoras", l:"Lévai uzsorásának ellenőrzése", req:["levai_vallomas"], dur:240, fit:{bodnar:.92, kata:.6, bence:.4}, doc:"uzsoras", ok:"Bodnár beszélt Gazsi két emberével. Lévai vasárnap fél tizenkettőkor tényleg a híd alatt fizetett.", fail:"Gazsi emberei ma nem beszélnek. Holnap talán."},
  {id:"boncolas2", l:"Vass Kitti boncolása", req:["body2"], dur:300, fit:{keleti:1}, doc:"boncolas2", ok:"Keleti végzett Kittivel. Azt mondja, hívd fel, amint elolvastad."},
  {id:"heroin", l:"A fecskendő tartalmának vizsgálata", req:["body2"], dur:360, fit:{halasz:.95}, doc:"heroin", ok:"Halász megvizsgálta a fecskendőt."},
  {id:"boncolas3", l:"Kónya boncolása", req:["body3"], dur:300, fit:{keleti:1}, doc:"boncolas3", ok:"Keleti végzett Kónyával. A hangja furcsa a telefonban."},
@@ -1122,6 +1127,7 @@ ded:[
  {a:"kocsi_ho", b:"feri_vitt_haza", g:"denes_alibi", f:"bodnar_figyel", t:"A kocsid reggel kétnapos hó alatt állt. Nem vezettél sehova. Bodnár vitt haza, fél tizenkettő után. Akkor ki vitt el éjjel egykor a Szigetre? Senki. Ezt bizonyítani is tudod."},
  {a:"hordo_blokk", b:"kocsi_ho", g:"denes_alibi", f:"bodnar_figyel", t:"23:38-kor még a Hordóban fizettél. A kocsid reggelig nem mozdult. Gyalog nem értél volna a Sziget csúcsára hajnali egyre, ennyi pálinkával biztosan nem."},
  {a:"sal", b:"sal_kocsi", g:"sal_bodnar", f:"bodnar_gyanu", t:"A sálad Bodnár hátsó ülésén maradt. Reggel egy fűzfán lógott, öt méterre a holttesttől. Valaki odaakasztotta."},
+ {a:"sal", b:"feri_vitt_haza", g:"sal_bodnar", f:"bodnar_gyanu", t:"Vasárnap este még rajtad volt a sál, a Hordóban. Bodnár vitt haza. Reggel a sál egy fűzfán lógott a Sziget csúcsán. Közben csak egy kocsiban ültél."},
  {a:"skoda_kamera", b:"bodnar_skoda", g:"bodnar_szigeten", f:"bodnar_gyanu", t:"Sötétszürke Škoda Octavia. Bodnár két órán át ült melletted a Hordóban, aztán hazavitt. És utána nem ment haza."},
  {a:"skoda_kamera", b:"feri_vitt_haza", g:"bodnar_szigeten", f:"bodnar_gyanu", t:"Feri vitt haza egy sötétszürke Škodával. Negyven perccel később egy sötétszürke Škoda áll be a Sziget parkolójába."},
  {a:"eszter_jegyzet", b:"alapitvany_bodnar", g:"eszter_bodnar", f:"bodnar_gyanu", t:"B.F. Bodnár Ferenc. Huszonöt éve hordja a pénzt. Eszter megtalálta, és éjfélre a Sziget csúcsára hívta, hogy a szemébe mondja. Előtte téged hívott, hogy menj vele. Te részeg voltál."},
@@ -1133,6 +1139,7 @@ ded:[
 
 // ---- AKTÁK ----
 docs:{
+ detox:{t:"Kórházi nyilvántartás – detoxikáló osztály", b:"SZENT LÁSZLÓ KÓRHÁZ – Addiktológiai részleg, felvételi napló\n\n[[bajusz_detox|Tóth Lajos (Bajusz), felvétel: 2027. 01. 11., 21:05, mentő hozta a Dráva utcából. Elbocsátás: 01. 12., 10:10. Az éjszakát a megfigyelőben töltötte, egy percre sem hagyta el.]]\n\nA nővér megjegyzése: reggel azt kérdezte, ki vigyáz a Professzorra."},
  boncolas_e:{t:"Boncolási jegyzőkönyv – Gál Eszter", b:"IGAZSÁGÜGYI ORVOSTANI INTÉZET\nVizsgálta: dr. Keleti Mária\n\n[[halalido_e|Halál beállta: 2027. 01. 10., 23:30 és 01. 11., 01:30 között.]]\n[[asp_seb|Halál oka: koponyatörés a bal halántékon. A sérülést hengeres, rugalmas, fémből készült eszköz okozta, legvalószínűbben teleszkópos bot, amilyet a rendőrség is rendszeresít.]]\n[[halott_jegben|A tüdőben víz nincs: már halott volt, amikor a vízbe került.]]\nA jobb kéz körmei alatt gyapjúszálak, sötétkék.\n\n— Kézzel a margón: „Dénes, a gyapjú nem a te sáladé. Megnéztem. Ne nézz így rám. K. M.”"},
  telefon_e:{t:"Hívásrészletező – Gál Eszter", b:"SZOLGÁLTATÓI ADATSZOLGÁLTATÁS, 2027. 01. 10.\n\n18:02  bejövő  Pap Borbála (Hírlap)  6 perc\n21:15  kimenő  Kónya Attiláné  3 perc\n[[utolso_hivas|23:10  kimenő  Mátrai Dénes  2 perc]]\n[[fazekas_hivas|23:40  bejövő  Fazekas Ádám  nem fogadott]]\n[[fazekas_kozel|A hívó fél (Fazekas Á.) cellája 23:40-kor: XIII. ker., a Sziget pesti hídfőjénél.]]\n[[telefon_sziget|A készülék utolsó jelzése: 00:31, a Sziget északi csúcsa. Ezt követően nincs jel.]]\n\nBence megjegyzése: „A 23:10-es hívás… Dénes, te vetted fel. Két percig beszéltetek.”"},
  szigetkamera:{t:"Térfigyelő kamera – a Sziget pesti hídfője", b:"FŐVÁROSI TÉRFIGYELŐ RENDSZER, 1144-es kamera\nIdőszak: 2027. 01. 10. 22:00 – 01. 11. 06:00\n\n[[eszter_kamera|23:52  nő, vörös haj, kék kabát, egyedül, gyalog a hídon a Sziget felé (azonosítva: Gál E.)]]\n[[skoda_kamera|00:20  sötétszürke Škoda Octavia kombi beáll a szigeti parkolóba, a rendszám a hóeséstől nem olvasható. 01:05  kihajt a hídon Pest felé, világítás nélkül.]]\n00:40–00:55  egy alak a híd alatti parton, kabátban, botra támaszkodva, a csúcs felé néz (feltehetőleg hajléktalan)\n05:48  kutyasétáltató a csúcs felé (a holttest megtalálója)\n\nRáczné hadnagy megjegyzése: Bodnár törzszászlós hétfőn azt jelentette, hogy ez a kamera napok óta nem működik. Működik. — R. K."},
@@ -1146,7 +1153,7 @@ docs:{
 
 // ---- HELYSZÍNEK ----
 locs:{
- korhaz:{m:"Kórház", n:"Szent János Kórház, traumatológia", x:250, y:252, side:"B", open:[8,20], d:"Traumatológia, harmadik emelet. A folyosó végén ugyanaz az ablak, ugyanaz a kávéautomata, mint decemberben.", hs:[]},
+ korhaz:{m:"Kórház", n:"Szent János Kórház, traumatológia", x:250, y:252, side:"B", vis:"anna_met|apa_korhaz", open:[8,20], d:"Traumatológia, harmadik emelet. A folyosó végén ugyanaz az ablak, ugyanaz a kávéautomata, mint decemberben.", hs:[]},
  vendeglo:{la:1, m:"Vendéglő", n:"Kéményseprő vendéglő, Buda", x:360, y:380, side:"B", vis:"anna_vacsora_hiv", gone:"anna_vacsora|anna_vacsora_rossz", open:[19,23], d:"Kockás abrosz, cserépkályha, a pincér úgy néz rád, mintha ismerne. Lehet, hogy ismer. Az újságból.", hs:[]},
  otthon:{m:"Lakás", n:"Lakás a Körúton", x:612, y:338, side:"P", d:"Harmadik emelet, udvari szoba. A radiátor kattog, az ablakon jégvirág. Ma reggel itt ébredtél kabátban, és nem tudod, hogyan kerültél haza.", hs:[
    {id:"telefon", l:"A telefonod", t:"23:10, bejövő hívás, Gál Eszter, 2 perc. Fogadtad. Hiába nézed a képernyőt, a két percből semmi nem jön vissza. Csak egy szó, talán: Sziget.", ev:"hivas_fogadva"},
@@ -1167,11 +1174,11 @@ locs:{
    {id:"ho", l:"Nyomok a hóban", t:"A hídtól a csúcs felé két ember nyoma vezet a hóban, egymás mellett. Visszafelé csak egyé. 43-as bakancs, bordás talp. Neked 45-ös lábad van.", ev:"labnyom"},
    {id:"kamera", l:"A hídfő oszlopa", t:"A Sziget hídfőjén térfigyelő kamera, 1144-es szám. A lencse a bejáróra és a parkolóra néz.", ev:"kamera_lat"}
  ]},
- szallo:{la:1, m:"Szálló", n:"Hajléktalanszálló, Dráva utca", x:540, y:205, side:"P", d:"Fűtött nappali melegedő, harminc ágy, kávé és zsíros kenyér. A híd alatti betonpárkányon, ahol a Professzort megtalálták, most egy szál gyertya ég.", hs:[
+ szallo:{la:1, m:"Szálló", n:"Hajléktalanszálló, Dráva utca", x:540, y:205, side:"P", vis:"v2_found", d:"Fűtött nappali melegedő, harminc ágy, kávé és zsíros kenyér. A híd alatti betonpárkányon, ahol a Professzort megtalálták, most egy szál gyertya ég.", hs:[
    {id:"szekreny", l:"A Professzor szekrénye", req:["szekreny_ok"], t:"Egy kopott fémszekrény. Könyvek: Ady, Pilinszky, egy latin nyelvtan. Alattuk egy női táska, vizes és megfagyott, mintha a jégből halászták volna ki. Benne Gál Eszter sajtóigazolványa, egy rúzs és egy csomagmegőrző kulcsa.", ev:["eszter_taska","kulcs"]},
    {id:"parkany", l:"A híd alatti párkány", req:["v2_found"], t:"A betonpárkányon, ahol a Professzort megtalálták, egy üres pálinkásüveg, Zwack Szilva, drágább, mint amit itt bárki megengedhet magának. Valaki hozta. A rendőrségi fotón a Professzor összegömbölyödve fekszik, mintha aludna.", ev:"professzor_test", f:"palinka"}
  ]},
- hirlap:{m:"Hírlap", n:"A Hírlap szerkesztősége", x:690, y:300, side:"P", open:[9,22], d:"Nyitott terű iroda, monitorok, kávéfolt. Eszter asztalán fekete szalag és egy szál fehér rózsa. Az emberek úgy néznek rád, mintha te tetted volna oda a holttestet is.", hs:[
+ hirlap:{m:"Hírlap", n:"A Hírlap szerkesztősége", x:690, y:300, side:"P", vis:"body1", open:[9,22], d:"Nyitott terű iroda, monitorok, kávéfolt. Eszter asztalán fekete szalag és egy szál fehér rózsa. Az emberek úgy néznek rád, mintha te tetted volna oda a holttestet is.", hs:[
    {id:"asztal", l:"Eszter íróasztala", t:"Az asztal kiürítve: se laptop, se jegyzetfüzet, a fiókok üresek. A portás szerint vasárnap este egy rendőrigazolványos férfi járt bent, „a nyomozás miatt”. Vasárnap este még senki nem tudta, hogy Eszter halott.", ev:"asztal_ures"},
    {id:"bot", l:"Fazekas irodája", req:["met_fazekas"], t:"Fazekas irodájában az ajtó mögött egy nehéz, fémvégű sétabot. Térdműtét, mondja a titkárnő.", ev:"fazekas_bot"}
  ]},
@@ -1288,7 +1295,7 @@ tasks:[
  {id:"kamera_sziget", l:"A Sziget-hídfő kamerájának átnézése", req:["kamera_lat"], dur:300, fit:{bodnar:.9, kata:.9, bence:.78}, doc:"szigetkamera", sab:{bodnar:"Bodnár: a Sziget kamerája napok óta nem működik. Nincs felvétel, Dénes. Sajnálom."}, ok:"Kész a Sziget-hídfő kamerájának kivonata.", fail:"A hóesés miatt a felvétel nagy része használhatatlan. Valaki másnak jobb szeme lehet."},
  {id:"radio", l:"Rádióarchívum ellenőrzése", req:["fazekas_radio"], dur:180, fit:{bence:.92, kata:.8}, doc:"radio", ok:"Megjött a rádió adásnaplója."},
  {id:"boncolas_k", l:"Kardos Béla boncolása", req:["v2_found"], dur:300, fit:{keleti:1}, doc:"boncolas_k", ok:"Keleti végzett a Professzorral."},
- {id:"detox", l:"Bajusz hétfő éjjeli útjának ellenőrzése", req:["met_bajusz"], dur:180, fit:{bence:.9, kata:.75, bodnar:.85}, ev:"bajusz_detox", sab:{bodnar:"Bodnár: Bajusz hétfő éjjel nem volt a detoxon, kérdeztem. Szerintem ő volt az, Dénes."}, ok:"Bajusz hétfő 21:00-tól kedd 10:00-ig a detoxikáló osztályon feküdt.", fail:"A kórház adatvédelemre hivatkozik. Újra kell kérni."},
+ {id:"detox", l:"Bajusz hétfő éjjeli útjának ellenőrzése", req:["met_bajusz"], dur:180, fit:{bence:.9, kata:.75, bodnar:.85}, doc:"detox", sab:{bodnar:"Bodnár: Bajusz hétfő éjjel nem volt a detoxon, kérdeztem. Szerintem ő volt az, Dénes."}, ok:"Bajusz hétfő 21:00-tól kedd 10:00-ig a detoxikáló osztályon feküdt.", fail:"A kórház adatvédelemre hivatkozik. Újra kell kérni."},
  {id:"bot", l:"Bodnár szolgálati botjának vizsgálata", req:["ia_szovetseges"], dur:360, fit:{halasz:.95}, doc:"bot", warn:"<h2>Halász az ajtóban</h2><p>„Feri botját? A Feriét?” Sokáig áll ott. Aztán bólint, és nem szól többet.</p>", ok:"Halász végzett a bottal. A hangja rekedt."},
  {id:"skoda", l:"Bodnár autójának átvizsgálása", req:["ia_szovetseges"], dur:180, fit:{kata:.9, bence:.7}, doc:"skoda", ok:"Kata lezárta a Škoda átvizsgálását.", fail:"Bodnár elvitte a kocsit. Holnap újra."},
  {id:"profil3", l:"Tettesprofil készítése", req:["body1"], minEv:8, dur:180, fit:{feher:.95}, doc:"profil3", ok:"Fehér doktornő elküldte a profilt."}
@@ -1526,6 +1533,7 @@ ded:[
 ],
 
 docs:{
+ legi:{t:"Légitársasági utaslista", b:"UTASADATOK – Bécs–Budapest járat\n2027. 03. 07. (vasárnap)\n\n[[andrea_hazudott|Utas: Somogyi Andrea. Indulás Bécs 16:10, érkezés Budapest 17:00. A hétfői visszaútra szóló jegyét nem használta.]]\n\nBence megjegyzése: „Nem Bécsben aludt.”"},
  boncolas_s:{t:"Boncolási jegyzőkönyv – Somogyi Kristóf", b:"IGAZSÁGÜGYI ORVOSTANI INTÉZET\nVizsgálta: dr. Keleti Mária\n\n[[halalido_s|Halál beállta: 2027. 03. 07., 22:30 és 23:30 között.]]\nHalál oka: fejlövés, a jobb halánték felől, közvetlen közelről.\n[[loves_szog|A lőcsatorna iránya kissé elölről-felülről halad. A jobb kézfejen lőpornyom nem mutatható ki.]]\n[[midazolam|Toxikológia: véralkohol 0,6 ‰. Nagy mennyiségű midazolam, intramuszkulárisan, a bal felkarba. A halál beálltakor az elhunyt eszméletlen lehetett.]]\n\n— K. M.: „Dénes. Ezt a jelentést hétfő délután az ügyészség már öngyilkosságként kérte lezárni. Én nem írtam alá.”"},
  anpr:{t:"Rendszámolvasó – Szentendrei út, 11-es km", b:"KÖZÚTI RENDSZÁMFELISMERŐ RENDSZER, 11-es km-szelvény\nIdőszak: 2027. 03. 07. 18:00 – 03. 08. 02:00\n(kivonat, a villa irányában haladó, ott nem lakó járművek)\n\n19:52  taxi (Főtaxi 4471), észak felé  —  22:08  ugyanaz, dél felé\n[[kata_anpr|20:48  RKT-617 (üzembentartó: Rácz Katalin), észak felé  —  21:41  dél felé]]\n[[suzuki_anpr|21:32  KSN-314 (üzembentartó: Kónya Attiláné), piros Suzuki Swift, észak felé  —  23:55  dél felé]]\n\nBence megjegyzése: „Kata kocsija… Dénes. Kata ott volt.”"},
  mate_kepek:{t:"Dudás Máté telefonja – kivonat", b:"BŰNÜGYI TECHNIKAI LABOR\nVizsgálta: Halász Tamás\n\nA készülék a víz ellenére működik. Kivonat:\n\nFényképek, 2027. 03. 07.:\n21:47  a villa kertje sötétben, a dolgozószoba ablakában fény\n[[piros_suzuki|21:50  egy piros Suzuki Swift a villa kapujában, a rendszámból három betű olvasható: KSN]]\n21:52  a villa kapuja, a Suzuki már bent a kocsibeállón\n\nÜzenetek:\nvasárnap 22:15  Máté → „Somogyi úr”: „Holnap jövök a pénzért, ma nem nyitott ajtót senki.”\n[[mate_uzenet|kedd 20:10  Máté → Anya: „Anya, ma este elmondom neki, hogy elköltözünk. Ne félj. Én ott leszek.”]]\nkedd 21:58  Anya → Máté: „Ne menj utána.” (kézbesítve, nem olvasott)\n\n— H. T.: „A fiú csak a pénzéért ment ki vasárnap, Dénes. Szerintem nem látott semmit, csak lefényképezte, mert ideges volt.”"},
@@ -1549,13 +1557,13 @@ locs:{
    {id:"konyha", l:"A konyha", t:"A szárítón két frissen elmosott teáscsésze, és egy teásdoboz, amit még ki sem bontottak rendesen. A mosogató mellett egy tejfölös doboz, kimosva, mint egy kórházban.", ev:"ket_csesze"},
    {id:"kamera", l:"A biztonsági rendszer", t:"A kamerarendszer vezérlője a dolgozószobai gépen. A napló szerint vasárnap 21:40-kor kikapcsolták, a helyes jelszóval. Valaki ismerte, vagy Somogyi maga adta meg.", ev:"kamera_ki"}
  ]},
- erikahaz:{m:"Kónya-ház", n:"Kónya-ház, Újpest", x:735, y:58, side:"P", d:"A kockaház, ahol decemberben Kónya Attilát megtalálták. A garázsajtó bezárva, a kerítésen még ott a karácsonyi égősor, kikapcsolva.", hs:[
+ erikahaz:{m:"Kónya-ház", n:"Kónya-ház, Újpest", x:735, y:58, side:"P", vis:"suzuki_anpr|korhazi_hiany|erika_inditek", d:"A kockaház, ahol decemberben Kónya Attilát megtalálták. A garázsajtó bezárva, a kerítésen még ott a karácsonyi égősor, kikapcsolva.", hs:[
    {id:"auto", l:"A ház előtti autó", t:"A ház előtt egy piros Suzuki Swift, KSN-314. A szélvédőn egy kórházi parkolókártya. A kerekeken friss, szürke iszap, pedig Újpesten nem volt áradás.", ev:"erika_auto"}
  ]},
- berkeshaz:{m:"Berkes lakás", n:"Berkes lakása, Pasarét", x:262, y:150, side:"B", d:"Pasaréti bérlakás, kartondobozok, egy elkezdett költözés. A klinika óta itt lakik, egyedül.", hs:[
+ berkeshaz:{m:"Berkes lakás", n:"Berkes lakása, Pasarét", x:262, y:150, side:"B", vis:"met_berkes_hir|berkes_latogatas", d:"Pasaréti bérlakás, kartondobozok, egy elkezdett költözés. A klinika óta itt lakik, egyedül.", hs:[
    {id:"taska", l:"Az orvosi táska", req:["met_berkes"], t:"Az előszobában egy régi orvosi táska. Benne vérnyomásmérő, kötszer, és egy doboz midazolam-ampulla. A felfüggesztett engedély ide vagy oda.", ev:"berkes_midazolam"}
  ]},
- korhaz:{m:"Kórház", n:"Szent János Kórház", x:250, y:252, side:"B", open:[7,20], d:"A kórház folyosóin az áradás miatt több a beteg és kevesebb az ágy. A traumatológián egy ápolónő a pult mögött ül, és nem néz fel.", hs:[]},
+ korhaz:{m:"Kórház", n:"Szent János Kórház", x:250, y:252, side:"B", vis:"midazolam|anna_met", open:[7,20], d:"A kórház folyosóin az áradás miatt több a beteg és kevesebb az ágy. A traumatológián egy ápolónő a pult mögött ül, és nem néz fel.", hs:[]},
  gat:{la:1, m:"Csepeli gát", n:"A csepeli gát", x:600, y:676, side:"P", vis:"v2_found", crime:1, d:"Homokzsákfal a gát tetején, mögötte a megáradt Duna, barna és gyors. A gát tövében, ahol a víz visszahúzódott, sárga szalag.", hs:[
    {id:"test", l:"A gát töve", t:"Dudás Máté az iszapban fekszik, arccal lefelé, gumicsizmában. A tarkóján seb, a haja összeragadt. A zsebében egy telefon, vizesen, és egy pénztárca, benne háromezer forint és egy fénykép az anyjáról.", ev:["mate_test","mate_telefon"], f:"body2"}
  ]},
@@ -1675,7 +1683,7 @@ tasks:[
  {id:"boncolas_s", l:"Somogyi boncolása", req:["body1"], dur:300, fit:{keleti:1}, doc:"boncolas_s", ok:"Keleti végzett Somogyival. Azt üzeni, az ügyészségnek még nem küldte el."},
  {id:"anpr", l:"Rendszámolvasó-adatok lekérése", req:["body1"], dur:240, fit:{bence:.92, kata:.8, bodnar:.7}, doc:"anpr", ok:"Megjöttek a Szentendrei út rendszámolvasó adatai. Bence sápadt.", fail:"A közútkezelő rendszere az árvíz miatt nem elérhető. Holnap újra."},
  {id:"kaszino", l:"Berkes kaszinós alibijének ellenőrzése", req:["berkes_kaszino"], dur:180, fit:{bence:.9, kata:.8, bodnar:.85}, doc:"kaszino", ok:"Megjött a kaszinó kamerafelvételének kivonata."},
- {id:"legitarsasag", l:"Andrea útjának ellenőrzése", req:["met_andrea"], dur:180, fit:{bence:.92, kata:.85}, ev:"andrea_hazudott", ok:"A légitársaság szerint Andrea vasárnap 17:00-kor Budapesten szállt le, nem hétfőn.", fail:"A légitársaság adatvédelmi okból visszadobta. Újra kell kérni."},
+ {id:"legitarsasag", l:"Andrea útjának ellenőrzése", req:["met_andrea"], dur:180, fit:{bence:.92, kata:.85}, doc:"legi", ok:"A légitársaság szerint Andrea vasárnap 17:00-kor Budapesten szállt le, nem hétfőn.", fail:"A légitársaság adatvédelmi okból visszadobta. Újra kell kérni."},
  {id:"hotel", l:"Andrea szállodájának ellenőrzése", req:["andrea_szallo"], dur:180, fit:{bence:.88, kata:.85}, doc:"hotel", ok:"Megvan Andrea szállodája, és a kamerafelvétel."},
  {id:"kata_auto", l:"Kata autójának átvizsgálása", req:["kata_anpr|kata_villa"], dur:120, fit:{bence:.9, halasz:.85}, doc:"kata_auto", loy:{kata:-25}, warn:"<h2>Ezt Kata nem fogja elfelejteni</h2><p>Bence a kulcsot kéri Katától. Kata odaadja, szó nélkül, és rád néz a folyosó végéről. Nem dühös. Csak nagyon fáradt.</p>", ok:"Bence lezárta Kata autójának átvizsgálását."},
  {id:"boncolas_m", l:"Dudás Máté boncolása", req:["body2"], dur:300, fit:{keleti:1}, doc:"boncolas_m", ok:"Keleti végzett a fiúval. A hangja rekedt a telefonban."},
@@ -1889,7 +1897,7 @@ docs:{
 
 locs:{
  vendeglo5:{la:1, m:"Vendéglő", n:"Kéményseprő vendéglő, Buda", x:380, y:330, side:"B", vis:"anna_vacsora_hiv5", gone:"anna_vacsora|anna_vacsora_rossz", open:[19,23], d:"Kockás abrosz, cserépkályha, a pincér úgy néz rád, mintha ismerne.", hs:[]},
- korhaz5:{m:"Kórház", n:"Szent János Kórház, traumatológia", x:250, y:220, side:"B", open:[8,20], d:"A kórházban sincs klíma. A folyosón ventilátorok, a betegek az ablakoknál állnak.", hs:[]},
+ korhaz5:{m:"Kórház", n:"Szent János Kórház, traumatológia", x:250, y:220, side:"B", vis:"anna_met", open:[8,20], d:"A kórházban sincs klíma. A folyosón ventilátorok, a betegek az ablakoknál állnak.", hs:[]},
  otthon:{m:"Lakás", n:"Lakás a Körúton", x:612, y:338, side:"P", d:"Harmadik emelet, udvari szoba. Az ablakot hiába nyitod ki, odakint melegebb van. A hűtőben ásványvíz.", hs:[]},
  kapitanysag:{m:"Kapitányság", n:"Főkapitányság", x:705, y:196, side:"P", d:"A klíma elromlott, a folyosón ventilátorok zúgnak. Bence asztala üres, a monitorján egy sárga cetli: „Visszajövök. – B.”", hs:[
    {id:"asztal", l:"Bence asztala", t:"A fiókban Bence spirálfüzete, a borítóján egy matrica: egy rajzfilmes rendőrkutya, amit valaki évekkel ezelőtt viccből ragasztott rá. Benne a 2006-os ügy, gondos, kicsit gyerekes kézírással. Mellette a 2006-os akta fénymásolata.", doc:"bence_jegyzet", ev:"bence_jegyzet", f:"akta_nyitva"},
@@ -1914,8 +1922,8 @@ locs:{
    {id:"halott", l:"A kunyhó", req:["bence_halott"], t:"A kunyhó ajtaja kívülről lakatolva, a lakatot a helyszínelők már levágták. Bent ötvenegy fok. Bence a betonpadlón fekszik, összekötözött kézzel, oldalra fordulva, mintha aludna. A falon egy kréta-felirat, reszkető betűkkel: DÉNES TUDJA. Nem tudod, Imre írta-e, vagy Bence.", ev:["bence_test","kunyho_lakat","bence_tudta"]}
  ]},
  imreanya:{la:1, m:"Szikszai-lakás", n:"Szikszai-lakás, Csepel", x:705, y:612, side:"P", vis:"bokszos_gyanu", d:"Panelház, nyolcadik emelet, lift nélkül. Bokszos anyja nyit ajtót, és amikor meglát, elsírja magát.", hs:[]},
- lengyelhaz:{la:1, m:"Lengyel műhely", n:"Lengyel Tamás műhelye, Kőbánya", x:890, y:412, side:"P", d:"Autóbontó a vasút mellett. Rozsdás roncsok, egy kutya a láncon, és egy ötvenhat éves férfi, aki nem lepődik meg, hogy rendőr jött.", hs:[]},
- major:{m:"Major-villa", n:"Major Gábor villája, Budakeszi", x:120, y:255, side:"B", d:"Medence, akácok, kerti bútor, amin soha nem ül senki. Major Gábor a teraszon vár, mintha húsz éve várna erre.", hs:[]},
+ lengyelhaz:{la:1, m:"Lengyel műhely", n:"Lengyel Tamás műhelye, Kőbánya", x:890, y:412, side:"P", vis:"akta_nyitva", d:"Autóbontó a vasút mellett. Rozsdás roncsok, egy kutya a láncon, és egy ötvenhat éves férfi, aki nem lepődik meg, hogy rendőr jött.", hs:[]},
+ major:{m:"Major-villa", n:"Major Gábor villája, Budakeszi", x:120, y:255, side:"B", vis:"akta_nyitva", d:"Medence, akácok, kerti bútor, amin soha nem ül senki. Major Gábor a teraszon vár, mintha húsz éve várna erre.", hs:[]},
  vargahaz:{la:1, m:"Varga háza", n:"Varga Ottó háza, Zugló", x:888, y:246, side:"P", gone:"varga_halott", d:"Zuglói ikerház. Áprilisban nyugdíjba ment, azóta paradicsomot nevel, és minden reggel elolvassa az újságot, az utolsó oldaltól előre.", hs:[]},
  aa:{m:"NA-gyűlés", n:"NA-gyűlés, templomalagsor", x:760, y:296, side:"P", vis:"aa1", open:[18,21], d:"A pince az egyetlen hűvös hely a környéken. Összecsukható székek, filterkávé, a tábla a falon: „Csak a mai nap.”", hs:[]},
  keleti:{m:"Keleti", n:"Keleti pályaudvar", x:820, y:360, side:"P", vis:"lili_elenged", open:[6,12], day:5, d:"A csarnokban harminckét fok, galambok, egy hangosbemondó, akit senki nem ért. A bécsi vonat a 6-os vágányról indul.", hs:[]}
@@ -2148,7 +2156,7 @@ function saveMeta(m){try{localStorage.setItem(META,JSON.stringify(m))}catch(e){}
 function fresh(cid){
   setCase(cid);const m=meta(),ps=m.persist;
   const s={case:cid,t:CASE.start.t,loc:CASE.start.loc,fat:35,alc:18,crave:30,money:ps?Math.max(ps.money,50000):40000,bottle:3,pat:100,
-    ev:{},f:{},docs:{},done:{},hs:{},tr:{},staff:{},loy:{},pending:[],board:{},verd:{},rejects:0,ended:null,log:[],fired:{},notes:[],
+    ev:{},seenEv:{},hints:[],f:{},docs:{},done:{},hs:{},tr:{},staff:{},loy:{},pending:[],board:{},verd:{},rejects:0,ended:null,log:[],fired:{},notes:[],
     view:'loc',tab:null,doc:null,sel:[],day:0,visited:{},prev:m.done||{}};
   STAFF.forEach(id=>{s.staff[id]={busy:0,load:0};s.loy[id]=ps&&ps.loy&&ps.loy[id]!=null?ps.loy[id]:60});
   if(ps&&ps.f)PERSIST.forEach(k=>{if(ps.f[k])s.f[k]=1});
@@ -2366,8 +2374,8 @@ const DYN={
   vargaStatus(){
     const boss=CASE.bossLine||'„Ne magyarázz. Hozz egy nevet és bizonyítékot, vagy holnaptól a rakparti forgalmat irányítod.”';
     if(S.pat<40)return boss;
-    const ld=leads();
-    if(ld.length&&nEv()>=5)return'„Hol tartasz?” Elmondod. Bólint. „És ezzel mi van?” Rábök a jegyzeteidre: <i>'+ld[0]+'</i>';
+    const h=nEv()>=5?takeHint():null;
+    if(h)return'„Hol tartasz?” Elmondod. Bólint. „És ezzel mi van?” Rábök a jegyzeteidre: <i>'+h+'</i>';
     if(nEv()<5)return'„Ennyi? A sajtó okosabb nálunk, Dénes. Mozdulj.”';
     return'„Látom a táblát. Ha megvan, ne üldögélj rajta. Vádemelés, három pillér: indíték, alkalom, módszer. Az ügyész nem hisz a megérzésekben.”';
   },
@@ -2417,7 +2425,7 @@ const vKnown=v=>!v.known||has(v.known);
 const supOf=id=>(E[id].sup||[]);
 const supMatch=(id,s,r,v)=>supOf(id).some(x=>x[0]===s&&x[1]===r&&(!x[2]||x[2]==='*'||x[2]===v));
 function clearsOf(id,s,v){const c=E[id].clears;if(!c)return false;const L2=typeof c==='string'?[[c,'*']]:(Array.isArray(c[0])?c:[c]);return L2.some(x=>x[0]===s&&(x[1]==='*'||x[1]===v))}
-function selCard(id){if(!S.ev[id])return;
+function selCard(id){if(!S.ev[id])return;(S.seenEv=S.seenEv||{})[id]=1;
   const i=S.sel.indexOf(id);
   if(i>=0)S.sel.splice(i,1);else{S.sel.push(id);if(S.sel.length>2)S.sel.shift()}
   render();
@@ -2434,7 +2442,7 @@ function deduce(){
     const near=[a,b].find(id=>open.some(x=>x.a===id||x.b===id));
     note(near?`Ez a két nyom közvetlenül nem függ össze. Ennek viszont van párja a táblán, csak nem ez: <b>${E[near].n}</b>.`:'Ez a két nyom közvetlenül nem függ össze. Próbálj más párt.','bad');render();return}
   if(S.ev[d.g]){note('Ezt már összeraktad.');render();return}
-  addEv(d.g);if(d.f)setF(d.f);
+  addEv(d.g);(S.seenEv=S.seenEv||{})[d.g]=1;if(d.f)setF(d.f);
   modal(`<h2>${E[d.g].n}</h2><p>${d.t}</p>`,[['Felírod a táblára','close']]);
 }
 const openVict=()=>VICT.filter(v=>vKnown(v)&&!S.verd[v.id]);
@@ -2500,6 +2508,10 @@ function finish(k,s){
   else{title=k==='win'?'Ügy lezárva':'Rossz ember';body=k==='win'?CASE.end.win(S,API):(CASE.end.wrong[s]||'')}
   const gr=grade();
   const m=meta();m.done[S.case]={res:k,g:gr.g,t:Date.now()};
+  const ekey=k+'|'+Object.entries(S.verd).map(([v,x])=>v+':'+x.s).sort().join(',')+(CASE.endKey?'|'+CASE.endKey(S):'');
+  m.endings=m.endings||{};const el=(m.endings[S.case]=m.endings[S.case]||[]);
+  const elabel=title+(Object.keys(S.verd).length?' — vád: '+[...new Set(Object.values(S.verd).map(x=>CASE.suspects[x.s].short))].join(', '):'')+(CASE.endLabel?' · '+CASE.endLabel(S):'');
+  if(!el.some(x=>x.k===ekey))el.push({k:ekey,l:elabel});
   m.persist={money:S.money,loy:S.loy,f:Object.fromEntries(PERSIST.filter(x=>S.f[x]).map(x=>[x,1]))};
   saveMeta(m);save();
   const idx=CASE_IDS.indexOf(S.case),next=CASE_IDS[idx+1];
@@ -2520,7 +2532,7 @@ function closeModal(){$('#modal').hidden=true;if(Q.length)nextModal();render()}
 function meter(l,v,cls){return`<div class="meter ${cls||''}"><span>${l}</span><i style="--v:${v}%"></i></div>`}
 function renderHUD(){
   const warn=[S.fat>85?'alig látsz':'',S.crave>70?'remeg a kezed':'',S.alc>55?'részeg vagy':''].filter(Boolean).join(' · ');
-  const nd=Object.values(S.docs).filter(d=>d.n).length,nl=leads().length;
+  const nd=Object.values(S.docs).filter(d=>d.n).length,nl=autoLeads().length+shownHints().length;
   $('#hud').innerHTML=`<div class="when"><b>${clock(S.t)}</b><span>${dayLabel(S.t)}</span></div>
   <div class="meters">${meter('Fáradtság',S.fat,S.fat>85?'hot':'')}${meter('Alkohol',S.alc,S.alc>55?'hot':'')}${meter('Sóvárgás',S.crave,S.crave>70?'hot':'')}${meter('Főnöki türelem',Math.max(0,S.pat),S.pat<40?'hot':'')}</div>
   <div class="cash"><b>${S.money.toLocaleString('hu-HU')} Ft</b><span>${warn||'&nbsp;'}</span></div>
@@ -2586,7 +2598,8 @@ function loyBar(id){const v=S.loy[id];return`<span class="loy"><i style="--v:${v
 function card(id,extra){
   const e=E[id],sel=S.sel.includes(id);
   const vt=e.v&&VICT.length>1?`<small class="vt">${(VICT.find(x=>x.id===e.v)||{}).s||''}</small>`:'';
-  return`<button class="card${sel?' sel':''}${e.ded?' ded':''}${e.clears?' clr':''}${extra||''}" data-a="card:${id}">${vt}<b>${e.n}</b><span>${e.d}</span></button>`;
+  const seen=S.seenEv&&S.seenEv[id];
+  return`<button class="card${sel?' sel':''}${e.ded?' ded':''}${e.clears?' clr':''}${seen?'':' unseen'}${extra||''}" data-a="card:${id}">${vt}<b>${e.n}</b>${seen?`<span>${e.d}</span>`:'<span class="nw">Új nyom – kattints rá, hogy elolvasd</span>'}</button>`;
 }
 function renderBoard(){
   const pool=Object.keys(S.ev).filter(id=>!S.board[id]);
@@ -2630,6 +2643,19 @@ function renderStaff(){
   <h3>Kiadható feladatok</h3>${tasks.length?tasks.map(tk=>`<div class="task"><b>${tk.l}</b><span>${Math.round(tk.dur/60)} óra</span><div>${Object.keys(tk.fit).map(sid=>`<button data-a="disp:${tk.id}:${sid}" ${staffState(sid).k!=='free'?'disabled':''}>${P[sid].n.split(' ').slice(-1)[0]} · ${fitW(tk,sid)}</button>`).join('')}</div></div>`).join(''):'<p class="mut">Most nincs kiadható feladat. Nyomozz tovább.</p>'}</div>`;
 }
 function openMarks(id){return[...CASE.docs[id].b.matchAll(/\[\[(\w+)\|/g)].filter(m=>!S.ev[m[1]]).length}
+function autoLeads(){
+  const out=[];
+  const mk=Object.keys(S.docs).reduce((a,id)=>a+openMarks(id),0);
+  if(mk)out.push(`Az aktákban ${mk} kiemelt sor vár. Nyisd meg az Akták fület, és kattints rájuk.`);
+  const un=Object.keys(S.ev).filter(id=>!(S.seenEv&&S.seenEv[id])).length;
+  if(un)out.push(`A táblán ${un} új nyom vár, amit még nem olvastál el.`);
+  const tk=CASE.tasks.filter(taskAvail).length;
+  if(tk)out.push(`A Stáb fülön ${tk} kiadható feladat vár.`);
+  return out;
+}
+function hintPool(){return leads().filter(x=>!/^Az aktákban|^A Stáb fülön/.test(x))}
+function takeHint(){const pool=hintPool();S.hints=S.hints||[];const h=pool.find(x=>!S.hints.includes(x));if(h)S.hints.push(h);return h}
+function shownHints(){const pool=hintPool();return(S.hints||[]).filter(x=>pool.includes(x))}
 function leads(){
   const out=[];
   const mk=Object.keys(S.docs).reduce((a,id)=>a+openMarks(id),0);
@@ -2642,11 +2668,12 @@ function leads(){
   if(tk)out.push(`A Stáb fülön ${tk} kiadható feladat vár.`);
   return out;
 }
-function renderLog(){const ld=leads(),U=S.ui||{};
-  const evs=Object.keys(S.ev).sort((a,b)=>S.ev[a]-S.ev[b]);
+function renderLog(){const U=S.ui||{};const ld=autoLeads().concat(shownHints().map(x=>'<span class="hintmark">Súgó:</span> '+x));
+  const evs=Object.keys(S.ev).filter(id=>S.seenEv&&S.seenEv[id]).sort((a,b)=>S.ev[a]-S.ev[b]);
+  const morehint=hintPool().some(x=>!(S.hints||[]).includes(x));
   const tm=t=>`<time>${dayLabel(t).split(' · ')[0]} ${clock(t)}</time>`;
   return`<div class="pane wide"><h1>Napló</h1>
-  <details data-ui="leads" ${U.leads===false?'':'open'}><summary>Nyitott szálak <span>${ld.length}</span></summary>${ld.length?`<ul class="leads">${ld.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p class="mut">Nincs nyitott szál. Ha megvan a tettes, a táblán emelhetsz vádat.</p>'}</details>
+  <details data-ui="leads" ${U.leads===false?'':'open'}><summary>Nyitott szálak <span>${ld.length}</span></summary>${ld.length?`<ul class="leads">${ld.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p class="mut">Nincs nyitott szál, amiről tudsz.</p>'}<div class="list"><button class="act" data-a="hint" ${morehint?'':'disabled'}>${morehint?'Elakadtam: kérek egy tippet (30 perc töprengés)':'Nincs több tipp'}</button></div></details>
   <details data-ui="evid" ${U.evid?'open':''}><summary>Bizonyítékok <span>${evs.length}</span></summary><dl class="evl">${evs.map(id=>`<dt>${E[id].n}${tm(S.ev[id])}</dt><dd>${E[id].d}</dd>`).join('')}</dl></details>
   <details data-ui="notes" ${U.notes?'open':''}><summary>Helyszíni jegyzetek <span>${S.notes.length}</span></summary><dl class="evl">${S.notes.map(x=>`<dt>${x.loc}: ${x.l}${tm(x.t)}</dt><dd>${x.x}</dd>`).join('')}</dl></details>
   <details data-ui="events" ${U.events?'open':''}><summary>Események <span>${S.log.length}</span></summary><ul class="log">${S.log.map(x=>`<li>${tm(x.t)}${x.x}</li>`).join('')}</ul></details></div>`}
@@ -2659,6 +2686,8 @@ function renderSave(){
 function render(){
   if(!S)return;
   if(!S.ended&&CASE.over&&Object.keys(S.verd||{}).length&&CASE.over(S,API)){finish('multi');return}
+  if(!S.seenLoc){S.seenLoc={};Object.entries(L).forEach(([id,l])=>{if(visible(l))S.seenLoc[id]=1})}
+  Object.entries(L).forEach(([id,l])=>{if(visible(l)&&!S.seenLoc[id]){S.seenLoc[id]=1;note('Új helyszín a térképen: <b>'+l.n+'</b>','loc')}});
   const t=S.tab;
   $('#game').classList.toggle('full',!!t&&t!=='map');
   renderHUD();renderMap();
@@ -2671,7 +2700,8 @@ function titleScreen(){
   const m=meta(),cur=load();
   const rows=CASE_IDS.map((id,i)=>{const c=CASES[id],d=m.done[id];
     const st=d?`Lezárva · ${d.g}`:(cur&&cur.case===id&&!cur.ended?'Folyamatban':'');
-    return`<li><div><b>${i+1}. ${c.title}</b><span>${c.tagline||''}</span>${st?`<em>${st}</em>`:''}</div><button data-a="startcase:${id}">${cur&&cur.case===id&&!cur.ended?'Újrakezdés':'Indítás'}</button></li>`}).join('');
+    const en=(m.endings&&m.endings[id])||[];
+    return`<li><div><b>${i+1}. ${c.title}</b><span>${c.tagline||''}</span>${st?`<em>${st}</em>`:''}${en.length?`<details class="ends"><summary>Felfedezett befejezések: ${en.length}</summary><ul>${en.map(x=>`<li>${x.l}</li>`).join('')}</ul></details>`:''}</div><button data-a="startcase:${id}">${cur&&cur.case===id&&!cur.ended?'Újrakezdés':'Indítás'}</button></li>`}).join('');
   const cont=cur&&!cur.ended&&CASES[cur.case]?[[`Folytatás: ${CASES[cur.case].title}`,'continue']]:[];
   modal(`<div class="title"><h2>Redemption</h2><p class="deck">Mátrai Dénes ügyei</p><ul class="cases">${rows}</ul><p class="mut">Az ügyek egymásra épülnek: a személyes döntéseid (lányod, apád, Nóra, a stáb) átkerülnek a következő ügybe.</p></div>`,cont.concat(S&&!S.ended?[['Vissza','close']]:[]));
 }
@@ -2701,7 +2731,8 @@ function handle(a){
     case'acc?':accuse(x);break;
     case'acc':judge(x);break;
     case'doc':{if(!S.docs[x])break;const first=S.docs[x].n;S.doc=x;S.docs[x].n=0;if(first)act(10);render();$('.paper')?.scrollIntoView({block:'nearest'});break}
-    case'mark':addEv(x);render();break;
+    case'hint':{act(30);const h=takeHint();note(h?'<b>Tipp:</b> '+h:'Nincs több tipp.','msg');render();break}
+    case'mark':addEv(x);(S.seenEv=S.seenEv||{})[x]=1;render();break;
     case'disp':dispatch(x,y);break;
     case'close':closeModal();break;
     case'title':titleScreen();break;
@@ -2713,7 +2744,7 @@ function handle(a){
     case'import':{try{const v=JSON.parse(decodeURIComponent(escape(atob($('#imp').value.trim()))));if(v&&v.t){S=v;S.case=S.case||'c1';setCase(S.case);upgrade();S.tab=null;render();note('Mentés betöltve.')}}catch(e){note('Ez nem érvényes mentéskód.','bad')}break}
   }
 }
-function upgrade(){S.loy=S.loy||{};STAFF.forEach(id=>{if(S.loy[id]==null)S.loy[id]=60});S.notes=S.notes||[];S.verd=S.verd||{};S.view=S.view||'loc';S.prev=S.prev||meta().done}
+function upgrade(){if(!S.seenEv){S.seenEv={};Object.keys(S.ev||{}).forEach(k=>S.seenEv[k]=1)}S.loy=S.loy||{};STAFF.forEach(id=>{if(S.loy[id]==null)S.loy[id]=60});S.notes=S.notes||[];S.verd=S.verd||{};S.view=S.view||'loc';S.prev=S.prev||meta().done}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b||b.disabled)return;e.preventDefault();handle(b.dataset.a)});
 document.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.ui&&S){(S.ui=S.ui||{})[d.dataset.ui]=d.open;save()}},true);
 document.addEventListener('keydown',e=>{

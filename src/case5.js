@@ -89,7 +89,7 @@ docs:{
 
 locs:{
  vendeglo5:{la:1, m:"Vendéglő", n:"Kéményseprő vendéglő, Buda", x:380, y:330, side:"B", vis:"anna_vacsora_hiv5", gone:"anna_vacsora|anna_vacsora_rossz", open:[19,23], d:"Kockás abrosz, cserépkályha, a pincér úgy néz rád, mintha ismerne.", hs:[]},
- korhaz5:{m:"Kórház", n:"Szent János Kórház, traumatológia", x:250, y:220, side:"B", open:[8,20], d:"A kórházban sincs klíma. A folyosón ventilátorok, a betegek az ablakoknál állnak.", hs:[]},
+ korhaz5:{m:"Kórház", n:"Szent János Kórház, traumatológia", x:250, y:220, side:"B", vis:"anna_met", open:[8,20], d:"A kórházban sincs klíma. A folyosón ventilátorok, a betegek az ablakoknál állnak.", hs:[]},
  otthon:{m:"Lakás", n:"Lakás a Körúton", x:612, y:338, side:"P", d:"Harmadik emelet, udvari szoba. Az ablakot hiába nyitod ki, odakint melegebb van. A hűtőben ásványvíz.", hs:[]},
  kapitanysag:{m:"Kapitányság", n:"Főkapitányság", x:705, y:196, side:"P", d:"A klíma elromlott, a folyosón ventilátorok zúgnak. Bence asztala üres, a monitorján egy sárga cetli: „Visszajövök. – B.”", hs:[
    {id:"asztal", l:"Bence asztala", t:"A fiókban Bence spirálfüzete, a borítóján egy matrica: egy rajzfilmes rendőrkutya, amit valaki évekkel ezelőtt viccből ragasztott rá. Benne a 2006-os ügy, gondos, kicsit gyerekes kézírással. Mellette a 2006-os akta fénymásolata.", doc:"bence_jegyzet", ev:"bence_jegyzet", f:"akta_nyitva"},
@@ -114,8 +114,8 @@ locs:{
    {id:"halott", l:"A kunyhó", req:["bence_halott"], t:"A kunyhó ajtaja kívülről lakatolva, a lakatot a helyszínelők már levágták. Bent ötvenegy fok. Bence a betonpadlón fekszik, összekötözött kézzel, oldalra fordulva, mintha aludna. A falon egy kréta-felirat, reszkető betűkkel: DÉNES TUDJA. Nem tudod, Imre írta-e, vagy Bence.", ev:["bence_test","kunyho_lakat","bence_tudta"]}
  ]},
  imreanya:{la:1, m:"Szikszai-lakás", n:"Szikszai-lakás, Csepel", x:705, y:612, side:"P", vis:"bokszos_gyanu", d:"Panelház, nyolcadik emelet, lift nélkül. Bokszos anyja nyit ajtót, és amikor meglát, elsírja magát.", hs:[]},
- lengyelhaz:{la:1, m:"Lengyel műhely", n:"Lengyel Tamás műhelye, Kőbánya", x:890, y:412, side:"P", d:"Autóbontó a vasút mellett. Rozsdás roncsok, egy kutya a láncon, és egy ötvenhat éves férfi, aki nem lepődik meg, hogy rendőr jött.", hs:[]},
- major:{m:"Major-villa", n:"Major Gábor villája, Budakeszi", x:120, y:255, side:"B", d:"Medence, akácok, kerti bútor, amin soha nem ül senki. Major Gábor a teraszon vár, mintha húsz éve várna erre.", hs:[]},
+ lengyelhaz:{la:1, m:"Lengyel műhely", n:"Lengyel Tamás műhelye, Kőbánya", x:890, y:412, side:"P", vis:"akta_nyitva", d:"Autóbontó a vasút mellett. Rozsdás roncsok, egy kutya a láncon, és egy ötvenhat éves férfi, aki nem lepődik meg, hogy rendőr jött.", hs:[]},
+ major:{m:"Major-villa", n:"Major Gábor villája, Budakeszi", x:120, y:255, side:"B", vis:"akta_nyitva", d:"Medence, akácok, kerti bútor, amin soha nem ül senki. Major Gábor a teraszon vár, mintha húsz éve várna erre.", hs:[]},
  vargahaz:{la:1, m:"Varga háza", n:"Varga Ottó háza, Zugló", x:888, y:246, side:"P", gone:"varga_halott", d:"Zuglói ikerház. Áprilisban nyugdíjba ment, azóta paradicsomot nevel, és minden reggel elolvassa az újságot, az utolsó oldaltól előre.", hs:[]},
  aa:{m:"NA-gyűlés", n:"NA-gyűlés, templomalagsor", x:760, y:296, side:"P", vis:"aa1", open:[18,21], d:"A pince az egyetlen hűvös hely a környéken. Összecsukható székek, filterkávé, a tábla a falon: „Csak a mai nap.”", hs:[]},
  keleti:{m:"Keleti", n:"Keleti pályaudvar", x:820, y:360, side:"P", vis:"lili_elenged", open:[6,12], day:5, d:"A csarnokban harminckét fok, galambok, egy hangosbemondó, akit senki nem ért. A bécsi vonat a 6-os vágányról indul.", hs:[]}
