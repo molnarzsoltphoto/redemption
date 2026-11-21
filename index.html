@@ -78,7 +78,11 @@ blockquote.seen{margin:14px 0;padding:12px 16px;border-left:3px solid var(--red)
 .tr .a{margin:4px 0 0;padding-left:14px;border-left:2px solid var(--line)}
 /* tábla */
 .board{background:#1a1612 radial-gradient(circle at 30% 20%,#2a221b,#16120f 70%);min-height:100%}
-.bar{position:sticky;top:0;z-index:2;background:#16120fe6;padding:10px 0;display:flex;gap:10px;align-items:center;color:#c9bfae;font-size:15px}
+.board{padding-bottom:200px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:15;background:#0e0c0af5;border-top:2px solid var(--red);padding:12px max(5vw,16px) 14px;max-height:55vh;overflow:auto;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;color:#e3d9c8;font-size:15px;box-shadow:0 -8px 20px #0008}
+.bar b{color:#fff}.pins{display:flex;flex-wrap:wrap;gap:8px 14px}.pg{display:flex;align-items:center;gap:4px;flex-wrap:wrap}.pg em{font-style:normal;font-family:"Barlow Condensed",sans-serif;font-size:18px;margin-right:4px;color:#d8a39b}
+.bar .pg button{background:#2b231c;border:1px solid #6a5643;color:#fff;padding:8px 12px;min-height:44px;font-family:"Barlow Condensed",sans-serif;font-size:17px}.bar .pg button:hover{border-color:var(--red);background:#3a2b20}
+.pb{display:flex;gap:6px}.bar .ghost{background:none;border:1px solid #6a5643}.mut2{color:#9a8f7e;font-size:14px;flex-basis:100%}
 .bar button,.accuse,.mbtns button,.task button{background:var(--red);border:0;color:#fff;padding:10px 16px;min-height:44px;font-family:"Barlow Condensed",sans-serif;font-size:18px}
 .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:8px}
 .col{background:#2a231c;border:1px solid #3b3127;padding:14px;display:flex;flex-direction:column;gap:8px;position:relative}
@@ -137,6 +141,7 @@ textarea{width:100%;background:var(--panel2);color:var(--ink);border:1px solid v
 .toast{background:#0e1214;border:1px solid var(--line);border-left:4px solid var(--mut);padding:10px 14px;font-size:15px;box-shadow:0 6px 16px #000a;transition:opacity .5s}
 .toast.ev{border-left-color:var(--red)}.toast.msg{border-left-color:#a9d1b5}.toast.doc{border-left-color:var(--paper)}.toast.bad{border-left-color:#f0c089}
 .toast.out{opacity:0}
+body:has(.bar) #toasts{bottom:auto;top:130px}
 @media(max-width:900px){
  #game{grid-template-columns:minmax(0,1fr)}
  .mapwrap{height:52vh;min-height:320px;border-right:0;border-bottom:1px solid var(--line)}
@@ -145,6 +150,7 @@ textarea{width:100%;background:var(--panel2);color:var(--ink);border:1px solid v
  .dl{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:600px){
+ .bar{padding:10px 12px;gap:6px 10px}.pins{gap:6px;width:100%}.pg{flex-wrap:nowrap;width:100%}.pg em{width:62px;flex:none;font-size:16px}.bar .pg button{flex:1;padding:6px 4px;font-size:15px;min-height:40px}.mut2{display:none}
  #hud{grid-template-columns:auto minmax(0,1fr);gap:6px 12px}
  .meters{grid-column:1/-1;order:3}.cash{text-align:right}
  .when b{font-size:26px}
@@ -831,9 +837,15 @@ function renderBoard(){
       return`<div class="row${one?' drop':''}" ${one?`data-a="pin:${s}:${r}"`:''}><em>${CAT[r]}</em>${c||(one?'<i>ide tűzöd</i>':'')}</div>`}).join('');
     return`<div class="col"><div class="mug">${sp.short[0]}</div><h4>${sp.name}</h4>${rows}<button class="accuse" data-a="acc?:${s}">Vádemelés</button></div>`;
   }).join('');
-  const bar=two?`<button data-a="deduce">Összefüggést keresel (15′)</button>`:selPinned?`<button data-a="unpin">Leveszed a tábláról</button>`:one?'<span>Most kattints egy gyanúsított sorára.</span>':'<span>Kattints egy nyomra: kitűzöd egy gyanúsítotthoz. Két nyom együtt: összefüggést keresel.</span>';
-  return`<div class="pane wide board"><h1>Bizonyítéktábla</h1><div class="bar">${bar}</div><div class="cols">${cols}</div>
-  <h3>Nyomok (${pool.length})</h3><div class="pool">${pool.map(id=>card(id)).join('')||'<p class="mut">Minden nyom kint van a táblán.</p>'}</div></div>`;
+  let bar;
+  if(two)bar=`<span>Két nyom kijelölve: <b>${E[S.sel[0]].n}</b> + <b>${E[S.sel[1]].n}</b></span><div class="pb"><button data-a="deduce">Összefüggést keresel (15′)</button><button class="ghost" data-a="clearsel">Mégse</button></div>`;
+  else if(one){
+    const id=S.sel[0],rv=ORDER.filter(revealed);
+    bar=`<span>Hová tűzöd: <b>${E[id].n}</b>?</span><div class="pins">${rv.map(s=>`<div class="pg"><em>${CASE.suspects[s].short}</em>${['I','A','M'].map(r=>`<button data-a="pin:${s}:${r}">${CAT[r]}</button>`).join('')}</div>`).join('')||'<i>Még nincs ismert gyanúsított.</i>'}</div><div class="pb">${selPinned?'<button class="ghost" data-a="unpin">Leveszed</button>':''}<button class="ghost" data-a="clearsel">Mégse</button></div><span class="mut2">Vagy jelölj ki még egy nyomot, és keress összefüggést.</span>`;
+  }
+  else bar='<span>Kattints egy nyomra, és itt választhatod ki, melyik gyanúsítotthoz és rovatba tűzöd. Két nyomot kijelölve összefüggést kereshetsz.</span>';
+  return`<div class="pane wide board"><h1>Bizonyítéktábla</h1><div class="cols">${cols}</div>
+  <h3>Nyomok (${pool.length})</h3><div class="pool">${pool.map(id=>card(id)).join('')||'<p class="mut">Minden nyom kint van a táblán.</p>'}</div><div class="bar">${bar}</div></div>`;
 }
 function docBody(id){
   return esc(CASE.docs[id].b).replace(/\[\[(\w+)\|([^\]]+)\]\]/g,(m,ev,tx)=>`<button class="mark${S.ev[ev]?' found':''}" data-a="mark:${ev}">${tx}</button>`).replace(/\n/g,'<br>');
@@ -885,6 +897,7 @@ function handle(a){
     case'card':selCard(x);break;
     case'pin':pin(x,y);break;
     case'unpin':unpin();break;
+    case'clearsel':S.sel=[];render();break;
     case'deduce':deduce();break;
     case'acc?':accuse(x);break;
     case'acc':judge(x);break;
