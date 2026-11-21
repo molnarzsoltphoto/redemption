@@ -506,7 +506,8 @@ function leads(){
   const mk=Object.keys(S.docs).reduce((a,id)=>a+openMarks(id),0);
   if(mk)out.push(`Az aktákban ${mk} fontos sor vár még kiemelésre. Nyisd meg az Akták fület, és kattints a kiemelt sorokra.`);
   const dd=new Set(CASE.ded.filter(d=>S.ev[d.a]&&S.ev[d.b]&&!S.ev[d.g]).map(d=>d.g)).size;
-  if(dd){const fd=CASE.ded.find(d=>S.ev[d.a]&&S.ev[d.b]&&!S.ev[d.g]);out.push(`A táblán ${dd} olyan nyompár van, amely összefügg. Kezdd például ezzel, és keresd meg a párját: <b>${E[fd.a].n}</b>.`)}
+  if(dd){const seen=new Set(),names=[];CASE.ded.forEach(d=>{if(S.ev[d.a]&&S.ev[d.b]&&!S.ev[d.g]&&!seen.has(d.g)){seen.add(d.g);names.push(E[d.a].n)}});
+    out.push(`A táblán ${dd} olyan nyompár van, amely összefügg. Ezeknek a kártyáknak keresd meg a párját: ${names.map(x=>'<b>'+x+'</b>').join(', ')}.`)}
   (CASE.leads||[]).forEach(l=>{if(reqOk(l.need)&&!(l.not||[]).some(k=>k.split('|').some(has)))out.push(l.x)});
   const tk=CASE.tasks.filter(taskAvail).length;
   if(tk)out.push(`A Stáb fülön ${tk} kiadható feladat vár.`);
