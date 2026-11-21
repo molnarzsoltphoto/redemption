@@ -119,7 +119,7 @@ docs:{
 // ---- HELYSZÍNEK ----
 locs:{
  korhaz:{m:"Kórház", n:"Szent János Kórház, traumatológia", x:250, y:252, side:"B", open:[8,20], d:"Traumatológia, harmadik emelet. A folyosó végén ugyanaz az ablak, ugyanaz a kávéautomata, mint decemberben.", hs:[]},
- vendeglo:{la:1, m:"Vendéglő", n:"Kéményseprő vendéglő, Buda", x:360, y:380, side:"B", vis:"anna_vacsora_hiv", open:[19,23], day:2, d:"Kockás abrosz, cserépkályha, a pincér úgy néz rád, mintha ismerne. Lehet, hogy ismer. Az újságból.", hs:[]},
+ vendeglo:{la:1, m:"Vendéglő", n:"Kéményseprő vendéglő, Buda", x:360, y:380, side:"B", vis:"anna_vacsora_hiv", gone:"anna_vacsora|anna_vacsora_rossz", open:[19,23], d:"Kockás abrosz, cserépkályha, a pincér úgy néz rád, mintha ismerne. Lehet, hogy ismer. Az újságból.", hs:[]},
  otthon:{m:"Lakás", n:"Lakás a Körúton", x:612, y:338, side:"P", d:"Harmadik emelet, udvari szoba. A radiátor kattog, az ablakon jégvirág. Ma reggel itt ébredtél kabátban, és nem tudod, hogyan kerültél haza.", hs:[
    {id:"telefon", l:"A telefonod", t:"23:10, bejövő hívás, Gál Eszter, 2 perc. Fogadtad. Hiába nézed a képernyőt, a két percből semmi nem jön vissza. Csak egy szó, talán: Sziget.", ev:"hivas_fogadva"},
    {id:"kabat", l:"A kabátod zsebei", t:"A Hordó blokkja: vasárnap 23:38, öt fröccs, négy fél deci. A kulcsod. A sálad nincs meg.", ev:"hordo_blokk"},
@@ -292,7 +292,6 @@ leads:[
 
 // ---- IDŐZÍTETT ESEMÉNYEK ----
 timed:[
- {id:"anna_vart", at:2*1440+1410, req:["anna_vacsora_hiv","!anna_vacsora","!anna_vacsora_rossz"], f:"anna_kimaradt", x:"<b>SMS, Detti:</b> Kilencig vártam. Gondolom, közbejött egy hulla. Vagy egy kocsma."},
  {id:"anna_apa", at:4*1440+540, req:["anna_vacsora","apa_halal"], x:"<b>SMS, Detti:</b> Hallottam az édesapjáról. Nagyon sajnálom. Ha beszélni akar, este hétig itt vagyok."},
  {id:"hirlap1", at:480, front:{h:"Holtan találták Gál Esztert",s:"A Hírlap újságíróját a befagyott Duna jegében találták meg",b:"Gál Eszter, lapunk bűnügyi újságírója, hónapok óta egy rendőrségi alapítvány ügyeit vizsgálta. Kollégánkat hétfő hajnalban egy kutyasétáltató találta meg a Sziget csúcsánál. A rendőrség nem nyilatkozott. Fazekas Ádám főszerkesztő: „Eszter igazságot keresett.”"}},
  {id:"ia", at:600, x:"<b>Belső ellenőrzés:</b> Dr. Szép Viktória kéri, hogy jelentkezz nála a kapitányságon. Haladéktalanul."},
@@ -320,7 +319,7 @@ dyn:{
   },
   annaHiv(S){
     if(S.alc>40)return'Ránéz a kezedre, aztán a szemedre. „Most nem. Majd ha nem kell kapaszkodnia a pultba.” Nem dühös. Inkább szomorú.';
-    S.f.anna_vacsora_hiv=S.t;return'Meglepődik. Aztán megnézi a beosztását a telefonján, sokáig. „Szerda este hét. Kéményseprő vendéglő, Budán. Ha nem jön, többet nem hívom.” Elteszi a telefont. „Ha jön, és részeg, akkor sem.”';
+    S.f.anna_vacsora_hiv=S.t;return'Meglepődik. Aztán megnézi a beosztását a telefonján, sokáig. „Bármelyik este hét után. Kéményseprő vendéglő, Budán. Szóljon előtte egy órával.” Elteszi a telefont. „Ha részeg, ne jöjjön.”';
   },
   annaVacsora(S){
     if(S.alc>40){S.f.anna_vacsora_rossz=S.t;return'Leülsz. Ő egy pillanatig néz, aztán félretolja a borlapot, és vizet tölt neked. Fél óra múlva udvariasan megköszöni a vacsorát, és kifizeti a sajátját. „Majd ha józan lesz, Mátrai.”'}
