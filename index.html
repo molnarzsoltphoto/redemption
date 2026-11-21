@@ -2024,7 +2024,7 @@ function meta(){try{return JSON.parse(localStorage.getItem(META))||{done:{},pers
 function saveMeta(m){try{localStorage.setItem(META,JSON.stringify(m))}catch(e){}}
 function fresh(cid){
   setCase(cid);const m=meta(),ps=m.persist;
-  const s={case:cid,t:CASE.start.t,loc:CASE.start.loc,fat:35,alc:18,crave:30,money:ps?Math.max(ps.money,8000):14600,bottle:3,pat:100,
+  const s={case:cid,t:CASE.start.t,loc:CASE.start.loc,fat:35,alc:18,crave:30,money:ps?Math.max(ps.money,50000):40000,bottle:3,pat:100,
     ev:{},f:{},docs:{},done:{},hs:{},tr:{},staff:{},loy:{},pending:[],board:{},verd:{},rejects:0,ended:null,log:[],fired:{},notes:[],
     view:'loc',tab:null,doc:null,sel:[],day:0,visited:{},prev:m.done||{}};
   STAFF.forEach(id=>{s.staff[id]={busy:0,load:0};s.loy[id]=ps&&ps.loy&&ps.loy[id]!=null?ps.loy[id]:60});
@@ -2128,6 +2128,7 @@ function checkPending(){
   }
 }
 function checkTimed(){
+  if(!S.fired['tm:payday']&&S.t>=1440+480){S.fired['tm:payday']=1;S.money+=150000;note('Megjött a fizetés: <b>150 000 Ft</b>. A tartásdíj és a hitelrészlet után is marad elég.','msg')}
   for(const x of CASE.timed||[]){
     if(S.fired['tm:'+x.id]||S.t<x.at)continue;
     if(x.req&&!reqOk(x.req)){if(!x.wait)S.fired['tm:'+x.id]=1;continue}
