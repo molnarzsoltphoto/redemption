@@ -154,6 +154,8 @@ textarea{width:100%;background:var(--panel2);color:var(--ink);border:1px solid v
 .vic{background:#0e0c0a;border:1px solid #4a3e31;border-left:4px solid var(--red);padding:8px 12px}.vic.done{border-left-color:#8a7e6a}
 .vic b{display:block;font:600 19px "Barlow Condensed",sans-serif}.vic span{display:block;font-size:13px;color:#9a8f7e}.vic em{font-style:normal;font-size:14px;color:#d8a39b}
 .cols.n4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cols.n5{grid-template-columns:repeat(5,minmax(0,1fr))}.cols.n5 .col h4{font-size:19px}
+@media(max-width:1200px){.cols.n5{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .card .vt{font:600 12px "Barlow Condensed",sans-serif;background:#1e1c18;color:#e8dcc4;padding:1px 6px;align-self:flex-start;margin-bottom:2px}
 .vchk{display:flex;flex-direction:column;gap:6px;margin:0 0 12px}.vchk label{display:flex;gap:10px;align-items:center;font-size:17px;min-height:40px}.vchk input{width:22px;height:22px;accent-color:var(--red)}
 .grade{display:flex;gap:16px;align-items:center;border-top:1px solid #c9bfa9;margin-top:16px;padding-top:14px}.grade>b{font:700 56px "Barlow Condensed",sans-serif;color:var(--red2);line-height:1}.grade p{margin:0}
@@ -176,7 +178,7 @@ body:has(.bar) #toasts{bottom:auto;top:130px}
  #game{grid-template-columns:minmax(0,1fr)}
  .mapwrap{height:52vh;min-height:320px;border-right:0;border-bottom:1px solid var(--line)}
  #panel{max-height:none}
- .cols,.cols.n4{grid-template-columns:minmax(0,1fr)}
+ .cols,.cols.n4,.cols.n5{grid-template-columns:minmax(0,1fr)}
  .dl{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:600px){

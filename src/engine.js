@@ -107,6 +107,7 @@ function dispatch(tid,sid){
   st.load++;st.busy=S.t+tk.dur;
   S.pending.push({task:tid,staff:sid,at:S.t+tk.dur,ok,sab});
   note(`${P[sid].n} elindult: ${tk.l.toLowerCase()}. Kész kb. ${clock(S.t+tk.dur)}.`);
+  if(tk.loy)for(const k in tk.loy)S.loy[k]=clamp(S.loy[k]+tk.loy[k]);
   if(tk.warn){S.pat-=5;queue(tk.warn)}
   checkPat();render();
 }
