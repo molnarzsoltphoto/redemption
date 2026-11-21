@@ -5,7 +5,7 @@ const DAYN=['hétfő','kedd','szerda','csütörtök','péntek','szombat','vasár
 const MON=['jan.','febr.','márc.','ápr.','máj.','jún.','júl.','aug.','szept.','okt.','nov.','dec.'];
 const STAFF=['bence','kata','bodnar','halasz','keleti','feher'];
 const CAT={I:'Indíték',A:'Alkalom',M:'Módszer'};
-const PERSIST=['nora_help','koncert','koncert_reszeg','lili_missed','apa_revesz','apa_1994','berkes_beismeres','leak','lili_bday','lili_bday_reszeg','lili_bday_missed','kata_titok','apa_korhaz'];
+const PERSIST=['nora_help','koncert','koncert_reszeg','lili_missed','apa_revesz','apa_1994','berkes_beismeres','leak','lili_bday','lili_bday_reszeg','lili_bday_missed','kata_titok','apa_korhaz','varga_halott','halmos_vad','rajna_elfogva','merenylet','lili_ajandek','apa_latogatas','apa_racz','lili_alairas','apa_halal','apa_temetes','apa_bucsu','bodnar_vad','somogyi_bukik','denes_tisztazva'];
 let CASE,P,L,E,ORDER,VICT,SOL,S=null;
 function setCase(id){
   CASE=CASES[id];P=CASE.people;L=CASE.locs;E=CASE.ev;ORDER=CASE.order||Object.keys(CASE.suspects);
@@ -55,6 +55,7 @@ function advance(m,sleepRate){
     if(d>S.day){S.day=d;STAFF.forEach(id=>S.staff[id].load=0)}
     checkPending();checkTimed();
   }
+  if(S.skip&&!S.ended){const k=S.skip;S.skip=0;advance(k,.12)}
   if(!sleepRate&&S.fat>=100&&!S.ended)collapse();
 }
 function act(m){advance(m*mult())}
@@ -83,6 +84,7 @@ function front(f){
 // ---------- stáb ----------
 function staffState(id){
   const st=S.staff[id],p=P[id];
+  if(p.gone&&reqOk([p.gone]))return{k:'off',x:'Nincs többé a stábban'};
   if(st.busy>S.t)return{k:'busy',x:'Dolgozik · kész '+clock(st.busy)};
   if(!inWin(hourOf(S.t),p.h))return{k:'off',x:`Nincs bent (${p.h[0]}–${p.h[1]} óra)`};
   return{k:'free',x:'Szabad'};
@@ -98,11 +100,12 @@ function dispatch(tid,sid){
   const tk=CASE.tasks.find(x=>x.id===tid);if(!tk||!taskAvail(tk))return;
   if(staffState(sid).k!=='free')return;
   const st=S.staff[sid];
-  const ok=Math.random()<chance(tk,sid);
+  const sab=!!(tk.sab&&tk.sab[sid]);
+  const ok=!sab&&Math.random()<chance(tk,sid);
   if(S.loc!=='kapitanysag')act(5);
   if(st.load>=2){S.loy[sid]=clamp(S.loy[sid]-6);note(`${P[sid].n} szó nélkül indul. Ma ez már a harmadik feladata.`,'bad')}
   st.load++;st.busy=S.t+tk.dur;
-  S.pending.push({task:tid,staff:sid,at:S.t+tk.dur,ok});
+  S.pending.push({task:tid,staff:sid,at:S.t+tk.dur,ok,sab});
   note(`${P[sid].n} elindult: ${tk.l.toLowerCase()}. Kész kb. ${clock(S.t+tk.dur)}.`);
   if(tk.warn){S.pat-=5;queue(tk.warn)}
   checkPat();render();
@@ -113,6 +116,7 @@ function checkPending(){
     S.pending.splice(S.pending.indexOf(p),1);
     const tk=CASE.tasks.find(x=>x.id===p.task),who=P[p.staff].n;
     if(p.ok){S.done['task:'+tk.id]=1;S.loy[p.staff]=clamp(S.loy[p.staff]+2);if(tk.doc)addDoc(tk.doc);if(tk.f)setF(tk.f);if(tk.ev)addEv(tk.ev);note(who+': '+tk.ok,'doc')}
+    else if(p.sab){setF('sab_'+tk.id);note(who+': '+tk.sab[p.staff],'bad')}
     else{S.loy[p.staff]=clamp(S.loy[p.staff]-2);note(who+': '+(tk.fail||'Nem sikerült. Próbáld újra, vagy küldj mást.'),'bad')}
   }
 }
@@ -131,7 +135,8 @@ function fireT(x){
   if(x.x)note(typeof x.x==='function'?x.x(S):x.x,'msg');
   if(x.front)front(typeof x.front==='function'?x.front(S):x.front);
   if(x.modal)queue(typeof x.modal==='function'?x.modal(S):x.modal);
-  if(x.go){S.loc=x.go;S.view='loc'}
+  if(x.go){S.loc=x.go;S.view='loc';S.tab=null}
+  if(x.skip)S.skip=(S.skip||0)+x.skip;
   checkPat();
 }
 function isClosed(l,h){return(l.open&&!inWin(h,l.open))||(l.day!==undefined&&dayIdx()!==l.day)}
@@ -157,7 +162,7 @@ function go(id,mode){
   if(!S.ended){S.loc=id;S.view='loc';S.visited[id]=1;locEvents()}
   checkPat();render();
 }
-const API={has:k=>has(k),hourOf,inWin,clamp,setF:k=>setF(k),leads:()=>leads(),n:()=>Object.keys(S.ev).length,P:()=>P};
+const API={addEv:id=>addEv(id),addDoc:id=>addDoc(id),has:k=>has(k),hourOf,inWin,clamp,setF:k=>setF(k),leads:()=>leads(),n:()=>Object.keys(S.ev).length,P:()=>P};
 function locEvents(){
   const h=hourOf(S.t);
   for(const x of CASE.locEvents||[]){
@@ -175,8 +180,8 @@ function doAction(a){
     sleepSofa:()=>{advance(240,.2);note('Négy óra a kanapén. A neoncső zümmögését álmodban is hallod.')},
     sleepCar:()=>{advance(180,.19);note('Három óra a kocsiban. Bemerevedett nyakkal ébredsz.')},
     coffee:()=>{act(10);S.fat=clamp(S.fat-12);note('Automatás kávé. Rossz, de forró.')},
-    bottle:()=>{if(S.bottle<1)return;S.bottle--;act(10);S.alc=clamp(S.alc+18);S.crave=clamp(S.crave-30);note('Egy kupica a hűtőből. Aztán még egy fél.')},
-    bar:()=>{if(S.money<900)return;S.money-=900;act(40);S.alc=clamp(S.alc+20);S.crave=clamp(S.crave-35);note('Laci kérdés nélkül tölt.')},
+    bottle:()=>{if(S.bottle<1)return;S.bottle--;S.drinks=(S.drinks||0)+1;act(10);S.alc=clamp(S.alc+18);S.crave=clamp(S.crave-30);note('Egy kupica a hűtőből. Aztán még egy fél.')},
+    bar:()=>{if(S.money<900)return;S.money-=900;S.drinks=(S.drinks||0)+1;act(40);S.alc=clamp(S.alc+20);S.crave=clamp(S.crave-35);note('Laci kérdés nélkül tölt.')},
     buy:()=>{if(S.money<3500)return;S.money-=3500;S.bottle+=3;act(5);note('Egy üveg körtét viszel haza.')}
   }[a]||(CASE.actions&&CASE.actions[a]&&(()=>{const x=CASE.actions[a];if(x.cost&&S.money<x.cost)return;if(x.cost)S.money-=x.cost;act(x.mins||20);if(x.f)setF(x.f);if(x.ev)addEv(x.ev);note(x.x)}));
   if(r){r();checkPat();render()}
@@ -199,12 +204,12 @@ function topic(pid,tid){
   if(!tp||(S.done[key]&&!tp.rep))return;
   (S.tr[pid]=S.tr[pid]||[]);
   if(tp.drinkStaff){
-    if(S.money<1800)return;S.money-=1800;advance(60*mult());S.alc=clamp(S.alc+15);S.crave=clamp(S.crave-20);
+    if(S.money<1800)return;S.money-=1800;S.drinks=(S.drinks||0)+1;advance(60*mult());S.alc=clamp(S.alc+15);S.crave=clamp(S.crave-20);
     S.loy[pid]=clamp(S.loy[pid]+12);S.f['ital_'+pid+'_'+dayIdx()]=1;
     S.tr[pid].push({q:tp.l,a:DYN.staffDrink(pid)});render();return;
   }
   const lucidOk=!tp.lucid||inWin(hourOf(S.t),tp.lucid);
-  if(tp.drink){if(S.money<900)return;S.money-=900;advance(45*mult());S.alc=clamp(S.alc+20);S.crave=clamp(S.crave-35)}
+  if(tp.drink){if(S.money<900)return;S.money-=900;S.drinks=(S.drinks||0)+1;advance(45*mult());S.alc=clamp(S.alc+20);S.crave=clamp(S.crave-35)}
   else if(tp.cost){if(S.money<tp.cost)return;S.money-=tp.cost;act(tp.mins||60)}
   else act(tp.mins||15);
   if(!lucidOk){S.tr[pid].push({q:tp.l,a:DYN.apaConfused()});render();return}
