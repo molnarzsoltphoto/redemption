@@ -121,12 +121,12 @@ locs:{
 },
 
 people:{
- anna:{n:"Anna", r:"nálad", loc:"otthon", h:[20,24], vis:"anna_egyutt", bio:"Dr. Kerekes Anna, traumatológus. Négy hónapja hol nálad, hol nála. A hőségben a konyhakövön ül, mert az az egyetlen hűvös hely a lakásban.", topics:[
+ anna:{n:"Detti", r:"nálad", loc:"otthon", h:[20,24], vis:"anna_egyutt", bio:"Dr. Kerekes Bernadett, traumatológus. Négy hónapja hol nálad, hol nála. A hőségben a konyhakövön ül, mert az az egyetlen hűvös hely a lakásban.", topics:[
   {id:"bence", l:"Bencéről beszélsz neki", dyn:"annaBence"},
   {id:"koltozes", l:"Megkérdezed, beköltözne-e", req:["anna_bence"], excl:"nem", dyn:"annaKoltozes"},
-  {id:"beszel", l:"Csak ültök", rep:1, eff:{crave:-15}, t:"A ventilátor zúg. Anna a lábát a kádba lógatja hideg vízzel, te mellette ülsz a kád szélén. „Megtalálod” — mondja. Nem kérdés."}
+  {id:"beszel", l:"Csak ültök", rep:1, eff:{crave:-15}, t:"A ventilátor zúg. Detti a lábát a kádba lógatja hideg vízzel, te mellette ülsz a kád szélén. „Megtalálod” — mondja. Nem kérdés."}
  ]},
- anna_korhaz:{n:"Dr. Kerekes Anna", r:"traumatológus", loc:"korhaz5", h:[8,20], vis:"anna_met", bio:"41 éves traumatológus a Szent Jánosban. Rövid haj, sportóra, kávéfolt a köpenyén. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
+ anna_korhaz:{n:"Dr. Kerekes Bernadett", r:"traumatológus", loc:"korhaz5", h:[8,20], vis:"anna_met", bio:"41 éves traumatológus a Szent Jánosban. Alacsony, sportos, szőke, a haját lófarokban hordja, a csuklóján sportóra, a köpenyén kávéfolt. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
   {id:"hello", l:"Beszélsz vele", req:["!anna_egyutt"], t:"„Mátrai.” Leveszi a maszkot. „Láttam a hírekben a kollégáját. Ha megtalálja, és kiszáradt, ne öntsön bele vizet egyszerre. Lassan. És hívjon engem.” Ír egy számot a kezedre, golyóstollal. Megint.", f:"anna_tanacs"}
  ]},
  szep:{n:"Dr. Szép Viktória", r:"osztályvezető", loc:"kapitanysag", h:[8,20], bio:"44 éves. Májustól ő vezeti az osztályt. Bencét ő vette fel annak idején, és most egész nap a telefonját nézi.", topics:[
@@ -233,12 +233,12 @@ locEvents:[
 dyn:{
   annaBence(S){
     S.f.anna_bence=S.t;
-    if(S.f.bence_halott)return'Anna nem mond semmit. Leül melléd a konyhakőre, és a vállát a válladnak dönti. Órákig így ültök. Egyszer azt mondja: „Nem a te hibád.” Nem hiszed el. Ő tudja, hogy nem hiszed el, és mégis elmondja még egyszer.';
-    return'Elmondod. Bencét, a sárga cetlit, Imrét. Anna hallgat, aztán azt mondja: „Ha megtalálod, és ki van száradva, ne itasd meg egyszerre. Lassan, kortyonként. És hívj engem, bármikor.” Felírja a mobilszámát a kezedre, golyóstollal, pedig tudod.';
+    if(S.f.bence_halott)return'Detti nem mond semmit. Leül melléd a konyhakőre, és a vállát a válladnak dönti. Órákig így ültök. Egyszer azt mondja: „Nem a te hibád.” Nem hiszed el. Ő tudja, hogy nem hiszed el, és mégis elmondja még egyszer.';
+    return'Elmondod. Bencét, a sárga cetlit, Imrét. Detti hallgat, aztán azt mondja: „Ha megtalálod, és ki van száradva, ne itasd meg egyszerre. Lassan, kortyonként. És hívj engem, bármikor.” Felírja a mobilszámát a kezedre, golyóstollal, pedig tudod.';
   },
   annaKoltozes(S){
     if((S.drinks||0)>0){S.f.anna_varunk=S.t;return'Sokáig néz. „Ma ittál.” Nem kérdés. „Kérdezd meg újra, amikor egy egész hónapja nem.” Megcsókol. „Nem megyek sehova. De beköltözni sem.”'}
-    S.f.anna_koltozik=S.t;return'Anna sokáig nem válaszol. Aztán: „A macskám utálni fogja a lépcsőt.” Ez igen. Mindketten tudjátok.';
+    S.f.anna_koltozik=S.t;return'Detti sokáig nem válaszol. Aztán: „A macskám utálni fogja a lépcsőt.” Ez igen. Mindketten tudjátok.';
   },
   hintKata(S){
     if(!S.docs.cella)return'„Bence telefonja. Kikérem a celláját, most. Ő tanította nekem, hogyan kell gyorsan.” Megáll. „Nem. Én tanítottam neki.”';
@@ -295,10 +295,10 @@ end:{
   else if(S.f.lili_marad)t+="<p>Este Lili zongorázik, te a konyhában ülsz, és hallgatod. Egyszer abbahagyja, kijön, és szó nélkül megölel. Aztán visszamegy játszani.</p>";
   if((S.drinks||0)===0)t+="<p>Százhuszonöt napja nem ittál. Ma este is a gyűlésre mész. Nem Bencéért, nem Imréért, nem apádért. Magadért. Csak a mai nap.</p>";
   else t+="<p>Ma este a Hordóban ülsz. A sarokasztal üres. Laci tölt, és nem kérdez. Te sem.</p>";
-  if(S.f.anna_egyutt&&S.f.bence_mentve)t+="<p>A sürgősségin Anna vár, kesztyűben. Ő látja el Bencét, és ő mondja meg neked éjjel kettőkor a folyosón: „Kiszáradás, agyrázkódás, egy bordája repedt. Élni fog.” Aztán leül melléd a műanyag székre, és a fejét a válladra hajtja.</p>";
-  else if(S.f.anna_tanacs&&S.f.bence_mentve)t+="<p>Ahogy Anna mondta: lassan, kortyonként. Bence a mentőben azt kérdezi, ki tanította ezt. Elmondod. „Hívd fel” — mondja Bence. Felhívod.</p>";
-  if(S.f.anna_koltozik)t+="<p>Augusztusban Anna beköltözik, egy macskával és két doboz orvosi könyvvel. A macska utálja a lépcsőt. Lili szerint "+(S.f.lili_marad?"jó, hogy végre valaki rendet rak a konyhában":"jó, hogy végre van valaki, aki felhív, ha nem eszel")+".</p>";
-  else if(S.f.anna_varunk)t+="<p>Anna nem költözik be. Még nem. Minden este felhív, hogy hány napja. Egyszer majd igent mond. Ezen múlik.</p>";
+  if(S.f.anna_egyutt&&S.f.bence_mentve)t+="<p>A sürgősségin Detti vár, kesztyűben. Ő látja el Bencét, és ő mondja meg neked éjjel kettőkor a folyosón: „Kiszáradás, agyrázkódás, egy bordája repedt. Élni fog.” Aztán leül melléd a műanyag székre, és a fejét a válladra hajtja.</p>";
+  else if(S.f.anna_tanacs&&S.f.bence_mentve)t+="<p>Ahogy Detti mondta: lassan, kortyonként. Bence a mentőben azt kérdezi, ki tanította ezt. Elmondod. „Hívd fel” — mondja Bence. Felhívod.</p>";
+  if(S.f.anna_koltozik)t+="<p>Augusztusban Detti beköltözik, egy macskával és két doboz orvosi könyvvel. A macska utálja a lépcsőt. Lili szerint "+(S.f.lili_marad?"jó, hogy végre valaki rendet rak a konyhában":"jó, hogy végre van valaki, aki felhív, ha nem eszel")+".</p>";
+  else if(S.f.anna_varunk)t+="<p>Detti nem költözik be. Még nem. Minden este felhív, hogy hány napja. Egyszer majd igent mond. Ezen múlik.</p>";
   return t;
  },
  fired:"<p>Az ügyet más viszi tovább. Téged szabadságra küldenek, „pihenni”.</p><p>Otthon ülsz, a ventilátor kavarja a meleget. A telefonodon még mindig ott Bence vasárnapi üzenete. Nem törlöd ki.</p>"

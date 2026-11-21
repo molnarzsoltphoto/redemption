@@ -132,12 +132,12 @@ locs:{
 },
 
 people:{
- anna:{n:"Dr. Kerekes Anna", r:"traumatológus", loc:"korhaz", h:[8,20], bio:"41 éves traumatológus a Szent Jánosban. Rövid haj, sportóra, kávéfolt a köpenyén. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak. Tizenöt éve dolgozik egy osztályon Kónya Attilánéval.", topics:[
-  {id:"elso", l:"Bemutatkozol", req:["!anna_met"], t:"„Mátrai? A Mátrai Gyula fia?” Kezet nyújt. „Kerekes Anna. Én műtöttem az édesapját decemberben.” Rövid csend. „Sajnálom, hogy januárban…” Nem fejezi be. Nem is kell.", f:"anna_met"},
+ anna:{n:"Dr. Kerekes Bernadett", r:"traumatológus", loc:"korhaz", h:[8,20], bio:"41 éves traumatológus a Szent Jánosban. Alacsony, sportos, szőke, a haját lófarokban hordja, a csuklóján sportóra, a köpenyén kávéfolt. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak. Tizenöt éve dolgozik egy osztályon Kónya Attilánéval.", topics:[
+  {id:"elso", l:"Bemutatkozol", req:["!anna_met"], t:"„Mátrai? A Mátrai Gyula fia?” Kezet nyújt. „Kerekes Bernadett, de mindenki Dettinek hív. Én műtöttem az édesapját decemberben.” Rövid csend. „Sajnálom, hogy januárban…” Nem fejezi be. Nem is kell.", f:"anna_met"},
   {id:"erika", l:"Kónya Attilánéról kérdezed", req:["anna_met","korhazi_hiany|erika_inditek|suzuki_anpr"], sober:1, t:"Elsápad. „Erika? Tizenöt éve dolgozunk együtt. Ő tanított meg kanült szúrni, amikor rezidens voltam.” Lehalkítja a hangját. „Vasárnap a műszak végén sírt az öltözőben. Hétfőn úgy jött be, mintha semmi nem történt volna.” Rád néz. „Dénes. Ne tedd tönkre. Már mindent elvesztett.” Aztán: „De ha ő volt, akkor ne hazudj miatta. Se nekem, se magadnak.”", f:"anna_erika"},
   {id:"este", l:"Ma este?", req:["anna_vacsora|anna_temetes"], dyn:"annaEste"}
  ]},
- anna2:{n:"Anna", r:"nálad", loc:"otthon", h:[21,24], vis:"anna_egyutt", bio:"A konyhádban ül, teát főzött. A pálinkát valamikor a múlt héten kiöntötte a lefolyóba, és nem kérdezett meg előtte.", topics:[
+ anna2:{n:"Detti", r:"nálad", loc:"otthon", h:[21,24], vis:"anna_egyutt", bio:"A konyhádban ül, teát főzött. A pálinkát valamikor a múlt héten kiöntötte a lefolyóba, és nem kérdezett meg előtte.", topics:[
   {id:"beszel", l:"Leülsz mellé", rep:1, eff:{crave:-20}, dyn:"annaOtthon"}
  ]},
  varga:{n:"Varga Ottó alezredes", r:"osztályvezető", loc:"kapitanysag", h:[7,19], gone:"varga_halott", bio:"56 éves. Áprilisban nyugdíjba megy. Az asztalán már ott a kartondoboz, amibe a fiók tartalmát pakolja. A whiskyt még nem tette bele.", topics:[
@@ -283,9 +283,9 @@ dyn:{
     S.f.anna_egyutt=S.t;return'„Kilenc után végzek.” Nem kérdés. Kilenckor ott áll a kapud előtt, egy szatyor zöldséggel, és azt mondja, hogy a rendőrök nem esznek rendesen, ezt is tudja a volt férjéről. Éjjel nem beszéltek az ügyről. Ez az első éjszaka hónapok óta, amikor nem álmodsz a folyóról.';
   },
   annaOtthon(S){
-    const A=['Anna levest főz, és közben a műtőről mesél: egy motoros, aki kétszer is elesett, egyszer a motorral, egyszer a kórházi lépcsőn. Te nevetsz. Ő is.',
+    const A=['Detti levest főz, és közben a műtőről mesél: egy motoros, aki kétszer is elesett, egyszer a motorral, egyszer a kórházi lépcsőn. Te nevetsz. Ő is.',
       '„Erikáról akarsz beszélni?” Nem. „Jó. Én sem.” Csendben ültök, és a csend most nem nehéz.',
-      'Anna elalszik a kanapén, a fejét a válladra hajtja. Nem mozdulsz, amíg a lábad el nem zsibbad. Akkor sem.'];
+      'Detti elalszik a kanapén, a fejét a válladra hajtja. Nem mozdulsz, amíg a lábad el nem zsibbad. Akkor sem.'];
     S.f.ao=(S.f.ao||0)+1;return A[(S.f.ao-1)%A.length];
   },
   hintBence(S){
@@ -339,9 +339,9 @@ end:{
   if(S.f.aa_beszed)t+="<p>Szerda este a Szent József-templom alagsorában ülsz, a sor végén. Sanyi bólint, amikor belépsz. Valaki más beszél, egy fiatal fiú. Hallgatod. Csak a mai nap.</p>";
   else if(S.f.aa1)t+="<p>Egyszer voltál a gyűlésen. A cetlit Fehér doktornőtől a pénztárcádban hordod. Talán jövő héten újra.</p>";
   if(S.f.apa_halal)t+="<p>Vasárnap kimész Farkasrétre. Friss virágot viszel. Elmondod apádnak, hogyan zárult az ügy, és mit kérdezett volna ő a végén: ki járt jól? Ezúttal senki. Ezúttal ez a válasz.</p>";
-  if(S.f.anna_egyutt&&S.f.erika_vad)t+="<p>Anna három napig nem hív. A negyedik este becsönget, kisírt szemmel. „Bementem hozzá. Azt mondta, te voltál az egyetlen, aki rendesen beszélt vele.” Leül a konyhában. „Utállak egy kicsit. Maradhatok?”</p>";
-  else if(S.f.anna_egyutt)t+="<p>Anna fogkeféje a fürdőszobádban. Nem beszéltetek róla. Egyszerűen ott van.</p>";
-  else if(S.f.anna_erika)t+="<p>Anna azt mondta, ne hazudj se neki, se magadnak. Nem hazudtál. Most már csak fel kéne hívnod.</p>";
+  if(S.f.anna_egyutt&&S.f.erika_vad)t+="<p>Detti három napig nem hív. A negyedik este becsönget, kisírt szemmel. „Bementem hozzá. Azt mondta, te voltál az egyetlen, aki rendesen beszélt vele.” Leül a konyhában. „Utállak egy kicsit. Maradhatok?”</p>";
+  else if(S.f.anna_egyutt)t+="<p>Detti fogkeféje a fürdőszobádban. Nem beszéltetek róla. Egyszerűen ott van.</p>";
+  else if(S.f.anna_erika)t+="<p>Detti azt mondta, ne hazudj se neki, se magadnak. Nem hazudtál. Most már csak fel kéne hívnod.</p>";
   return t;
  },
  fired:"<p>Az ügyészség lezárja: öngyilkosság és baleset. A két akta lekerül a pincébe, ahol még áll a víz.</p><p>A Hordóban ülsz. Laci tölt, és te nézed a poharat. Hosszan.</p>"

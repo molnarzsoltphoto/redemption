@@ -749,7 +749,7 @@ locs:{
 
 // ---- SZEREPLŐK ----
 people:{
- anna:{n:"Dr. Kerekes Anna", r:"traumatológus, apád orvosa", loc:"korhaz", h:[8,20], vis:"apa_korhaz", bio:"41 éves traumatológus a Szent Jánosban. Rövid haj, sportóra, kávéfolt a köpenyén. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
+ anna:{n:"Dr. Kerekes Bernadett", r:"traumatológus, apád orvosa", loc:"korhaz", h:[8,20], vis:"apa_korhaz", bio:"41 éves traumatológus a Szent Jánosban. Alacsony, sportos, szőke, a haját lófarokban hordja, a csuklóján sportóra, a köpenyén kávéfolt. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
   {id:"apa", l:"Apámról kérdezed", t:"„Combnyaktörés. Holnap reggel hétkor műtöm, protézist kap.” Felnéz a kartonról. „Maga a rendőr fia? Ő mondta, hogy maga a legjobb rendőr a városban. Aztán megkérdezte, hogy én vagyok-e az anyja.” Elmosolyodik. „Nem vagyok.”", f:"anna_met"},
   {id:"kave", l:"Meghívod egy automatás kávéra", req:["anna_met"], dyn:"annaKave"},
   {id:"szam", l:"Elkéred a számát", req:["anna_kave"], t:"Sokáig néz. Aztán ír valamit egy receptlap hátuljára. „Ha az édesapja miatt aggódik. Csak akkor.” Odaadja. Mindketten tudjátok, hogy nem csak akkor.", f:"anna_szam"}
@@ -942,7 +942,7 @@ dyn:{
   annaKave(S){
     if(S.alc>40){S.f.anna_reszeg=S.t;return'„Kávét? Inkább vizet igyon, főhadnagy.” Kedvesen mondja, ahogy egy beteggel beszél. Aztán továbbmegy a folyosón, és nem néz vissza.'}
     S.f.anna_kave=S.t;S.crave=Math.max(0,S.crave-10);
-    return'Két műanyag pohár, rossz kávé, a folyosó végén, az ablaknál. Kiderül, hogy harminchat órája van bent, hogy maratont fut, és hogy rendőrökkel nem randevúzik, mert mind hazudnak. „Én nem randevúzok” — mondod. „Látja, már hazudik” — mondja, és nevet. Nem emlékszel, mikor nevetett utoljára valaki úgy, hogy rajtad.';
+    return'Két műanyag pohár, rossz kávé, a folyosó végén, az ablaknál. Kiderül, hogy harminchat órája van bent, hogy maratont fut, és hogy rendőrökkel nem randevúzik, mert mind hazudnak. „Én nem randevúzok” — mondod. „Látja, már hazudik” — mondja, és nevet. Nem emlékszel, mikor nevetett utoljára valaki úgy, hogy rajtad. „Bernadett” — mondja a végén, és kezet nyújt. „De mindenki Dettinek hív. A betegek kivételével.”';
   },
   hintBence(S){
     if(S.f.hid_kamera&&!S.docs.hidkamera)return'„Lekérjem a hídkamerát? Kata jobb benne, de én is meg tudom csinálni.”';
@@ -1018,7 +1018,7 @@ end:{
   else if(S.f.lili_bday_missed)t+="<p>A telefonodon Lili üzenete: <i>Elfújtam a gyertyákat. Anyának igaza volt.</i> Kétszer kezdesz válaszolni. Egyszer sem küldöd el.</p>";
   if(S.f.apa_latogatas)t+="<p>Apádat kedden kiengedik a kórházból. Járókerettel megy végig a folyosón, és a nővérnek azt mondja: „Ez a fiam. Rendőr. A legjobb.” Nem javítod ki.</p>";
   else if(S.f.apa_korhaz)t+="<p>Apádat kedden kiengedik a kórházból. Nem voltál bent nála. A nővér azt mondja, sokat kérdezett utánad.</p>";
-  if(S.f.anna_szam)t+="<p>December 23-án SMS jön egy ismeretlen számról: <i>A papája jól van. Járókerettel már a folyosó végéig megy, és mindenkinek magáról mesél. – Kerekes dr.</i> Elmented a számot. Annának.</p>";
+  if(S.f.anna_szam)t+="<p>December 23-án SMS jön egy ismeretlen számról: <i>A papája jól van. Járókerettel már a folyosó végéig megy, és mindenkinek magáról mesél. – Kerekes dr.</i> Elmented a számot. Dettinek.</p>";
   else if(S.f.anna_reszeg)t+="<p>A kórházban a folyosó végén egy orvosnő kedvesen azt mondta, igyál vizet. Néha eszedbe jut. Nem tudod, miért.</p>";
   return t;
  },
@@ -1184,16 +1184,16 @@ locs:{
 
 // ---- SZEREPLŐK ----
 people:{
- anna:{n:"Dr. Kerekes Anna", r:"traumatológus", loc:"korhaz", h:[8,20], bio:"41 éves traumatológus a Szent Jánosban. Rövid haj, sportóra, kávéfolt a köpenyén. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
-  {id:"elso", l:"Bemutatkozol", req:["!anna_met"], t:"„Mátrai? A combnyaktöréses Mátrai Gyula fia?” Leveszi a gumikesztyűt. „Decemberben kerestem. Nem jött be egyszer sem.” Nem szemrehányás, csak megállapítás. „Kerekes Anna. Én műtöttem az édesapját.”", f:"anna_met"},
+ anna:{n:"Dr. Kerekes Bernadett", r:"traumatológus", loc:"korhaz", h:[8,20], bio:"41 éves traumatológus a Szent Jánosban. Alacsony, sportos, szőke, a haját lófarokban hordja, a csuklóján sportóra, a köpenyén kávéfolt. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
+  {id:"elso", l:"Bemutatkozol", req:["!anna_met"], t:"„Mátrai? A combnyaktöréses Mátrai Gyula fia?” Leveszi a gumikesztyűt. „Decemberben kerestem. Nem jött be egyszer sem.” Nem szemrehányás, csak megállapítás. „Kerekes Bernadett, de mindenki Dettinek hív. Én műtöttem az édesapját.”", f:"anna_met"},
   {id:"ujsag", l:"Láttad az újságot?", req:["anna_met"], dyn:"annaUjsag"},
   {id:"bocsanat", l:"Bocsánatot kérsz a decemberi folyosóért", req:["anna_reszeg","!anna_bocsanat"], sober:1, t:"Felhúzza a szemöldökét. „Emlékszik rá? Akkor nem lehetett annyira részeg.” Aztán elmosolyodik. „Elfogadom. Egyszer.”", f:"anna_bocsanat"},
   {id:"vacsora", l:"Elhívod vacsorázni", req:["anna_met","!anna_reszeg|anna_bocsanat","!anna_vacsora_hiv"], dyn:"annaHiv"}
  ]},
- anna2:{n:"Dr. Kerekes Anna", r:"vacsora", loc:"vendeglo", h:[19,23], vis:"anna_vacsora_hiv", bio:"Farmerben, köpeny nélkül szinte nem ismered meg. Már ül, amikor odaérsz, és két pohár víz áll az asztalon.", topics:[
+ anna2:{n:"Dr. Kerekes Bernadett", r:"vacsora", loc:"vendeglo", h:[19,23], vis:"anna_vacsora_hiv", bio:"Farmerben, köpeny nélkül, a szőke haja kibontva: szinte nem ismered meg. Már ül, amikor odaérsz, és két pohár víz áll az asztalon.", topics:[
   {id:"vacsora", l:"Leülsz vele", mins:120, dyn:"annaVacsora"}
  ]},
- anna3:{n:"Dr. Kerekes Anna", r:"a temetésen", loc:"temeto", h:[10,13], vis:"anna_vacsora", bio:"Fekete kabátban, a sor végén, egy szál fehér rózsával.", topics:[
+ anna3:{n:"Dr. Kerekes Bernadett", r:"a temetésen", loc:"temeto", h:[10,13], vis:"anna_vacsora", bio:"Fekete kabátban, a sor végén, egy szál fehér rózsával.", topics:[
   {id:"temetes", l:"Odamész hozzá", t:"„Nem kellett volna eljönnöm?” Kellett. Ezt mondod. Leteszi a rózsát a koporsóra, aztán melléd áll, és nem mond semmit, amíg a gödröt be nem temetik. Egyszer megfogja a kezed. Csak egy pillanatra.", f:"anna_temetes"}
  ]},
  varga:{n:"Varga Ottó alezredes", r:"osztályvezető", loc:"kapitanysag", h:[7,19], gone:"varga_halott", bio:"56 éves. December óta többet iszik, és kevesebbet beszél. Most nem néz a szemedbe, és ez rosszabb bármilyen kérdésnél.", topics:[
@@ -1320,8 +1320,8 @@ leads:[
 
 // ---- IDŐZÍTETT ESEMÉNYEK ----
 timed:[
- {id:"anna_vart", at:2*1440+1410, req:["anna_vacsora_hiv","!anna_vacsora","!anna_vacsora_rossz"], f:"anna_kimaradt", x:"<b>SMS, Anna:</b> Kilencig vártam. Gondolom, közbejött egy hulla. Vagy egy kocsma."},
- {id:"anna_apa", at:4*1440+540, req:["anna_vacsora","apa_halal"], x:"<b>SMS, Anna:</b> Hallottam az édesapjáról. Nagyon sajnálom. Ha beszélni akar, este hétig itt vagyok."},
+ {id:"anna_vart", at:2*1440+1410, req:["anna_vacsora_hiv","!anna_vacsora","!anna_vacsora_rossz"], f:"anna_kimaradt", x:"<b>SMS, Detti:</b> Kilencig vártam. Gondolom, közbejött egy hulla. Vagy egy kocsma."},
+ {id:"anna_apa", at:4*1440+540, req:["anna_vacsora","apa_halal"], x:"<b>SMS, Detti:</b> Hallottam az édesapjáról. Nagyon sajnálom. Ha beszélni akar, este hétig itt vagyok."},
  {id:"hirlap1", at:480, front:{h:"Holtan találták Gál Esztert",s:"A Hírlap újságíróját a befagyott Duna jegében találták meg",b:"Gál Eszter, lapunk bűnügyi újságírója, hónapok óta egy rendőrségi alapítvány ügyeit vizsgálta. Kollégánkat hétfő hajnalban egy kutyasétáltató találta meg a Sziget csúcsánál. A rendőrség nem nyilatkozott. Fazekas Ádám főszerkesztő: „Eszter igazságot keresett.”"}},
  {id:"ia", at:600, x:"<b>Belső ellenőrzés:</b> Dr. Szép Viktória kéri, hogy jelentkezz nála a kapitányságon. Haladéktalanul."},
  {id:"lili", at:1200, f:"lili_inv", x:S=>S.f.lili_bday?"<b>SMS, Lili:</b> Láttam a híreket. Nem hiszem el. Szerdán négytől a Zeneakadémia kávézójában vagyok, alá kéne írnod valamit. Ha tudsz, gyere.":"<b>SMS, Lili:</b> Láttam a híreket. Szerdán négytől a Zeneakadémia kávézójában leszek. Alá kéne írnod valamit. Anya szerint ne kérjelek."},
@@ -1353,7 +1353,7 @@ dyn:{
   annaVacsora(S){
     if(S.alc>40){S.f.anna_vacsora_rossz=S.t;return'Leülsz. Ő egy pillanatig néz, aztán félretolja a borlapot, és vizet tölt neked. Fél óra múlva udvariasan megköszöni a vacsorát, és kifizeti a sajátját. „Majd ha józan lesz, Mátrai.”'}
     S.f.anna_vacsora=S.t;S.crave=Math.max(0,S.crave-30);
-    return'Rántott hús, savanyúság, ásványvíz. Anna a műtőről beszél, a futásról, a volt férjéről, aki szintén orvos volt, és szintén hazudott. Te a Révészről, a hídról, a jégről. Apádról, aki már nem ismer meg. Ő nem mondja, hogy sajnálja. Azt mondja: „A combnyaktörés után a legtöbben egy éven belül meghalnak. Az édesapja tudja. Ezért mesél magáról mindenkinek.” Az utcán, a taxinál megcsókol. Rövid, és nagyon valódi.';
+    return'Rántott hús, savanyúság, ásványvíz. Detti a műtőről beszél, a futásról, a volt férjéről, aki szintén orvos volt, és szintén hazudott. Te a Révészről, a hídról, a jégről. Apádról, aki már nem ismer meg. Ő nem mondja, hogy sajnálja. Azt mondja: „A combnyaktörés után a legtöbben egy éven belül meghalnak. Az édesapja tudja. Ezért mesél magáról mindenkinek.” Az utcán, a taxinál megcsókol. Rövid, és nagyon valódi.';
   },
   hintBence(S){
     if(!S.docs.telefon_e)return'„Lekérem Eszter híváslistáját. Tudom, hogy rajta leszel. Akkor is le kell kérni.”';
@@ -1423,9 +1423,9 @@ end:{
   if(S.f.kata_titok&&S.f.bodnar_vad)t+="<p>Kata a kapitányság lépcsőjén áll meg melletted. „Huszonöt év” — mondja. „Apám is ismerte. Szerette.” Nem tudtok mit mondani egymásnak. Ez is valami.</p>";
   if((S.drinks||0)<=2)t+="<p>Este hazamész. A hűtőben ott a pálinka. Kiveszed, sokáig nézed, aztán kiöntöd a lefolyóba. Nem tudod, holnap is így lesz-e. Ma így van.</p>";
   else t+="<p>Este a Hordóban ülsz. Laci tölt, és most leül melléd. „Apád jó ember volt” — mondja. Iszol. Holnap majd abbahagyod. Mindig holnap.</p>";
-  if(S.f.anna_temetes)t+="<p>A temetés után Anna hazavisz. Nem jön fel. A kapuban azt mondja: „Hívjon, amikor nem kell erőlködnie.” Két hét múlva felhívod. Józanul.</p>";
-  else if(S.f.anna_vacsora)t+="<p>Anna egyszer felhív. Nem a temetés miatt. Csak megkérdezi, hogy vagy. Igazat mondasz neki, és ő ezt hallja.</p>";
-  else if(S.f.anna_vacsora_rossz||S.f.anna_kimaradt)t+="<p>Anna száma ott van a telefonodban. Néha megnézed. Nem hívod fel.</p>";
+  if(S.f.anna_temetes)t+="<p>A temetés után Detti hazavisz. Nem jön fel. A kapuban azt mondja: „Hívjon, amikor nem kell erőlködnie.” Két hét múlva felhívod. Józanul.</p>";
+  else if(S.f.anna_vacsora)t+="<p>Detti egyszer felhív. Nem a temetés miatt. Csak megkérdezi, hogy vagy. Igazat mondasz neki, és ő ezt hallja.</p>";
+  else if(S.f.anna_vacsora_rossz||S.f.anna_kimaradt)t+="<p>Detti száma ott van a telefonodban. Néha megnézed. Nem hívod fel.</p>";
   return t;
  },
  fired:"<p>Somogyi lezárja az ügyet. Gál Eszter gyilkossága megoldatlan marad, a belső vizsgálat ellened felfüggesztéssel zárul. Bodnár Feri segít bepakolni az íróasztalodat egy kartondobozba. Ő viszi le a kocsidig.</p><p>„Majd megoldódik, Dénes” — mondja, és megpaskolja a válladat. A kezében a sálad van. Azt mondja, a raktárban találta.</p>"
@@ -1566,12 +1566,12 @@ locs:{
 },
 
 people:{
- anna:{n:"Dr. Kerekes Anna", r:"traumatológus", loc:"korhaz", h:[8,20], bio:"41 éves traumatológus a Szent Jánosban. Rövid haj, sportóra, kávéfolt a köpenyén. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak. Tizenöt éve dolgozik egy osztályon Kónya Attilánéval.", topics:[
-  {id:"elso", l:"Bemutatkozol", req:["!anna_met"], t:"„Mátrai? A Mátrai Gyula fia?” Kezet nyújt. „Kerekes Anna. Én műtöttem az édesapját decemberben.” Rövid csend. „Sajnálom, hogy januárban…” Nem fejezi be. Nem is kell.", f:"anna_met"},
+ anna:{n:"Dr. Kerekes Bernadett", r:"traumatológus", loc:"korhaz", h:[8,20], bio:"41 éves traumatológus a Szent Jánosban. Alacsony, sportos, szőke, a haját lófarokban hordja, a csuklóján sportóra, a köpenyén kávéfolt. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak. Tizenöt éve dolgozik egy osztályon Kónya Attilánéval.", topics:[
+  {id:"elso", l:"Bemutatkozol", req:["!anna_met"], t:"„Mátrai? A Mátrai Gyula fia?” Kezet nyújt. „Kerekes Bernadett, de mindenki Dettinek hív. Én műtöttem az édesapját decemberben.” Rövid csend. „Sajnálom, hogy januárban…” Nem fejezi be. Nem is kell.", f:"anna_met"},
   {id:"erika", l:"Kónya Attilánéról kérdezed", req:["anna_met","korhazi_hiany|erika_inditek|suzuki_anpr"], sober:1, t:"Elsápad. „Erika? Tizenöt éve dolgozunk együtt. Ő tanított meg kanült szúrni, amikor rezidens voltam.” Lehalkítja a hangját. „Vasárnap a műszak végén sírt az öltözőben. Hétfőn úgy jött be, mintha semmi nem történt volna.” Rád néz. „Dénes. Ne tedd tönkre. Már mindent elvesztett.” Aztán: „De ha ő volt, akkor ne hazudj miatta. Se nekem, se magadnak.”", f:"anna_erika"},
   {id:"este", l:"Ma este?", req:["anna_vacsora|anna_temetes"], dyn:"annaEste"}
  ]},
- anna2:{n:"Anna", r:"nálad", loc:"otthon", h:[21,24], vis:"anna_egyutt", bio:"A konyhádban ül, teát főzött. A pálinkát valamikor a múlt héten kiöntötte a lefolyóba, és nem kérdezett meg előtte.", topics:[
+ anna2:{n:"Detti", r:"nálad", loc:"otthon", h:[21,24], vis:"anna_egyutt", bio:"A konyhádban ül, teát főzött. A pálinkát valamikor a múlt héten kiöntötte a lefolyóba, és nem kérdezett meg előtte.", topics:[
   {id:"beszel", l:"Leülsz mellé", rep:1, eff:{crave:-20}, dyn:"annaOtthon"}
  ]},
  varga:{n:"Varga Ottó alezredes", r:"osztályvezető", loc:"kapitanysag", h:[7,19], gone:"varga_halott", bio:"56 éves. Áprilisban nyugdíjba megy. Az asztalán már ott a kartondoboz, amibe a fiók tartalmát pakolja. A whiskyt még nem tette bele.", topics:[
@@ -1717,9 +1717,9 @@ dyn:{
     S.f.anna_egyutt=S.t;return'„Kilenc után végzek.” Nem kérdés. Kilenckor ott áll a kapud előtt, egy szatyor zöldséggel, és azt mondja, hogy a rendőrök nem esznek rendesen, ezt is tudja a volt férjéről. Éjjel nem beszéltek az ügyről. Ez az első éjszaka hónapok óta, amikor nem álmodsz a folyóról.';
   },
   annaOtthon(S){
-    const A=['Anna levest főz, és közben a műtőről mesél: egy motoros, aki kétszer is elesett, egyszer a motorral, egyszer a kórházi lépcsőn. Te nevetsz. Ő is.',
+    const A=['Detti levest főz, és közben a műtőről mesél: egy motoros, aki kétszer is elesett, egyszer a motorral, egyszer a kórházi lépcsőn. Te nevetsz. Ő is.',
       '„Erikáról akarsz beszélni?” Nem. „Jó. Én sem.” Csendben ültök, és a csend most nem nehéz.',
-      'Anna elalszik a kanapén, a fejét a válladra hajtja. Nem mozdulsz, amíg a lábad el nem zsibbad. Akkor sem.'];
+      'Detti elalszik a kanapén, a fejét a válladra hajtja. Nem mozdulsz, amíg a lábad el nem zsibbad. Akkor sem.'];
     S.f.ao=(S.f.ao||0)+1;return A[(S.f.ao-1)%A.length];
   },
   hintBence(S){
@@ -1773,9 +1773,9 @@ end:{
   if(S.f.aa_beszed)t+="<p>Szerda este a Szent József-templom alagsorában ülsz, a sor végén. Sanyi bólint, amikor belépsz. Valaki más beszél, egy fiatal fiú. Hallgatod. Csak a mai nap.</p>";
   else if(S.f.aa1)t+="<p>Egyszer voltál a gyűlésen. A cetlit Fehér doktornőtől a pénztárcádban hordod. Talán jövő héten újra.</p>";
   if(S.f.apa_halal)t+="<p>Vasárnap kimész Farkasrétre. Friss virágot viszel. Elmondod apádnak, hogyan zárult az ügy, és mit kérdezett volna ő a végén: ki járt jól? Ezúttal senki. Ezúttal ez a válasz.</p>";
-  if(S.f.anna_egyutt&&S.f.erika_vad)t+="<p>Anna három napig nem hív. A negyedik este becsönget, kisírt szemmel. „Bementem hozzá. Azt mondta, te voltál az egyetlen, aki rendesen beszélt vele.” Leül a konyhában. „Utállak egy kicsit. Maradhatok?”</p>";
-  else if(S.f.anna_egyutt)t+="<p>Anna fogkeféje a fürdőszobádban. Nem beszéltetek róla. Egyszerűen ott van.</p>";
-  else if(S.f.anna_erika)t+="<p>Anna azt mondta, ne hazudj se neki, se magadnak. Nem hazudtál. Most már csak fel kéne hívnod.</p>";
+  if(S.f.anna_egyutt&&S.f.erika_vad)t+="<p>Detti három napig nem hív. A negyedik este becsönget, kisírt szemmel. „Bementem hozzá. Azt mondta, te voltál az egyetlen, aki rendesen beszélt vele.” Leül a konyhában. „Utállak egy kicsit. Maradhatok?”</p>";
+  else if(S.f.anna_egyutt)t+="<p>Detti fogkeféje a fürdőszobádban. Nem beszéltetek róla. Egyszerűen ott van.</p>";
+  else if(S.f.anna_erika)t+="<p>Detti azt mondta, ne hazudj se neki, se magadnak. Nem hazudtál. Most már csak fel kéne hívnod.</p>";
   return t;
  },
  fired:"<p>Az ügyészség lezárja: öngyilkosság és baleset. A két akta lekerül a pincébe, ahol még áll a víz.</p><p>A Hordóban ülsz. Laci tölt, és te nézed a poharat. Hosszan.</p>"
@@ -1905,12 +1905,12 @@ locs:{
 },
 
 people:{
- anna:{n:"Anna", r:"nálad", loc:"otthon", h:[20,24], vis:"anna_egyutt", bio:"Dr. Kerekes Anna, traumatológus. Négy hónapja hol nálad, hol nála. A hőségben a konyhakövön ül, mert az az egyetlen hűvös hely a lakásban.", topics:[
+ anna:{n:"Detti", r:"nálad", loc:"otthon", h:[20,24], vis:"anna_egyutt", bio:"Dr. Kerekes Bernadett, traumatológus. Négy hónapja hol nálad, hol nála. A hőségben a konyhakövön ül, mert az az egyetlen hűvös hely a lakásban.", topics:[
   {id:"bence", l:"Bencéről beszélsz neki", dyn:"annaBence"},
   {id:"koltozes", l:"Megkérdezed, beköltözne-e", req:["anna_bence"], excl:"nem", dyn:"annaKoltozes"},
-  {id:"beszel", l:"Csak ültök", rep:1, eff:{crave:-15}, t:"A ventilátor zúg. Anna a lábát a kádba lógatja hideg vízzel, te mellette ülsz a kád szélén. „Megtalálod” — mondja. Nem kérdés."}
+  {id:"beszel", l:"Csak ültök", rep:1, eff:{crave:-15}, t:"A ventilátor zúg. Detti a lábát a kádba lógatja hideg vízzel, te mellette ülsz a kád szélén. „Megtalálod” — mondja. Nem kérdés."}
  ]},
- anna_korhaz:{n:"Dr. Kerekes Anna", r:"traumatológus", loc:"korhaz5", h:[8,20], vis:"anna_met", bio:"41 éves traumatológus a Szent Jánosban. Rövid haj, sportóra, kávéfolt a köpenyén. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
+ anna_korhaz:{n:"Dr. Kerekes Bernadett", r:"traumatológus", loc:"korhaz5", h:[8,20], vis:"anna_met", bio:"41 éves traumatológus a Szent Jánosban. Alacsony, sportos, szőke, a haját lófarokban hordja, a csuklóján sportóra, a köpenyén kávéfolt. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
   {id:"hello", l:"Beszélsz vele", req:["!anna_egyutt"], t:"„Mátrai.” Leveszi a maszkot. „Láttam a hírekben a kollégáját. Ha megtalálja, és kiszáradt, ne öntsön bele vizet egyszerre. Lassan. És hívjon engem.” Ír egy számot a kezedre, golyóstollal. Megint.", f:"anna_tanacs"}
  ]},
  szep:{n:"Dr. Szép Viktória", r:"osztályvezető", loc:"kapitanysag", h:[8,20], bio:"44 éves. Májustól ő vezeti az osztályt. Bencét ő vette fel annak idején, és most egész nap a telefonját nézi.", topics:[
@@ -2017,12 +2017,12 @@ locEvents:[
 dyn:{
   annaBence(S){
     S.f.anna_bence=S.t;
-    if(S.f.bence_halott)return'Anna nem mond semmit. Leül melléd a konyhakőre, és a vállát a válladnak dönti. Órákig így ültök. Egyszer azt mondja: „Nem a te hibád.” Nem hiszed el. Ő tudja, hogy nem hiszed el, és mégis elmondja még egyszer.';
-    return'Elmondod. Bencét, a sárga cetlit, Imrét. Anna hallgat, aztán azt mondja: „Ha megtalálod, és ki van száradva, ne itasd meg egyszerre. Lassan, kortyonként. És hívj engem, bármikor.” Felírja a mobilszámát a kezedre, golyóstollal, pedig tudod.';
+    if(S.f.bence_halott)return'Detti nem mond semmit. Leül melléd a konyhakőre, és a vállát a válladnak dönti. Órákig így ültök. Egyszer azt mondja: „Nem a te hibád.” Nem hiszed el. Ő tudja, hogy nem hiszed el, és mégis elmondja még egyszer.';
+    return'Elmondod. Bencét, a sárga cetlit, Imrét. Detti hallgat, aztán azt mondja: „Ha megtalálod, és ki van száradva, ne itasd meg egyszerre. Lassan, kortyonként. És hívj engem, bármikor.” Felírja a mobilszámát a kezedre, golyóstollal, pedig tudod.';
   },
   annaKoltozes(S){
     if((S.drinks||0)>0){S.f.anna_varunk=S.t;return'Sokáig néz. „Ma ittál.” Nem kérdés. „Kérdezd meg újra, amikor egy egész hónapja nem.” Megcsókol. „Nem megyek sehova. De beköltözni sem.”'}
-    S.f.anna_koltozik=S.t;return'Anna sokáig nem válaszol. Aztán: „A macskám utálni fogja a lépcsőt.” Ez igen. Mindketten tudjátok.';
+    S.f.anna_koltozik=S.t;return'Detti sokáig nem válaszol. Aztán: „A macskám utálni fogja a lépcsőt.” Ez igen. Mindketten tudjátok.';
   },
   hintKata(S){
     if(!S.docs.cella)return'„Bence telefonja. Kikérem a celláját, most. Ő tanította nekem, hogyan kell gyorsan.” Megáll. „Nem. Én tanítottam neki.”';
@@ -2079,10 +2079,10 @@ end:{
   else if(S.f.lili_marad)t+="<p>Este Lili zongorázik, te a konyhában ülsz, és hallgatod. Egyszer abbahagyja, kijön, és szó nélkül megölel. Aztán visszamegy játszani.</p>";
   if((S.drinks||0)===0)t+="<p>Százhuszonöt napja nem ittál. Ma este is a gyűlésre mész. Nem Bencéért, nem Imréért, nem apádért. Magadért. Csak a mai nap.</p>";
   else t+="<p>Ma este a Hordóban ülsz. A sarokasztal üres. Laci tölt, és nem kérdez. Te sem.</p>";
-  if(S.f.anna_egyutt&&S.f.bence_mentve)t+="<p>A sürgősségin Anna vár, kesztyűben. Ő látja el Bencét, és ő mondja meg neked éjjel kettőkor a folyosón: „Kiszáradás, agyrázkódás, egy bordája repedt. Élni fog.” Aztán leül melléd a műanyag székre, és a fejét a válladra hajtja.</p>";
-  else if(S.f.anna_tanacs&&S.f.bence_mentve)t+="<p>Ahogy Anna mondta: lassan, kortyonként. Bence a mentőben azt kérdezi, ki tanította ezt. Elmondod. „Hívd fel” — mondja Bence. Felhívod.</p>";
-  if(S.f.anna_koltozik)t+="<p>Augusztusban Anna beköltözik, egy macskával és két doboz orvosi könyvvel. A macska utálja a lépcsőt. Lili szerint "+(S.f.lili_marad?"jó, hogy végre valaki rendet rak a konyhában":"jó, hogy végre van valaki, aki felhív, ha nem eszel")+".</p>";
-  else if(S.f.anna_varunk)t+="<p>Anna nem költözik be. Még nem. Minden este felhív, hogy hány napja. Egyszer majd igent mond. Ezen múlik.</p>";
+  if(S.f.anna_egyutt&&S.f.bence_mentve)t+="<p>A sürgősségin Detti vár, kesztyűben. Ő látja el Bencét, és ő mondja meg neked éjjel kettőkor a folyosón: „Kiszáradás, agyrázkódás, egy bordája repedt. Élni fog.” Aztán leül melléd a műanyag székre, és a fejét a válladra hajtja.</p>";
+  else if(S.f.anna_tanacs&&S.f.bence_mentve)t+="<p>Ahogy Detti mondta: lassan, kortyonként. Bence a mentőben azt kérdezi, ki tanította ezt. Elmondod. „Hívd fel” — mondja Bence. Felhívod.</p>";
+  if(S.f.anna_koltozik)t+="<p>Augusztusban Detti beköltözik, egy macskával és két doboz orvosi könyvvel. A macska utálja a lépcsőt. Lili szerint "+(S.f.lili_marad?"jó, hogy végre valaki rendet rak a konyhában":"jó, hogy végre van valaki, aki felhív, ha nem eszel")+".</p>";
+  else if(S.f.anna_varunk)t+="<p>Detti nem költözik be. Még nem. Minden este felhív, hogy hány napja. Egyszer majd igent mond. Ezen múlik.</p>";
   return t;
  },
  fired:"<p>Az ügyet más viszi tovább. Téged szabadságra küldenek, „pihenni”.</p><p>Otthon ülsz, a ventilátor kavarja a meleget. A telefonodon még mindig ott Bence vasárnapi üzenete. Nem törlöd ki.</p>"

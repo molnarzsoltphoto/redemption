@@ -197,7 +197,7 @@ locs:{
 
 // ---- SZEREPLŐK ----
 people:{
- anna:{n:"Dr. Kerekes Anna", r:"traumatológus, apád orvosa", loc:"korhaz", h:[8,20], vis:"apa_korhaz", bio:"41 éves traumatológus a Szent Jánosban. Rövid haj, sportóra, kávéfolt a köpenyén. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
+ anna:{n:"Dr. Kerekes Bernadett", r:"traumatológus, apád orvosa", loc:"korhaz", h:[8,20], vis:"apa_korhaz", bio:"41 éves traumatológus a Szent Jánosban. Alacsony, sportos, szőke, a haját lófarokban hordja, a csuklóján sportóra, a köpenyén kávéfolt. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
   {id:"apa", l:"Apámról kérdezed", t:"„Combnyaktörés. Holnap reggel hétkor műtöm, protézist kap.” Felnéz a kartonról. „Maga a rendőr fia? Ő mondta, hogy maga a legjobb rendőr a városban. Aztán megkérdezte, hogy én vagyok-e az anyja.” Elmosolyodik. „Nem vagyok.”", f:"anna_met"},
   {id:"kave", l:"Meghívod egy automatás kávéra", req:["anna_met"], dyn:"annaKave"},
   {id:"szam", l:"Elkéred a számát", req:["anna_kave"], t:"Sokáig néz. Aztán ír valamit egy receptlap hátuljára. „Ha az édesapja miatt aggódik. Csak akkor.” Odaadja. Mindketten tudjátok, hogy nem csak akkor.", f:"anna_szam"}
@@ -390,7 +390,7 @@ dyn:{
   annaKave(S){
     if(S.alc>40){S.f.anna_reszeg=S.t;return'„Kávét? Inkább vizet igyon, főhadnagy.” Kedvesen mondja, ahogy egy beteggel beszél. Aztán továbbmegy a folyosón, és nem néz vissza.'}
     S.f.anna_kave=S.t;S.crave=Math.max(0,S.crave-10);
-    return'Két műanyag pohár, rossz kávé, a folyosó végén, az ablaknál. Kiderül, hogy harminchat órája van bent, hogy maratont fut, és hogy rendőrökkel nem randevúzik, mert mind hazudnak. „Én nem randevúzok” — mondod. „Látja, már hazudik” — mondja, és nevet. Nem emlékszel, mikor nevetett utoljára valaki úgy, hogy rajtad.';
+    return'Két műanyag pohár, rossz kávé, a folyosó végén, az ablaknál. Kiderül, hogy harminchat órája van bent, hogy maratont fut, és hogy rendőrökkel nem randevúzik, mert mind hazudnak. „Én nem randevúzok” — mondod. „Látja, már hazudik” — mondja, és nevet. Nem emlékszel, mikor nevetett utoljára valaki úgy, hogy rajtad. „Bernadett” — mondja a végén, és kezet nyújt. „De mindenki Dettinek hív. A betegek kivételével.”';
   },
   hintBence(S){
     if(S.f.hid_kamera&&!S.docs.hidkamera)return'„Lekérjem a hídkamerát? Kata jobb benne, de én is meg tudom csinálni.”';
@@ -466,7 +466,7 @@ end:{
   else if(S.f.lili_bday_missed)t+="<p>A telefonodon Lili üzenete: <i>Elfújtam a gyertyákat. Anyának igaza volt.</i> Kétszer kezdesz válaszolni. Egyszer sem küldöd el.</p>";
   if(S.f.apa_latogatas)t+="<p>Apádat kedden kiengedik a kórházból. Járókerettel megy végig a folyosón, és a nővérnek azt mondja: „Ez a fiam. Rendőr. A legjobb.” Nem javítod ki.</p>";
   else if(S.f.apa_korhaz)t+="<p>Apádat kedden kiengedik a kórházból. Nem voltál bent nála. A nővér azt mondja, sokat kérdezett utánad.</p>";
-  if(S.f.anna_szam)t+="<p>December 23-án SMS jön egy ismeretlen számról: <i>A papája jól van. Járókerettel már a folyosó végéig megy, és mindenkinek magáról mesél. – Kerekes dr.</i> Elmented a számot. Annának.</p>";
+  if(S.f.anna_szam)t+="<p>December 23-án SMS jön egy ismeretlen számról: <i>A papája jól van. Járókerettel már a folyosó végéig megy, és mindenkinek magáról mesél. – Kerekes dr.</i> Elmented a számot. Dettinek.</p>";
   else if(S.f.anna_reszeg)t+="<p>A kórházban a folyosó végén egy orvosnő kedvesen azt mondta, igyál vizet. Néha eszedbe jut. Nem tudod, miért.</p>";
   return t;
  },
