@@ -5,7 +5,7 @@ const DAYN=['hétfő','kedd','szerda','csütörtök','péntek','szombat','vasár
 const MON=['jan.','febr.','márc.','ápr.','máj.','jún.','júl.','aug.','szept.','okt.','nov.','dec.'];
 const STAFF=['bence','kata','bodnar','halasz','keleti','feher'];
 const CAT={I:'Indíték',A:'Alkalom',M:'Módszer'};
-const PERSIST=['nora_help','koncert','koncert_reszeg','lili_missed','apa_revesz','apa_1994','berkes_beismeres','leak','lili_bday','lili_bday_reszeg','lili_bday_missed','kata_titok','apa_korhaz','varga_halott','halmos_vad','rajna_elfogva','merenylet','lili_ajandek','apa_latogatas','apa_racz','lili_alairas','apa_halal','apa_temetes','apa_bucsu','bodnar_vad','somogyi_bukik','denes_tisztazva'];
+const PERSIST=['nora_help','koncert','koncert_reszeg','lili_missed','apa_revesz','apa_1994','berkes_beismeres','leak','lili_bday','lili_bday_reszeg','lili_bday_missed','kata_titok','apa_korhaz','varga_halott','halmos_vad','rajna_elfogva','merenylet','lili_ajandek','apa_latogatas','apa_racz','lili_alairas','apa_halal','apa_temetes','apa_bucsu','bodnar_vad','somogyi_bukik','denes_tisztazva','anna_met','anna_kave','anna_szam','anna_reszeg','anna_bocsanat','anna_vacsora','anna_vacsora_rossz','anna_kimaradt','anna_temetes','anna_egyutt','anna_erika','anna_koltozik','anna_varunk','anna_tanacs','aa1','aa_beszed','lili_elenged','lili_marad','kata_vad','erika_vad','bence_mentve','bence_halott'];
 let CASE,P,L,E,ORDER,VICT,SOL,S=null;
 function setCase(id){
   CASE=CASES[id];P=CASE.people;L=CASE.locs;E=CASE.ev;ORDER=CASE.order||Object.keys(CASE.suspects);

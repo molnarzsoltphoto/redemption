@@ -197,6 +197,11 @@ locs:{
 
 // ---- SZEREPLŐK ----
 people:{
+ anna:{n:"Dr. Kerekes Anna", r:"traumatológus, apád orvosa", loc:"korhaz", h:[8,20], vis:"apa_korhaz", bio:"41 éves traumatológus a Szent Jánosban. Rövid haj, sportóra, kávéfolt a köpenyén. Úgy beszél a törésekről, mintha időjárás-jelentést olvasna fel, és közben a szeme nevet. Elvált, maratont fut, és azt mondja, rendőrökkel nem randevúzik, mert mind hazudnak.", topics:[
+  {id:"apa", l:"Apámról kérdezed", t:"„Combnyaktörés. Holnap reggel hétkor műtöm, protézist kap.” Felnéz a kartonról. „Maga a rendőr fia? Ő mondta, hogy maga a legjobb rendőr a városban. Aztán megkérdezte, hogy én vagyok-e az anyja.” Elmosolyodik. „Nem vagyok.”", f:"anna_met"},
+  {id:"kave", l:"Meghívod egy automatás kávéra", req:["anna_met"], dyn:"annaKave"},
+  {id:"szam", l:"Elkéred a számát", req:["anna_kave"], t:"Sokáig néz. Aztán ír valamit egy receptlap hátuljára. „Ha az édesapja miatt aggódik. Csak akkor.” Odaadja. Mindketten tudjátok, hogy nem csak akkor.", f:"anna_szam"}
+ ]},
  varga:{n:"Varga Ottó alezredes", r:"osztályvezető", loc:"kapitanysag", h:[7,19], gone:"v4_found", bio:"56 éves, a gyilkossági osztály vezetője. 2019-ben még őrnagyként vezette a csepeli benzinkutas-ügyet. Fáradtabb, mint egy hónapja, és többet nyúl a fiókhoz.", topics:[
   {id:"elig", l:"Eligazítás", t:"„Szalai Endre, hatvannyolc, tizenöt éve nyugdíjas bíró. Pénztárca, óra hiányzik. A veje, Lévai Márk ügyvéd, nyakig adósságban.” Leveszi a szemüvegét. „Somogyi rablást akar, gyorsan, karácsony előtt. Én azt akarom, hogy igazad legyen.”", f:"briefed"},
   {id:"2019", l:"A 2019-es Rajna-ügyről", req:["rajna_ugy|rajna_lista"], t:"Sokáig hallgat. „Benzinkutas-gyilkosság Csepelen. Kónya hozta a tanút, a lány felismerte Rajnát. Szalai elítélte.” Az ablakhoz megy. „A fiú végig tagadott. Mindegyik tagad, Dénes.” Nem néz rád. „Volt, hogy nem aludtam miatta.”", f:"varga2019"},
@@ -382,6 +387,11 @@ locEvents:[
 
 // ---- ÜGYSPECIFIKUS SZÖVEGEK ----
 dyn:{
+  annaKave(S){
+    if(S.alc>40){S.f.anna_reszeg=S.t;return'„Kávét? Inkább vizet igyon, főhadnagy.” Kedvesen mondja, ahogy egy beteggel beszél. Aztán továbbmegy a folyosón, és nem néz vissza.'}
+    S.f.anna_kave=S.t;S.crave=Math.max(0,S.crave-10);
+    return'Két műanyag pohár, rossz kávé, a folyosó végén, az ablaknál. Kiderül, hogy harminchat órája van bent, hogy maratont fut, és hogy rendőrökkel nem randevúzik, mert mind hazudnak. „Én nem randevúzok” — mondod. „Látja, már hazudik” — mondja, és nevet. Nem emlékszel, mikor nevetett utoljára valaki úgy, hogy rajtad.';
+  },
   hintBence(S){
     if(S.f.hid_kamera&&!S.docs.hidkamera)return'„Lekérjem a hídkamerát? Kata jobb benne, de én is meg tudom csinálni.”';
     if(S.ev.itelet_boritek&&S.ev.idezes_2019&&!S.ev.rajna_ugy)return'„A bíró asztalán egy 2019-es ítélet, a lány tükre mögött egy 2019-es idézés. Nem lehet, hogy ugyanaz?”';
@@ -456,6 +466,8 @@ end:{
   else if(S.f.lili_bday_missed)t+="<p>A telefonodon Lili üzenete: <i>Elfújtam a gyertyákat. Anyának igaza volt.</i> Kétszer kezdesz válaszolni. Egyszer sem küldöd el.</p>";
   if(S.f.apa_latogatas)t+="<p>Apádat kedden kiengedik a kórházból. Járókerettel megy végig a folyosón, és a nővérnek azt mondja: „Ez a fiam. Rendőr. A legjobb.” Nem javítod ki.</p>";
   else if(S.f.apa_korhaz)t+="<p>Apádat kedden kiengedik a kórházból. Nem voltál bent nála. A nővér azt mondja, sokat kérdezett utánad.</p>";
+  if(S.f.anna_szam)t+="<p>December 23-án SMS jön egy ismeretlen számról: <i>A papája jól van. Járókerettel már a folyosó végéig megy, és mindenkinek magáról mesél. – Kerekes dr.</i> Elmented a számot. Annának.</p>";
+  else if(S.f.anna_reszeg)t+="<p>A kórházban a folyosó végén egy orvosnő kedvesen azt mondta, igyál vizet. Néha eszedbe jut. Nem tudod, miért.</p>";
   return t;
  },
  fired:"<p>Somogyi aláírja a felfüggesztésedet. Az ügyet Halmos „segítségével” zárják le, egyetlen tettessel, mindhárom gyilkossággal. A sajtó boldog.</p><p>Te a Hordóban ülsz. Laci kérdés nélkül tölt, és egy idő után leül melléd. Ez még soha nem történt meg.</p>"
