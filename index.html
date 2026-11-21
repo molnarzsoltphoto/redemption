@@ -243,6 +243,13 @@ ded:[
  {a:"incidens", b:"berkes_utasitas", g:"igazsag", t:"A hivatalos jelentésben írásos utasítás áll. Zsófia piszkozatában szóbeli. Valaki átírta a múltat, és egy ápolónő nevét hagyta benne."},
  {a:"telefon_00", b:"nincs_telefon", g:"telefon_elvitte", t:"23:00 és 01:00 között halt meg. A telefonja 00:43-kor még ott volt, aztán valaki kikapcsolta és elvitte. A gyilkos már rég elment, vagy visszajött. Vagy valaki más jött."},
  {a:"kamera_limo", b:"gala", g:"berkes_kikoto", t:"„Fél egykor jöttem el, a sofőröm hazavitt.” A Duna-palotától a rakpartig nyolc perc. 00:38-kor egy limuzin áll meg a komp fölött."},
+ {a:"telefon_00", b:"halalido", g:"telefon_elvitte", t:"23:00 és 01:00 között halt meg. A telefonja 00:43-kor még a kikötőnél volt, aztán kikapcsolták. Valaki ott járt a halál után, és elvitte."},
+ {a:"telefon_kocsiban", b:"nincs_telefon", g:"telefon_elvitte", t:"A telefon nem a vízben van, és nem a gyilkosnál. Egy klinikaigazgató kesztyűtartójában."},
+ {a:"kamera_limo", b:"telefon_00", g:"berkes_kikoto", t:"00:38-kor megáll a limuzin. 00:43-kor elhallgat Zsófia telefonja. 00:49-kor a limuzin továbbhajt."},
+ {a:"kamera_limo", b:"sofor_beismer", g:"berkes_kikoto", t:"A sofőr és a kamera ugyanazt mondja: fél egy után a limuzin a komp fölött állt."},
+ {a:"kamera_transit", b:"vamos_kulcs", g:"transit_vamos", t:"A furgon a portáról indul le a komphoz, és a portán egyetlen ember ül éjszakánként. „Egész éjjel itt voltam.”"},
+ {a:"vamos_lanya", b:"level_vamos", g:"bosszu", t:"„Tudnia kell, mi történt Hannával.” Egy apa, aki két évig hitte, hogy tudja."},
+ {a:"ermeszaj", b:"apa_csomo", g:"revesz_ritual", t:"Apád jegyzete és az érme a nyelv alatt: ugyanaz a család, ugyanaz a babona. Aki tartozik, fizet a révésznek."},
  {a:"apa_csomo", b:"kotel_egyezes", g:"csomo_vamos", t:"Halász azt mondta: ilyen csomót ma szinte senki nem köt. Apád harminckét éve leírta, ki tudja még."}
 ],
 
@@ -746,7 +753,10 @@ function deduce(){
   const [a,b]=S.sel;act(15);
   const d=CASE.ded.find(x=>(x.a===a&&x.b===b)||(x.a===b&&x.b===a));
   S.sel=[];
-  if(!d){note('Nem áll össze. Talán csak fáradt vagy.','bad');render();return}
+  if(!d){
+    const open=CASE.ded.filter(x=>!S.ev[x.g]&&S.ev[x.a]&&S.ev[x.b]);
+    const near=[a,b].find(id=>open.some(x=>x.a===id||x.b===id));
+    note(near?`Ez a két nyom közvetlenül nem függ össze. Ennek viszont van párja a táblán, csak nem ez: <b>${E[near].n}</b>.`:'Ez a két nyom közvetlenül nem függ össze. Próbálj más párt.','bad');render();return}
   if(S.ev[d.g]){note('Ezt már összeraktad.');render();return}
   addEv(d.g);
   modal(`<h2>${E[d.g].n}</h2><p>${d.t}</p>`,[['Felírod a táblára','close']]);
@@ -904,8 +914,8 @@ function leads(){
   const out=[];
   const mk=Object.keys(S.docs).reduce((a,id)=>a+openMarks(id),0);
   if(mk)out.push(`Az aktákban ${mk} fontos sor vár még kiemelésre. Nyisd meg az Akták fület, és kattints a kiemelt sorokra.`);
-  const dd=CASE.ded.filter(d=>S.ev[d.a]&&S.ev[d.b]&&!S.ev[d.g]).length;
-  if(dd)out.push(`A táblán ${dd} olyan nyompár van, amelyek összefüggnek. Jelölj ki kettőt, és keress összefüggést.`);
+  const dd=new Set(CASE.ded.filter(d=>S.ev[d.a]&&S.ev[d.b]&&!S.ev[d.g]).map(d=>d.g)).size;
+  if(dd){const fd=CASE.ded.find(d=>S.ev[d.a]&&S.ev[d.b]&&!S.ev[d.g]);out.push(`A táblán ${dd} olyan nyompár van, amely összefügg. Kezdd például ezzel, és keresd meg a párját: <b>${E[fd.a].n}</b>.`)}
   (CASE.leads||[]).forEach(l=>{if(reqOk(l.need)&&!(l.not||[]).some(k=>k.split('|').some(has)))out.push(l.x)});
   const tk=CASE.tasks.filter(taskAvail).length;
   if(tk)out.push(`A Stáb fülön ${tk} kiadható feladat vár.`);
