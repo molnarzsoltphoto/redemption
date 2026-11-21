@@ -109,7 +109,14 @@ blockquote.seen{margin:14px 0;padding:12px 16px;border-left:3px solid var(--red)
 .dlist button{text-align:left;background:var(--panel2);border:1px solid var(--line);padding:10px 12px;min-height:44px}
 .dlist button.on{border-color:var(--paper)}
 .dlist small{display:block;color:#f0b3ab;font-size:13px}
-.leads{margin:0;padding-left:20px}.leads li{margin:0 0 8px}
+.leads{margin:0;padding-left:20px}
+details{border-top:1px solid var(--line);padding:4px 0}details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font:600 22px "Barlow Condensed",sans-serif;padding:10px 0;min-height:44px;list-style:none;display:flex;align-items:center;gap:10px}
+summary::-webkit-details-marker{display:none}summary::before{content:"▸";color:var(--red);transition:transform .2s}details[open]>summary::before{transform:rotate(90deg)}
+summary span{font-size:15px;color:var(--mut);font-weight:500}
+.evl{margin:0 0 12px}.evl dt{font:600 18px "Barlow Condensed",sans-serif;margin-top:10px;display:flex;justify-content:space-between;gap:10px}.evl dt time{font:13px "IBM Plex Mono",monospace;color:var(--mut);white-space:nowrap}.evl dd{margin:2px 0 0;color:#cfcac0;font-size:15px}
+.bar>span{flex-basis:100%}.bd{flex-basis:100%;max-width:900px}.bd b{font:600 20px "Barlow Condensed",sans-serif}.bd small{color:#d8a39b}.bd p{margin:2px 0 4px;color:#d9d0bf;font-size:15px}
+.bd.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.leads li{margin:0 0 8px}
 .dlist em{font-style:normal;color:#fff;background:var(--red);padding:0 5px;font-size:13px}
 .paper{background:var(--paper);color:var(--pink);padding:24px clamp(16px,3vw,36px);box-shadow:0 6px 18px #0009;min-height:300px}
 .paper h2{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:500}
@@ -153,7 +160,7 @@ body:has(.bar) #toasts{bottom:auto;top:130px}
  .dl{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:600px){
- .bar{padding:10px 12px;gap:6px 10px}.pins{gap:6px;width:100%}.pg{flex-wrap:nowrap;width:100%}.pg em{width:62px;flex:none;font-size:16px}.bar .pg button{flex:1;padding:6px 4px;font-size:15px;min-height:40px}.mut2{display:none}
+ .bar{padding:10px 12px;gap:6px 10px}.bd.two{grid-template-columns:1fr}.bd p{font-size:14px}.pins{gap:6px;width:100%}.pg{flex-wrap:nowrap;width:100%}.pg em{width:62px;flex:none;font-size:16px}.bar .pg button{flex:1;padding:6px 4px;font-size:15px;min-height:40px}.mut2{display:none}
  #hud{grid-template-columns:auto minmax(0,1fr);gap:6px 12px}
  .meters{grid-column:1/-1;order:3}.cash{text-align:right}
  .when b{font-size:26px}
@@ -881,10 +888,11 @@ function renderBoard(){
     return`<div class="col"><div class="mug">${sp.short[0]}</div><h4>${sp.name}</h4>${rows}<button class="accuse" data-a="acc?:${s}">Vádemelés</button></div>`;
   }).join('');
   let bar;
-  if(two)bar=`<span>Két nyom kijelölve: <b>${E[S.sel[0]].n}</b> + <b>${E[S.sel[1]].n}</b></span><div class="pb"><button data-a="deduce">Összefüggést keresel (15′)</button><button class="ghost" data-a="clearsel">Mégse</button></div>`;
+  if(two)bar=`<div class="bd two">${S.sel.map(id=>`<div><b>${E[id].n}</b><p>${E[id].d}</p></div>`).join('')}</div><div class="pb"><button data-a="deduce">Összefüggést keresel (15′)</button><button class="ghost" data-a="clearsel">Mégse</button></div>`;
   else if(one){
     const id=S.sel[0],rv=ORDER.filter(revealed);
-    bar=`<span>Hová tűzöd: <b>${E[id].n}</b>?</span><div class="pins">${rv.map(s=>`<div class="pg"><em>${CASE.suspects[s].short}</em>${['I','A','M'].map(r=>`<button data-a="pin:${s}:${r}">${CAT[r]}</button>`).join('')}</div>`).join('')||'<i>Még nincs ismert gyanúsított.</i>'}</div><div class="pb">${selPinned?'<button class="ghost" data-a="unpin">Leveszed</button>':''}<button class="ghost" data-a="clearsel">Mégse</button></div><span class="mut2">Vagy jelölj ki még egy nyomot, és keress összefüggést.</span>`;
+    const pv=S.board[id];
+    bar=`<div class="bd"><b>${E[id].n}</b>${pv?` <small>· kitűzve: ${CASE.suspects[pv.s].short}, ${CAT[pv.r].toLowerCase()}</small>`:''}<p>${E[id].d}</p></div><span>Hová tűzöd?</span><div class="pins">${rv.map(s=>`<div class="pg"><em>${CASE.suspects[s].short}</em>${['I','A','M'].map(r=>`<button data-a="pin:${s}:${r}">${CAT[r]}</button>`).join('')}</div>`).join('')||'<i>Még nincs ismert gyanúsított.</i>'}</div><div class="pb">${selPinned?'<button class="ghost" data-a="unpin">Leveszed</button>':''}<button class="ghost" data-a="clearsel">Mégse</button></div><span class="mut2">Vagy jelölj ki még egy nyomot, és keress összefüggést.</span>`;
   }
   else bar='<span>Kattints egy nyomra, és itt választhatod ki, melyik gyanúsítotthoz és rovatba tűzöd. Két nyomot kijelölve összefüggést kereshetsz.</span>';
   return`<div class="pane wide board"><h1>Bizonyítéktábla</h1><div class="cols">${cols}</div>
@@ -921,7 +929,12 @@ function leads(){
   if(tk)out.push(`A Stáb fülön ${tk} kiadható feladat vár.`);
   return out;
 }
-function renderLog(){const ld=leads();return`<div class="pane wide"><h1>Napló</h1><h3>Nyitott szálak</h3>${ld.length?`<ul class="leads">${ld.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p class="mut">Nincs nyitott szál. Ha megvan a tettes, a táblán emelhetsz vádat.</p>'}<h3>Események</h3><ul class="log">${S.log.map(x=>`<li><time>${dayLabel(x.t).split(' · ')[0]} ${clock(x.t)}</time>${x.x}</li>`).join('')}</ul></div>`}
+function renderLog(){const ld=leads(),U=S.ui||{};
+  const evs=Object.keys(S.ev).sort((a,b)=>S.ev[a]-S.ev[b]);
+  return`<div class="pane wide"><h1>Napló</h1>
+  <details data-ui="leads" ${U.leads===false?'':'open'}><summary>Nyitott szálak <span>${ld.length}</span></summary>${ld.length?`<ul class="leads">${ld.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p class="mut">Nincs nyitott szál. Ha megvan a tettes, a táblán emelhetsz vádat.</p>'}</details>
+  <details data-ui="evid" ${U.evid?'open':''}><summary>Bizonyítékok <span>${evs.length}</span></summary><dl class="evl">${evs.map(id=>`<dt>${E[id].n}<time>${dayLabel(S.ev[id]).split(' · ')[0]} ${clock(S.ev[id])}</time></dt><dd>${E[id].d}</dd>`).join('')}</dl></details>
+  <details data-ui="events" ${U.events?'open':''}><summary>Események <span>${S.log.length}</span></summary><ul class="log">${S.log.map(x=>`<li><time>${dayLabel(x.t).split(' · ')[0]} ${clock(x.t)}</time>${x.x}</li>`).join('')}</ul></details></div>`}
 function renderSave(){
   return`<div class="pane wide"><h1>Mentés</h1><p>A játék minden lépés után ebbe a böngészőbe ment. Ha másik gépen folytatnád, másold ki a mentéskódot.</p>
   <div class="list"><button data-a="copysave">Mentéskód másolása</button></div>
@@ -968,6 +981,7 @@ function handle(a){
   }
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b||b.disabled)return;e.preventDefault();handle(b.dataset.a)});
+document.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.ui&&S){(S.ui=S.ui||{})[d.dataset.ui]=d.open;save()}},true);
 document.addEventListener('keydown',e=>{
   if((e.key==='Enter'||e.key===' ')&&e.target.matches('g[data-a]')){e.preventDefault();handle(e.target.dataset.a)}
   if(e.key==='Escape'&&!$('#modal').hidden&&$('#modal .mbtns [data-a="close"]'))closeModal();
