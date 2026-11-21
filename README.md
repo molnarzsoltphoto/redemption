@@ -9,8 +9,9 @@ Böngészős noir nyomozós játék egy Budapest-szerű városban. Főhős: Mát
 2. **Fehér hidak** – december
 3. **Jégzajlás** – január
 4. **Áradás** – március
+5. **Apadás** – július
 
 A személyes döntések (lányod, apád, Nóra, a stáb lojalitása) átkerülnek a következő ügybe. A mentés a böngészőben tárolódik.
 
 ## Forrás
-A `src/` mappában: `engine.js` (motor), `case1.js`, `case2.js`, `case3.js`, `case4.js` (ügyek), `shell.html` (váz és stílus). A `build.py` ezekből állítja össze az `index.html`-t.
+A `src/` mappában: `engine.js` (motor), `case1.js`, `case2.js`, `case3.js`, `case4.js`, `case5.js` (ügyek), `shell.html` (váz és stílus). A `build.py` ezekből állítja össze az `index.html`-t.

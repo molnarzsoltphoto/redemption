@@ -188,9 +188,9 @@ function doAction(a){
   if(r){r();checkPat();render()}
 }
 function inspect(id){
-  const h=L[S.loc].hs.find(x=>x.id===id);if(!h||S.hs[S.loc+':'+id])return;
+  const h=L[S.loc].hs.find(x=>x.id===id);if(!h||S.hs[S.loc+':'+id]||!reqOk(h.req))return;
   act(12);S.hs[S.loc+':'+id]=1;
-  [].concat(h.ev||[]).forEach(addEv);if(h.f)setF(h.f);if(h.doc)addDoc(h.doc);
+  [].concat(h.ev||[]).forEach(addEv);if(h.f)[].concat(h.f).forEach(setF);if(h.doc)addDoc(h.doc);
   S.notes.unshift({t:S.t,loc:L[S.loc].n,l:h.l,x:h.t});
   S.lastHs={id,t:h.t};render();
 }
@@ -527,6 +527,7 @@ function renderSave(){
 }
 function render(){
   if(!S)return;
+  if(!S.ended&&CASE.over&&Object.keys(S.verd||{}).length&&CASE.over(S,API)){finish('multi');return}
   const t=S.tab;
   $('#game').classList.toggle('full',!!t&&t!=='map');
   renderHUD();renderMap();
