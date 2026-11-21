@@ -108,13 +108,16 @@ blockquote.seen{margin:14px 0;padding:12px 16px;border-left:3px solid var(--red)
 .dlist{display:flex;flex-direction:column;gap:6px}
 .dlist button{text-align:left;background:var(--panel2);border:1px solid var(--line);padding:10px 12px;min-height:44px}
 .dlist button.on{border-color:var(--paper)}
+.dlist small{display:block;color:#f0b3ab;font-size:13px}
+.leads{margin:0;padding-left:20px}.leads li{margin:0 0 8px}
 .dlist em{font-style:normal;color:#fff;background:var(--red);padding:0 5px;font-size:13px}
 .paper{background:var(--paper);color:var(--pink);padding:24px clamp(16px,3vw,36px);box-shadow:0 6px 18px #0009;min-height:300px}
 .paper h2{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:500}
 .hint{font-size:14px;color:#6c665a;font-style:italic;margin:0 0 14px}
 .mono{font:15px/1.7 "IBM Plex Mono",monospace}
-.mark{font:inherit;background:none;border:0;padding:0;text-align:left;color:inherit;border-bottom:1px dotted #8a7e6a;cursor:pointer;display:inline}
-.mark:hover{background:#c9372c22}
+.mark{font:inherit;background:#e8cf8a66;border:0;padding:1px 2px;text-align:left;color:inherit;border-bottom:2px solid #b08a2e;cursor:pointer;display:inline}
+.mark:not(.found)::after{content:' + tábla';font:600 12px 'Barlow Condensed',sans-serif;background:var(--red);color:#fff;padding:1px 5px;margin-left:4px;white-space:nowrap}
+.mark:hover{background:#e8cf8aaa}
 .mark.found{background:#c9372c2e;border-bottom:2px solid var(--red)}
 /* stáb */
 .scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
@@ -215,6 +218,7 @@ ev:{
  kamera_limo:{n:"Limuzin a rakparton, 00:38", d:"Sötét limuzin áll meg a rakparton 00:38-kor, 00:49-kor továbbhajt a belváros felé."},
  sofor_titok:{n:"Nóra a sofőrről", d:"Berkes sofőrje részegen elmondta Nórának, hogy a főnöke vasárnap éjjel kiszállt a kikötőnél, és egy idegen telefonnal jött vissza."},
  sofor_beismer:{n:"A sofőr vallomása", d:"00:40 körül a rakparton álltak meg. Berkes tíz percre kiszállt, és egy idegen telefonnal tért vissza. Közben egy fehér furgon jött fel világítás nélkül.", sup:[["berkes","A"]]},
+ telefon_kocsiban:{n:"Telefon Berkes kocsijában", d:"Zsófia kikapcsolt telefonja Berkes limuzinjának kesztyűtartójában volt.", sup:[["berkes","A"]]},
  sms_berkes:{n:"Zsófia SMS-e Berkesnek", d:"20:31: „Ma este elmondom Hanna apjának, mi történt. Magáról is.” Berkes válasza 20:44: „Ne tegye.”", sup:[["berkes","I"]]},
  berkes_beismeres:{n:"Berkes: már halott volt", d:"Berkes beismerte, hogy 00:40-kor ért a komphoz, Zsófia már halott volt, és ő vitte el a telefont, mert rajta volt a neve.", clears:"berkes"},
  apa_csomo:{n:"Apád jegyzete: a révészhurok", d:"1994: Vámos Lajos tanította a tizenhárom éves fiát a révészhurokra. Rajtuk kívül senki nem ismeri."},
@@ -253,7 +257,7 @@ docs:{
  akta1994:{t:"BRFK akta, 1994 – Déli kikötő", b:"BUDAPESTI RENDŐR-FŐKAPITÁNYSÁG – Életvédelmi osztály\n1994. 11. 09.\n\nA Déli kikötőben, a Révész nevű komp mellett vízből kiemelt férfi holtteste (Szabó F., 51 é., hajóskapitány). Szájában pénzérme (ötforintos).\n[[akta1994|Gyanúsított: Vámos Lajos, a Révész kompvezetője. Bizonyíték hiányában 72 óra után szabadon engedve.]]\nVezető nyomozó: Mátrai Gyula főhadnagy.\nAz ügy lezáratlan.\n\n— Kézzel, apád írásával: „Az öreg szerint a révésznek fizetni kell, különben a halott nem jut át. Babona? Vagy beismerés? — M. Gy.”"},
  profil:{t:"Pszichológiai profil – dr. Fehér Judit", b:"ELŐZETES TETTESPROFIL\n\nA tettes nem dühből ölt. A mozdulat gyors és begyakorolt, a test elrendezése gondos. Ez szertartás.\n\nAz érme és az összekulcsolt kezek arra utalnak, hogy a tettes útra akarta bocsátani az áldozatot, nem megalázni. Szerintem igazságot hitt szolgáltatni.\n\nA helyszínhez erősen kötődik. Nem rejtette el a holttestet, hanem kiállította ott, ahol neki jelent valamit.\n\nNem fog menekülni. Valószínűleg várja, hogy megtalálják.\n\n— Mátrai főhadnagy, a múlt heti alkalmat lemondta. Kérem, a jövő hetit ne mondja le. F. J."},
  kotel:{t:"Laborjelentés – kötél és szálak", b:"BŰNÜGYI TECHNIKAI LABOR\nVizsgálta: Halász Tamás\n\nMinták: (1) szálak a strangulációs barázdából, (2) kötél a Révész korlátjáról.\n\n[[kotel_egyezes|Eredmény: a szálak anyaga, kátránytartalma és sodrása egyezik. A vágás friss. A barázdában maradt csomólenyomat típusa „révészhurok”: régi dunai hajós csomó, ma szinte senki nem köti.]]\n\nMegjegyzés: ilyen kötelet utoljára a nyolcvanas években gyártottak. — H. T."},
- telefon:{t:"Átvizsgálás – Berkes-limuzin", b:"JEGYZŐKÖNYV, járműátvizsgálás\nJármű: fekete Mercedes S, üzembentartó: Szent Lukács Magánklinika Kft.\nJelen volt: Rácz K. hadnagy, Fekete Z. gépkocsivezető\n\nA kesztyűtartóban: 1 db mobiltelefon, kikapcsolt állapotban. Bekapcsolás után azonosítva: Halmi Zsófia készüléke.\n\nÜzenetek, 2026. 11. 22.:\n[[sms_berkes|20:31  Halmi Zs. → dr. Berkes: „Ma este elmondom Hanna apjának, mi történt. Magáról is. Nem fogok tovább hallgatni.”]]\n20:44  dr. Berkes → Halmi Zs.: „Ne tegye. Mindkettőnket tönkreteszi.”\n22:02  dr. Berkes → Halmi Zs.: „Hol van?” (kézbesítve, nem olvasott)\n\nGaléria, utolsó kép 21:20: egy kislány rajza, rajta egy hajó. Alatta gyerekírással: APA HAJÓJA.\n\nRácz K. megjegyzése: Somogyi főkapitány-helyettes titkársága kétszer telefonált az átvizsgálás alatt. — R. K."},
+ telefon:{t:"Átvizsgálás – Berkes-limuzin", b:"JEGYZŐKÖNYV, járműátvizsgálás\nJármű: fekete Mercedes S, üzembentartó: Szent Lukács Magánklinika Kft.\nJelen volt: Rácz K. hadnagy, Fekete Z. gépkocsivezető\n\n[[telefon_kocsiban|A kesztyűtartóban: 1 db mobiltelefon, kikapcsolt állapotban. Bekapcsolás után azonosítva: Halmi Zsófia készüléke.]]\n\nÜzenetek, 2026. 11. 22.:\n[[sms_berkes|20:31  Halmi Zs. → dr. Berkes: „Ma este elmondom Hanna apjának, mi történt. Magáról is. Nem fogok tovább hallgatni.”]]\n20:44  dr. Berkes → Halmi Zs.: „Ne tegye. Mindkettőnket tönkreteszi.”\n22:02  dr. Berkes → Halmi Zs.: „Hol van?” (kézbesítve, nem olvasott)\n\nGaléria, utolsó kép 21:20: egy kislány rajza, rajta egy hajó. Alatta gyerekírással: APA HAJÓJA.\n\nRácz K. megjegyzése: Somogyi főkapitány-helyettes titkársága kétszer telefonált az átvizsgálás alatt. — R. K."},
  apa_jegyzet:{t:"Mátrai Gyula jegyzetfüzete, 1994", b:"Viharvert, spirálos füzet, a borítóján kávéfolt. Apád dőlt, szálkás írása.\n\n11. 10. — Vámos Lajos harmadik napja hallgat. Szabó kapitány tartozott neki, ezt a fél kikötő tudja. Bizonyíték nincs.\n[[apa_csomo|A kölyök, Gergő, 13 é., egész nap a kompon ül, és ugyanazt a csomót köti. Az apja tanította. Révészhurok. Azt mondja, rajtuk kívül senki nem tudja már.]]\nSzabó nyakán is csomó nyoma? A vízirendőrség szerint nem megállapítható.\n\n11. 12. — Elengedtem. A kapuban Lajos azt mondta: aki tartozik, fizet a révésznek. Nem fenyegetés volt. Mintha az időjárást mondta volna.\n\n(Később, más tollal:) Ha a fiú egyszer…\n\nA mondat nincs befejezve."},
  dns:{t:"DNS-összevetés", b:"IGAZSÁGÜGYI ORVOSTANI INTÉZET – Genetikai labor\n\nMinták: körömalatti bőrmaradvány (Halmi Zs.), referenciaminta (Vámos Gergő).\n\n[[dns_egyezes|Eredmény: a profilok 21 vizsgált lókuszon egyeznek. Az egyezés valószínűsége kisebb, mint 1 a 10 milliárdhoz.]]\n\n— K. M.: „Sajnálom, Dénes. Tudom, hogy reménykedtél valami másban.”"}
 },
@@ -404,6 +408,33 @@ tasks:[
  {id:"profil", l:"Tettesprofil készítése", req:["feher_ules"], minEv:4, dur:180, fit:{feher:.95}, doc:"profil", ok:"Fehér doktornő elküldte az előzetes profilt."}
 ],
 
+// ---- NYITOTT SZÁLAK (súgó) ----  need: mind kell (| = vagy), not: egyik sem lehet meg; doc:x = akta megvan
+leads:[
+ {need:["body"], not:["doc:boncolas"], x:"A boncolás még hátravan. Keleti doktornőnek a Stáb fülön adhatod ki."},
+ {need:["body"], not:["doc:hivaslista"], x:"Kivel beszélt Zsófia utoljára? A hívásrészletezőt Bence vagy Kata kérheti le (Stáb)."},
+ {need:["kamera"], not:["doc:kamera"], x:"A daru oszlopán térfigyelő kamera van. Kata végignézheti a felvételt (Stáb)."},
+ {need:["ermeszaj"], not:["doc:akta1994"], x:"Az érme a nyelv alatt rítusnak tűnik. Az archívumban lehet régi hasonló eset (Stáb)."},
+ {need:["body"], not:["laptop_hianyzik"], x:"Zsófia lakása: a lakótárs még nem mondta el, hiányzik-e valami (Lágymányos, 7–23)."},
+ {need:["laptop_hianyzik"], not:["doc:laptop"], x:"Eltűnt Zsófia laptopja. Bodnár körbejárhatja a zálogházakat (Stáb)."},
+ {need:["nincs_telefon"], not:["telefon_elvitte","doc:telefon"], x:"Hol van Zsófia telefonja? Nézd meg a hívásrészletező utolsó sorát, és keress összefüggést a táblán."},
+ {need:["kotelminta","kenderszal"], not:["doc:kotel"], x:"Halász összevetheti a korlátról vett kötelet a sebből kiemelt szálakkal (Stáb)."},
+ {need:["kotelminta"], not:["kenderszal"], x:"A kötélmintát nincs mivel összevetni, amíg a boncolási jegyzőkönyvből ki nem emeled a sebben talált szálakat."},
+ {need:["korom"], not:["vamos_dns"], x:"Zsófia körmei alatt idegen bőr van. Kitől kérnél DNS-mintát? Ehhez előbb gyanúba kell keverned az illetőt."},
+ {need:["korom","vamos_dns"], not:["doc:dns"], x:"Megvan Vámos DNS-mintája. Keleti összevetheti a körmök alatti bőrrel (Stáb)."},
+ {need:["met_vamos"], not:["vamos_lanya"], x:"Vámos családjáról még semmit nem tudsz. Kérdezd meg őt, vagy kérdezz körül a Hordóban."},
+ {need:["vamos_lanya"], not:["incidens"], x:"Hanna kórházban halt meg. A Szent Lukácsban valaki tudja, mi történt (Sárközi Vera, 7–19)."},
+ {need:["akta1994"], not:["apa_revesz"], x:"Az 1994-es aktán apád neve áll. Délelőtt még tiszta a feje (Platán Idősotthon, 9–12)."},
+ {need:["kamera_limo"], not:["berkes_kikoto"], x:"00:38-kor egy limuzin áll meg a rakparton. Kinek ért véget fél egykor a bálja? Keress összefüggést a táblán."},
+ {need:["nora_gazsi"], not:["nora_help"], x:"Nóra ki akar szállni Gazsi alól. Bodnár elintézheti (Stáb)."},
+ {need:["sofor_titok|berkes_kikoto"], not:["sofor_beismer"], x:"Berkes sofőrje, Fekete Zoltán a klinikán dolgozik (8–17). Szembesítsd azzal, amit tudsz."},
+ {need:["sofor_beismer"], not:["doc:telefon"], x:"Kata átvizsgálhatja Berkes autóját (Stáb)."},
+ {need:["sms_berkes|telefon_kocsiban"], not:["berkes_beismeres"], x:"Berkesnek magyarázatot kell adnia a telefonra (Szent Lukács, 8–17)."},
+ {need:["hivas_porta"], not:["vamos_ideges"], x:"Zsófia 21:47-kor a kikötői portát hívta. Kérdezd meg erről Vámost (porta, 17–9)."},
+ {need:["kertesz_hordo|met_kertesz"], not:["kertesz_alibi"], x:"Kertész azt állítja, a Hordóban volt. Laci megerősítheti (Hordó, 15–3)."},
+ {need:["body"], not:["met_vamos"], x:"A kikötőben éjszakai portás dolgozik. Ő láthatott valamit (porta, 17–9)."},
+ {need:["berkes_gyanu"], not:["incidens"], x:"Zsófia szerint a papírokon nem az áll, ami történt. A klinikán Sárközi Vera beszélhet róla (7–19)."}
+],
+
 // ---- IDŐZÍTETT ESEMÉNYEK ----  t: perc a hétfő 00:00-tól
 timed:[
  {id:"lili1", at:1200, f:"lili_sms", x:"<b>SMS, Lili:</b> Szerdán hatkor koncertem van a zeneiskolában. Gondolom, nem jössz."},
@@ -457,7 +488,7 @@ function fresh(){
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function load(){try{const v=localStorage.getItem(KEY);return v?JSON.parse(v):null}catch(e){return null}}
-const has=k=>!!(S.ev[k]||S.f[k]);
+const has=k=>k.startsWith('doc:')?!!S.docs[k.slice(4)]:!!(S.ev[k]||S.f[k]);
 const reqOk=r=>!r||r.every(g=>g.split('|').some(has));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -631,6 +662,8 @@ const n=()=>Object.keys(S.ev).length;
 const DYN={
   vargaStatus(){
     if(S.pat<40)return'„Ne magyarázz. Hozz egy nevet és bizonyítékot, vagy holnaptól a rakparti forgalmat irányítod.”';
+    const ld=leads();
+    if(S.pat>=40&&ld.length&&n()>=5)return'„Hol tartasz?” Elmondod. Bólint. „És ezzel mi van?” Rábök a jegyzeteidre: <i>'+ld[0]+'</i>';
     if(n()<5)return'„Ennyi? A sajtó okosabb nálunk, Dénes. Mozdulj.”';
     if(n()<12)return'„Haladunk. Somogyi kétszer hívott ma. Mondtam neki, hogy dolgozol. Ne hazudtass meg.”';
     return'„Látom a táblát. Ha megvan, ne üldögélj rajta. Vádemelés, három pillér: indíték, alkalom, módszer. Az ügyész nem hisz a megérzésekben.”';
@@ -768,7 +801,7 @@ function renderHUD(){
   $('#hud').innerHTML=`<div class="when"><b>${clock(S.t)}</b><span>${dayLabel(S.t)}</span></div>
   <div class="meters">${meter('Fáradtság',S.fat,S.fat>85?'hot':'')}${meter('Alkohol',S.alc,S.alc>55?'hot':'')}${meter('Sóvárgás',S.crave,S.crave>70?'hot':'')}</div>
   <div class="cash"><b>${S.money.toLocaleString('hu-HU')} Ft</b><span>${warn||'&nbsp;'}</span></div>
-  <nav>${[['map','Város'],['board','Tábla'],['docs','Akták'+(nd?` <em>${nd}</em>`:'')],['staff','Stáb'],['log','Napló'],['save','Mentés']].map(([k,l])=>`<button data-a="tab:${k}" class="${(S.tab||'map')===k?'on':''}">${l}</button>`).join('')}</nav>`;
+  <nav>${[['map','Város'],['board','Tábla'],['docs','Akták'+(nd?` <em>${nd}</em>`:'')],['staff','Stáb'],['log','Napló'+(leads().length?` <em>${leads().length}</em>`:'')],['save','Mentés']].map(([k,l])=>`<button data-a="tab:${k}" class="${(S.tab||'map')===k?'on':''}">${l}</button>`).join('')}</nav>`;
 }
 const RIV=[[474,-320],[470,0],[456,80],[468,160],[492,240],[486,320],[478,400],[500,480],[530,560],[548,630],[560,700],[580,1020]];
 function rivPath(dx){return RIV.map((p,i)=>(i?'L':'M')+(p[0]+dx)+' '+p[1]).join(' ')}
@@ -853,8 +886,8 @@ function docBody(id){
 function renderDocs(){
   const ids=Object.keys(S.docs);
   const cur=S.doc&&S.docs[S.doc]?S.doc:null;
-  return`<div class="pane wide docs"><h1>Akták</h1><div class="dl"><div class="dlist">${ids.map(id=>`<button class="${id===cur?'on':''}" data-a="doc:${id}">${S.docs[id].n?'<em>új</em> ':''}${CASE.docs[id].t}</button>`).join('')||'<p class="mut">Még nincs aktád.</p>'}</div>
-  <article class="paper">${cur?`<h2>${CASE.docs[cur].t}</h2><p class="hint">Kattints a fontos sorokra: felírod őket a táblára.</p><div class="mono">${docBody(cur)}</div>`:'<p class="hint">Válassz egy aktát.</p>'}</article></div></div>`;
+  return`<div class="pane wide docs"><h1>Akták</h1><div class="dl"><div class="dlist">${ids.map(id=>`<button class="${id===cur?'on':''}" data-a="doc:${id}">${S.docs[id].n?'<em>új</em> ':''}${CASE.docs[id].t}${openMarks(id)?`<small>${openMarks(id)} kiemelés vár</small>`:''}</button>`).join('')||'<p class="mut">Még nincs aktád.</p>'}</div>
+  <article class="paper">${cur?`<h2>${CASE.docs[cur].t}</h2><p class="hint">A kiemelt sorokra kattintva felírod őket a táblára.</p><div class="mono">${docBody(cur)}</div>`:'<p class="hint">Válassz egy aktát.</p>'}</article></div></div>`;
 }
 function renderStaff(){
   const tasks=CASE.tasks.filter(taskAvail);
@@ -866,7 +899,19 @@ function renderStaff(){
   ${pend?`<h3>Folyamatban</h3><ul class="pend">${pend}</ul>`:''}
   <h3>Kiadható feladatok</h3>${tasks.length?tasks.map(tk=>`<div class="task"><b>${tk.l}</b><span>${Math.round(tk.dur/60)} óra</span><div>${Object.entries(tk.fit).map(([sid,f])=>`<button data-a="disp:${tk.id}:${sid}" ${staffState(sid).k!=='free'?'disabled':''}>${P[sid].n.split(' ').slice(-1)[0]} · ${fitW(f)}</button>`).join('')}</div></div>`).join(''):'<p class="mut">Most nincs kiadható feladat. Nyomozz tovább.</p>'}</div>`;
 }
-function renderLog(){return`<div class="pane wide"><h1>Napló</h1><ul class="log">${S.log.map(x=>`<li><time>${dayLabel(x.t).split(' · ')[0]} ${clock(x.t)}</time>${x.x}</li>`).join('')}</ul></div>`}
+function openMarks(id){return[...CASE.docs[id].b.matchAll(/\[\[(\w+)\|/g)].filter(m=>!S.ev[m[1]]).length}
+function leads(){
+  const out=[];
+  const mk=Object.keys(S.docs).reduce((a,id)=>a+openMarks(id),0);
+  if(mk)out.push(`Az aktákban ${mk} fontos sor vár még kiemelésre. Nyisd meg az Akták fület, és kattints a kiemelt sorokra.`);
+  const dd=CASE.ded.filter(d=>S.ev[d.a]&&S.ev[d.b]&&!S.ev[d.g]).length;
+  if(dd)out.push(`A táblán ${dd} olyan nyompár van, amelyek összefüggnek. Jelölj ki kettőt, és keress összefüggést.`);
+  (CASE.leads||[]).forEach(l=>{if(reqOk(l.need)&&!(l.not||[]).some(k=>k.split('|').some(has)))out.push(l.x)});
+  const tk=CASE.tasks.filter(taskAvail).length;
+  if(tk)out.push(`A Stáb fülön ${tk} kiadható feladat vár.`);
+  return out;
+}
+function renderLog(){const ld=leads();return`<div class="pane wide"><h1>Napló</h1><h3>Nyitott szálak</h3>${ld.length?`<ul class="leads">${ld.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p class="mut">Nincs nyitott szál. Ha megvan a tettes, a táblán emelhetsz vádat.</p>'}<h3>Események</h3><ul class="log">${S.log.map(x=>`<li><time>${dayLabel(x.t).split(' · ')[0]} ${clock(x.t)}</time>${x.x}</li>`).join('')}</ul></div>`}
 function renderSave(){
   return`<div class="pane wide"><h1>Mentés</h1><p>A játék minden lépés után ebbe a böngészőbe ment. Ha másik gépen folytatnád, másold ki a mentéskódot.</p>
   <div class="list"><button data-a="copysave">Mentéskód másolása</button></div>
