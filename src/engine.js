@@ -5,10 +5,20 @@ const DAYN=['hétfő','kedd','szerda','csütörtök','péntek','szombat','vasár
 const MON=['jan.','febr.','márc.','ápr.','máj.','jún.','júl.','aug.','szept.','okt.','nov.','dec.'];
 const STAFF=['bence','kata','bodnar','halasz','keleti','feher'];
 const CAT={I:'Indíték',A:'Alkalom',M:'Módszer'};
-const PERSIST=['nora_help','koncert','koncert_reszeg','lili_missed','apa_revesz','apa_1994','berkes_beismeres','leak','lili_bday','lili_bday_reszeg','lili_bday_missed','kata_titok','apa_korhaz','varga_halott','halmos_vad','rajna_elfogva','merenylet','lili_ajandek','apa_latogatas','apa_racz','lili_alairas','apa_halal','apa_temetes','apa_bucsu','bodnar_vad','somogyi_bukik','denes_tisztazva','anna_met','anna_kave','anna_szam','anna_reszeg','anna_bocsanat','anna_vacsora','anna_vacsora_rossz','anna_kimaradt','anna_temetes','anna_egyutt','anna_erika','anna_koltozik','anna_varunk','anna_tanacs','aa1','aa_beszed','lili_elenged','lili_marad','kata_vad','erika_vad','bence_mentve','bence_halott'];
+const PERSIST=['nora_help','koncert','koncert_reszeg','lili_missed','apa_revesz','apa_1994','berkes_beismeres','leak','lili_bday','lili_bday_reszeg','lili_bday_missed','kata_titok','apa_korhaz','varga_halott','halmos_vad','rajna_elfogva','merenylet','lili_ajandek','apa_latogatas','apa_racz','lili_alairas','apa_halal','apa_temetes','apa_bucsu','bodnar_vad','somogyi_bukik','denes_tisztazva','anna_met','anna_kave','anna_szam','anna_reszeg','anna_bocsanat','anna_vacsora','anna_vacsora_rossz','anna_kimaradt','anna_temetes','anna_egyutt','anna_erika','anna_koltozik','anna_varunk','anna_tanacs','aa1','aa_beszed','lili_elenged','lili_marad','kata_vad','erika_vad','bence_mentve','bence_halott','tudod_2006','denes_bevall','lili_becs','bokszos_vad','gergo_alku','gergo_bukik','foto1994','fodor_kikoto','anna_pecs','anna_pecs_igen','anna_pecs_nem','anna_pecs_rossz','lili_felvetel','lili_hivas6','lili_hivas_rossz','sanyi_szponzor'];
 let CASE,P,L,E,ORDER,VICT,SOL,S=null;
-function setCase(id){
-  CASE=CASES[id];P=CASE.people;L=CASE.locs;E=CASE.ev;ORDER=CASE.order||Object.keys(CASE.suspects);
+function resolveV(x,v){
+  if(Array.isArray(x))return x.filter(i=>!(i&&typeof i==='object'&&!Array.isArray(i)&&i.var&&![].concat(i.var).includes(v))).map(i=>resolveV(i,v));
+  if(x&&typeof x==='object'&&x.constructor===Object){
+    if('$v' in x)return resolveV(x.$v[v]!==undefined?x.$v[v]:x.$v.def,v);
+    const o={};for(const k in x){if(k==='var')continue;const val=x[k];if(val&&typeof val==='object'&&!Array.isArray(val)&&val.constructor===Object&&val.var&&![].concat(val.var).includes(v))continue;o[k]=resolveV(val,v)}return o;
+  }
+  return x;
+}
+const RCACHE={};
+function setCase(id,variant){
+  const raw=CASES[id];const v=raw.variants?(variant||raw.variants[0]):'_';
+  CASE=RCACHE[id+'|'+v]||(RCACHE[id+'|'+v]=raw.variants?resolveV(raw,v):raw);P=CASE.people;L=CASE.locs;E=CASE.ev;ORDER=CASE.order||Object.keys(CASE.suspects);
   VICT=CASE.victims||[{id:'main',n:'Halmi Zsófia'}];SOL=CASE.solution||{main:CASE.culprit};
 }
 const CASE_IDS=Object.keys(CASES);
@@ -16,9 +26,10 @@ const CASE_IDS=Object.keys(CASES);
 // ---------- állapot ----------
 function meta(){try{return JSON.parse(localStorage.getItem(META))||{done:{},persist:null}}catch(e){return{done:{},persist:null}}}
 function saveMeta(m){try{localStorage.setItem(META,JSON.stringify(m))}catch(e){}}
-function fresh(cid){
-  setCase(cid);const m=meta(),ps=m.persist;
-  const s={case:cid,t:CASE.start.t,loc:CASE.start.loc,fat:35,alc:18,crave:30,money:ps?Math.max(ps.money,50000):40000,bottle:3,pat:100,
+function fresh(cid,force){
+  const raw=CASES[cid];const variant=raw.variants?(force&&raw.variants.includes(force)?force:raw.variants[Math.floor(Math.random()*raw.variants.length)]):null;
+  setCase(cid,variant);const m=meta(),ps=m.persist;
+  const s={case:cid,variant,t:CASE.start.t,loc:CASE.start.loc,fat:35,alc:18,crave:30,money:ps?Math.max(ps.money,50000):40000,bottle:3,pat:100,
     ev:{},seenEv:{},hints:[],f:{},docs:{},done:{},hs:{},tr:{},staff:{},loy:{},pending:[],board:{},verd:{},rejects:0,ended:null,log:[],fired:{},notes:[],
     view:'loc',tab:null,doc:null,sel:[],day:0,visited:{},prev:m.done||{}};
   STAFF.forEach(id=>{s.staff[id]={busy:0,load:0};s.loy[id]=ps&&ps.loy&&ps.loy[id]!=null?ps.loy[id]:60});
@@ -39,7 +50,8 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 // ---------- idő ----------
 const hourOf=t=>Math.floor((t%1440)/60);
 const clock=t=>String(hourOf(t)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
-function dayLabel(t){const d=Math.floor(t/1440),c=CASE.date||[2026,10,23],dt=new Date(c[0],c[1],c[2]+d);return `${d+1}. nap · ${DAYN[d%7]}, ${MON[dt.getMonth()]} ${dt.getDate()}.`}
+function dayLabel(t){const d=Math.floor(t/1440),c=CASE.date||[2026,10,23],dt=new Date(c[0],c[1],c[2]+d);return `${d+1}. nap · ${DAYN[(dt.getDay()+6)%7]}, ${MON[dt.getMonth()]} ${dt.getDate()}.`}
+function wdOf(d){const c=CASE.date||[2026,10,23];return(new Date(c[0],c[1],c[2]+d).getDay()+6)%7}
 const inWin=(h,w)=>!w||(w[0]<w[1]?h>=w[0]&&h<w[1]:h>=w[0]||h<w[1]);
 const mult=()=>(S.fat>85?1.4:1)*(S.crave>70?1.25:1);
 const clamp=v=>Math.max(0,Math.min(100,v));
@@ -185,7 +197,7 @@ function doAction(a){
     bottle:()=>{if(S.bottle<1)return;S.bottle--;S.drinks=(S.drinks||0)+1;act(10);S.alc=clamp(S.alc+18);S.crave=clamp(S.crave-30);note('Egy kupica a hűtőből. Aztán még egy fél.')},
     bar:()=>{if(S.money<900)return;S.money-=900;S.drinks=(S.drinks||0)+1;act(40);S.alc=clamp(S.alc+20);S.crave=clamp(S.crave-35);note('Laci kérdés nélkül tölt.')},
     buy:()=>{if(S.money<3500)return;S.money-=3500;S.bottle+=3;act(5);note('Egy üveg körtét viszel haza.')}
-  }[a]||(CASE.actions&&CASE.actions[a]&&(()=>{const x=CASE.actions[a];if(x.cost&&S.money<x.cost)return;if(x.cost)S.money-=x.cost;act(x.mins||20);if(x.f)setF(x.f);if(x.ev)addEv(x.ev);note(x.x)}));
+  }[a]||(CASE.actions&&CASE.actions[a]&&(()=>{const x=CASE.actions[a];if(x.cost&&S.money<x.cost)return;if(x.cost)S.money-=x.cost;act(x.mins||20);if(x.drink){S.drinks=(S.drinks||0)+1;S.alc=clamp(S.alc+20);S.crave=clamp(S.crave-35)}if(x.f)setF(x.f);if(x.ev)addEv(x.ev);note(x.x)}));
   if(r){r();checkPat();render()}
 }
 function inspect(id){
@@ -371,7 +383,7 @@ function finish(k,s){
   else{title=k==='win'?'Ügy lezárva':'Rossz ember';body=k==='win'?CASE.end.win(S,API):(CASE.end.wrong[s]||'')}
   const gr=grade();
   const m=meta();m.done[S.case]={res:k,g:gr.g,t:Date.now()};
-  const ekey=k+'|'+Object.entries(S.verd).map(([v,x])=>v+':'+x.s).sort().join(',')+(CASE.endKey?'|'+CASE.endKey(S):'');
+  const ekey=(S.variant?S.variant+'|':'')+k+'|'+Object.entries(S.verd).map(([v,x])=>v+':'+x.s).sort().join(',')+(CASE.endKey?'|'+CASE.endKey(S):'');
   m.endings=m.endings||{};const el=(m.endings[S.case]=m.endings[S.case]||[]);
   const elabel=title+(Object.keys(S.verd).length?' — vád: '+[...new Set(Object.values(S.verd).map(x=>CASE.suspects[x.s].short))].join(', '):'')+(CASE.endLabel?' · '+CASE.endLabel(S):'');
   if(!el.some(x=>x.k===ekey))el.push({k:ekey,l:elabel});
@@ -440,7 +452,7 @@ function renderLoc(){
   if(S.loc==='hordo'&&!closed){acts.push(['bar','Fröccs és fél deci (900 Ft)',S.money<900]);acts.push(['buy','Üveg körte haza (3 500 Ft)',S.money<3500])}
   Object.entries(CASE.actions||{}).forEach(([k,x])=>{if(x.loc===S.loc&&!closed&&reqOk(x.req)&&!(x.once&&S.f[x.f]))acts.push([k,x.l,x.cost&&S.money<x.cost])});
   const last=S.lastHs&&l.hs&&l.hs.some(x=>x.id===S.lastHs.id)?`<blockquote class="seen">${S.lastHs.t}</blockquote>`:'';
-  const dayName=l.day!==undefined?'Csak '+['hétfőn','kedden','szerdán','csütörtökön','pénteken','szombaton','vasárnap'][l.day%7]+', ':'Nyitva ';
+  const dayName=l.day!==undefined?'Csak '+['hétfőn','kedden','szerdán','csütörtökön','pénteken','szombaton','vasárnap'][wdOf(l.day)]+', ':'Nyitva ';
   return`<div class="pane"><h1>${l.n}</h1>${l.open?`<p class="mut">${dayName}${l.open[0]}–${l.open[1]} óra${closed?' · most zárva':''}</p>`:''}<p class="desc">${l.d}</p>${last}
   ${here.length&&!closed?`<h3>Itt van</h3><div class="list">${ppl}</div>`:''}
   ${hs.length?`<h3>Helyszín bejárása</h3><div class="list">${hsHtml}</div>`:''}
@@ -568,8 +580,8 @@ function titleScreen(){
   const cont=cur&&!cur.ended&&CASES[cur.case]?[[`Folytatás: ${CASES[cur.case].title}`,'continue']]:[];
   modal(`<div class="title"><h2>Redemption</h2><p class="deck">Mátrai Dénes ügyei</p><ul class="cases">${rows}</ul><p class="mut">Az ügyek egymásra épülnek: a személyes döntéseid (lányod, apád, Nóra, a stáb) átkerülnek a következő ügybe.</p></div>`,cont.concat(S&&!S.ended?[['Vissza','close']]:[]));
 }
-function startCase(id){
-  Q=[];S=fresh(id);S.visited[S.loc]=1;
+function startCase(id,force){
+  Q=[];S=fresh(id,force);S.visited[S.loc]=1;
   modal(`<h2>${CASES[id].num||''} ${CASE.title}</h2>${typeof CASE.intro==='function'?CASE.intro(S,API):'<p>'+CASE.intro+'</p>'}`,[['Elindulsz','start']]);
   render();
 }
@@ -599,12 +611,12 @@ function handle(a){
     case'disp':dispatch(x,y);break;
     case'close':closeModal();break;
     case'title':titleScreen();break;
-    case'startcase':startCase(x);break;
+    case'startcase':startCase(x,y);break;
     case'new':startCase(S?S.case:CASE_IDS[0]);break;
     case'start':closeModal();if(CASE.onStart){CASE.onStart(S,API)}checkTimed();render();break;
-    case'continue':{const v=load();if(v&&CASES[v.case||'c1']){S=v;S.case=S.case||'c1';setCase(S.case);upgrade();S.tab=null}closeModal();break}
+    case'continue':{const v=load();if(v&&CASES[v.case||'c1']){S=v;S.case=S.case||'c1';setCase(S.case,S.variant);upgrade();S.tab=null}closeModal();break}
     case'copysave':{const code=btoa(unescape(encodeURIComponent(JSON.stringify(S))));try{navigator.clipboard.writeText(code).then(()=>note('Mentéskód a vágólapon.'),()=>{$('#imp').value=code;note('Másold ki a mezőből.')})}catch(e){$('#imp').value=code}break}
-    case'import':{try{const v=JSON.parse(decodeURIComponent(escape(atob($('#imp').value.trim()))));if(v&&v.t){S=v;S.case=S.case||'c1';setCase(S.case);upgrade();S.tab=null;render();note('Mentés betöltve.')}}catch(e){note('Ez nem érvényes mentéskód.','bad')}break}
+    case'import':{try{const v=JSON.parse(decodeURIComponent(escape(atob($('#imp').value.trim()))));if(v&&v.t){S=v;S.case=S.case||'c1';setCase(S.case,S.variant);upgrade();S.tab=null;render();note('Mentés betöltve.')}}catch(e){note('Ez nem érvényes mentéskód.','bad')}break}
   }
 }
 function upgrade(){if(!S.seenEv){S.seenEv={};Object.keys(S.ev||{}).forEach(k=>S.seenEv[k]=1)}S.loy=S.loy||{};STAFF.forEach(id=>{if(S.loy[id]==null)S.loy[id]=60});S.notes=S.notes||[];S.verd=S.verd||{};S.view=S.view||'loc';S.prev=S.prev||meta().done}
@@ -616,9 +628,9 @@ document.addEventListener('keydown',e=>{
 });
 
 const saved=load();
-if(saved&&saved.t&&CASES[saved.case||'c1']){S=saved;S.case=S.case||'c1';setCase(S.case);upgrade();S.tab=null;render()}
+if(saved&&saved.t&&CASES[saved.case||'c1']){S=saved;S.case=S.case||'c1';setCase(S.case,S.variant);upgrade();S.tab=null;render()}
 else{setCase(CASE_IDS[0]);S=fresh(CASE_IDS[0]);render()}
 titleScreen();
 const mapRO=new ResizeObserver(()=>{if(S)renderMap()});mapRO.observe($('.mapwrap'));
-window.__noir={get S(){return S},handle,advance,setCase};
+window.__noir={get S(){return S},get CASE(){return CASE},handle,advance,setCase,visible,reqOk};
 }
