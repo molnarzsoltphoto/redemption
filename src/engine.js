@@ -5,7 +5,7 @@ const DAYN=['hétfő','kedd','szerda','csütörtök','péntek','szombat','vasár
 const MON=['jan.','febr.','márc.','ápr.','máj.','jún.','júl.','aug.','szept.','okt.','nov.','dec.'];
 const STAFF=['bence','kata','bodnar','halasz','keleti','feher'];
 const CAT={I:'Indíték',A:'Alkalom',M:'Módszer'};
-const PERSIST=['nora_help','koncert','koncert_reszeg','lili_missed','apa_revesz','apa_1994','berkes_beismeres','leak','lili_bday','lili_bday_reszeg','lili_bday_missed','kata_titok','apa_korhaz','varga_halott','halmos_vad','rajna_elfogva','merenylet','lili_ajandek','apa_latogatas','apa_racz','lili_alairas','apa_halal','apa_temetes','apa_bucsu','bodnar_vad','somogyi_bukik','denes_tisztazva','anna_met','anna_kave','anna_szam','anna_reszeg','anna_bocsanat','anna_vacsora','anna_vacsora_rossz','anna_kimaradt','anna_temetes','anna_egyutt','anna_erika','anna_koltozik','anna_varunk','anna_tanacs','aa1','aa_beszed','lili_elenged','lili_marad','kata_vad','erika_vad','bence_mentve','bence_halott','tudod_2006','denes_bevall','lili_becs','bokszos_vad','gergo_alku','gergo_bukik','foto1994','fodor_kikoto','anna_pecs','anna_pecs_igen','anna_pecs_nem','anna_pecs_rossz','lili_felvetel','lili_hivas6','lili_hivas_rossz','sanyi_szponzor'];
+const PERSIST=['nora_help','koncert','koncert_reszeg','lili_missed','apa_revesz','apa_1994','berkes_beismeres','leak','lili_bday','lili_bday_reszeg','lili_bday_missed','kata_titok','apa_korhaz','varga_halott','halmos_vad','rajna_elfogva','merenylet','lili_ajandek','apa_latogatas','apa_racz','lili_alairas','apa_halal','apa_temetes','apa_bucsu','bodnar_vad','somogyi_bukik','denes_tisztazva','anna_met','anna_kave','anna_szam','anna_reszeg','anna_bocsanat','anna_vacsora','anna_vacsora_rossz','anna_kimaradt','anna_temetes','anna_egyutt','anna_erika','anna_koltozik','anna_varunk','anna_tanacs','aa1','aa_beszed','lili_elenged','lili_marad','kata_vad','erika_vad','bence_mentve','bence_halott','tudod_2006','denes_bevall','lili_becs','bokszos_vad','gergo_alku','gergo_bukik','foto1994','fodor_kikoto','anna_pecs','anna_pecs_igen','anna_pecs_nem','anna_pecs_rossz','lili_felvetel','lili_hivas6','lili_hivas_rossz','sanyi_szponzor','level_lead','level_titok','lajos_1994','lajos_olvasta','keleti_1994','laci_1994','megbizo_kikoto','gergo_elhallgattatva','pap_korhaz','pap_vedett','anna_pecs_latogat','anna_kave7','lili_koncert7','lili_hivas7'];
 let CASE,P,L,E,ORDER,VICT,SOL,S=null;
 function resolveV(x,v){
   if(Array.isArray(x))return x.filter(i=>!(i&&typeof i==='object'&&!Array.isArray(i)&&i.var&&![].concat(i.var).includes(v))).map(i=>resolveV(i,v));
@@ -442,7 +442,7 @@ function renderLoc(){
   const here=peopleHere();
   const ppl=closed?'':here.map(([id,p])=>{
     const ok=inWin(h,p.h)&&!(p.staff&&S.staff[id]&&S.staff[id].busy>S.t);
-    return`<button class="person${ok?'':' gone'}" data-a="talk:${id}" ${ok?'':'disabled'}><b>${p.n}</b><span>${p.r}${ok?'':` · ${S.staff[id]&&S.staff[id].busy>S.t?'kint dolgozik':`${p.h[0]}–${p.h[1]} óra`}`}</span></button>`}).join('');
+    return`<button class="person${ok?'':' gone'}" data-a="talk:${id}" ${ok?'':'disabled'}>${sil(p)}<div><b>${p.n}</b><span>${p.r}${ok?'':` · ${S.staff[id]&&S.staff[id].busy>S.t?'kint dolgozik':`${p.h[0]}–${p.h[1]} óra`}`}</span></div></button>`}).join('');
   const hs=(l.hs||[]).filter(x=>reqOk(x.req));
   const hsHtml=hs.map(x=>{const d=S.hs[S.loc+':'+x.id];return`<button class="hs${d?' done':''}" data-a="hs:${x.id}" ${d?'disabled':''}>${d?'✓ ':''}${x.l}</button>`}).join('');
   const acts=[];
@@ -459,12 +459,85 @@ function renderLoc(){
   <h3>Tevékenység</h3><div class="list">${acts.map(([a,t,d])=>`<button class="act" data-a="do:${a}" ${d?'disabled':''}>${t}</button>`).join('')}<button class="act" data-a="tab:staff">${S.loc==='kapitanysag'?'Stáb kiküldése':'Telefon: stáb kiküldése'}</button></div>
   <h3>Úti cél</h3><div class="dest">${Object.entries(L).filter(([id,x])=>id!==S.loc&&visible(x)).map(([id,x])=>`<button data-a="go:${id}">${x.n}<span>${travelMin(S.loc,id)}′</span></button>`).join('')}</div></div>`;
 }
+// ---- sziluettek ----
+const FEM=new Set('zsófia ilona réka dóra detti bernadett viktória kata mária judit lili nóra erika anna szandra ildikó eszter ágnes éva katalin erzsébet zsuzsa zsuzsanna marika andrea krisztina edit klára margit irén piroska vera noémi orsolya petra tímea gabriella hajnalka melinda mónika rita szilvia teréz vilma rozália julianna magdolna anikó márta borbála kitti emese boglárka fanni dorina enikő beáta ibolya erzsi juci kati'.split(' '));
+const SIL_FIX={'kerekes bernadett':{fem:1,blond:1,pony:1,thin:1,style:'long'},'detti':{fem:1,blond:1,pony:1,thin:1,coat:0,style:'long'},
+ 'szép viktória':{fem:1,glass:1,style:'bob'},'keleti mária':{fem:1,grey:1,bun:1,age:61},'fehér judit':{fem:1,glass:1,style:'short'},
+ 'rácz kata':{fem:1,style:'short'},'tóth bence':{style:'volume'},'halász tamás':{glass:1,style:'part'},'bodnár feri':{mous:1,wide:1,style:'receding'},
+ 'laci':{bald:1,wide:1},'sanyi':{grey:1,beard:1,age:68},'mátrai lili':{fem:1,style:'long',thin:1},'nóra':{fem:1,style:'wave'},
+ 'varga ottó':{grey:1,mous:1,style:'receding'},'vámos lajos':{grey:1,wide:1,beard:0,style:'receding'},'mátrai gyula':{grey:1,mous:1,style:'part'},
+ 'somogyi kristóf':{suit:1,style:'part'},'vámos gergő':{style:'short'},'szikszai imre':{wide:1,bald:1}};
+function silKey(p){return(p.n||'').replace(/„[^”]*”\s*/g,'').replace(/^dr\.\s*/i,'').replace(/\s+(bv\.|alezredes|ezredes).*$/i,'').replace(/,.*$/,'').trim().toLowerCase()}
+function silHash(s){let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h}
+function silTraits(p){
+  if(p._sil)return p._sil;
+  const key=silKey(p),nm=key.split(/\s+/);
+  const bio=((p.bio||'')+' '+(p.r||'')).toLowerCase();
+  const last=nm[nm.length-1]||'';
+  let fem=FEM.has(last)||nm.some(w=>/né$/.test(w))||/\b(anyja|felesége|özvegy|lánya|barátnője|nővér|ápolónő|házvezetőnő|menyasszony|asszony|nagymama|tanárnő|doktornő)\b/.test((p.r||'').toLowerCase());
+  const m=bio.match(/(\d{2}) éves/);const age=m?+m[1]:(/\b(öreg|idős|nyugalmazott)\b/.test(bio)?70:45);
+  const has=re=>re.test(bio);
+  const h=silHash(key);
+  const t={fem,age,grave:/sírja$/.test(key),
+    bald:has(/kopasz/),blond:has(/szőke/),grey:has(/\bősz|fehér haj|ezüst haj/)||age>=66,
+    pony:has(/lófarok/),bun:has(/konty/),
+    beard:has(/szakáll/),mous:has(/bajusz/),glass:has(/szemüveg/),
+    hat:has(/kalap/),cap:has(/sapk|kapucni|baseball/),
+    wide:has(/széles|termetes|kövér|nagy, lassú|vállas|tagbaszakadt|nagydarab/),
+    thin:has(/szikár|sovány|vékony|lefogyott|alacsony|kis, /),
+    suit:has(/öltöny|zakó|nyakkendő|kosztüm/),uni:has(/egyenruh/),coat:has(/köpeny/)};
+  t.style=has(/hosszú haj|kibontva/)?'long':fem?['long','bob','short','wave','bob'][h%5]:(age>=58?['receding','short','part'][h%3]:['short','part','volume','short','receding'][h%5]);
+  t.dw=((h>>4)%7)-3; t.dh=((h>>8)%5)-2;
+  const fx=SIL_FIX[key]||SIL_FIX[nm.slice(-2).join(' ')];if(fx)Object.assign(t,fx);
+  if(p.sil)Object.assign(t,p.sil);
+  return p._sil=t;
+}
+function sil(p,cls){
+  const t=silTraits(p),D='#0d0f12',bg=t.fem?'#b9ab91':'#a9a08c';
+  let s=`<svg class="sil ${cls||''}" viewBox="0 0 60 70" aria-hidden="true"><defs><radialGradient id="sg${t.fem?1:0}" cx=".5" cy=".35" r=".75"><stop offset="0" stop-color="${bg}"/><stop offset="1" stop-color="#4b443a"/></radialGradient></defs><rect width="60" height="70" fill="url(#sg${t.fem?1:0})"/>`;
+  if(t.grave)return s+`<path d="M18 70 L18 30 Q18 14 30 14 Q42 14 42 30 L42 70 Z" fill="${D}"/><path d="M30 22v16M24 28h12" stroke="#8d8372" stroke-width="2"/><rect x="10" y="62" width="40" height="8" fill="#1c1d20"/></svg>`;
+  const W=(t.wide?58:t.thin?42:t.fem?45:50)+t.dw, sy=(t.age>=68?54:51), hx=t.age>=68?31:30, hy=(t.age>=68?30:28)+t.dh*.5;
+  const hair=t.blond?'#9c8550':t.grey?'#6e6a63':D, rx=(t.fem?9.6:10.4)+t.dw*.15, ry=t.fem?12.2:12.8;
+  const top=hy-ry;
+  // haj a fej mögött
+  if(t.fem&&!t.pony&&!t.bun&&!t.bald){
+    if(t.style==='long')s+=`<path d="M${hx-rx-2} ${hy-2} Q${hx-rx-4} ${hy+22} ${hx-rx+1} ${hy+27} L${hx+rx-1} ${hy+27} Q${hx+rx+4} ${hy+22} ${hx+rx+2} ${hy-2} Z" fill="${hair}"/>`;
+    else if(t.style==='wave')s+=`<path d="M${hx-rx-2} ${hy-2} Q${hx-rx-6} ${hy+8} ${hx-rx-2} ${hy+13} Q${hx-rx-6} ${hy+19} ${hx-rx} ${hy+23} L${hx+rx} ${hy+23} Q${hx+rx+6} ${hy+19} ${hx+rx+2} ${hy+13} Q${hx+rx+6} ${hy+8} ${hx+rx+2} ${hy-2} Z" fill="${hair}"/>`;
+    else if(t.style==='bob')s+=`<path d="M${hx-rx-2.5} ${hy-3} Q${hx-rx-3.5} ${hy+9} ${hx-rx-1} ${hy+11} L${hx+rx+1} ${hy+11} Q${hx+rx+3.5} ${hy+9} ${hx+rx+2.5} ${hy-3} Z" fill="${hair}"/>`;
+  }
+  if(t.pony)s+=`<path d="M${hx+8} ${hy-6} Q${hx+19} ${hy-2} ${hx+15} ${hy+16} Q${hx+12} ${hy+6} ${hx+7} ${hy+2} Z" fill="${hair}"/>`;
+  // váll, nyak
+  s+=`<path d="M${30-W/2} 70 Q${30-W/2} ${sy+2} ${30-W/4} ${sy-1} Q30 ${sy-4} ${30+W/4} ${sy-1} Q${30+W/2} ${sy+2} ${30+W/2} 70 Z" fill="${D}"/>`;
+  s+=`<rect x="${hx-(t.fem?4:5)}" y="${hy+8}" width="${t.fem?8:10}" height="${sy-hy-6}" fill="${D}"/>`;
+  if(t.coat)s+=`<path d="M${30-W/4} ${sy-1} L30 ${sy+12} L${30+W/4} ${sy-1} L${30+W/4+3} 70 L${30-W/4-3} 70 Z" fill="#cfc8bb" opacity=".22"/>`;
+  if(t.suit||t.uni)s+=`<path d="M26 ${sy-2} L30 ${sy+9} L34 ${sy-2} Z" fill="#d9d2c4" opacity=".75"/>`+(t.suit&&!t.fem?`<path d="M30 ${sy+1} l-1.6 3 1.6 9 1.6 -9 Z" fill="${D}"/>`:'');
+  // fej
+  if(!t.fem||t.style==='short'||t.pony||t.bun)s+=`<ellipse cx="${hx-rx}" cy="${hy+1}" rx="1.8" ry="3" fill="${D}"/><ellipse cx="${hx+rx}" cy="${hy+1}" rx="1.8" ry="3" fill="${D}"/>`;
+  s+=`<ellipse cx="${hx}" cy="${hy}" rx="${rx}" ry="${ry}" fill="${D}"/>`;
+  if(t.beard)s+=`<path d="M${hx-rx+.3} ${hy+2} Q${hx-rx+1} ${hy+ry+5} ${hx} ${hy+ry+6} Q${hx+rx-1} ${hy+ry+5} ${hx+rx-.3} ${hy+2} Q${hx+rx-3} ${hy+9} ${hx} ${hy+6.5} Q${hx-rx+3} ${hy+9} ${hx-rx+.3} ${hy+2} Z" fill="${t.grey?hair:D}"/>`;
+  // fejtető
+  if(!t.bald){
+    if(t.fem&&t.style!=='short')s+=`<path d="M${hx-rx-1.8} ${hy+5} Q${hx-rx-2.2} ${top-2} ${hx} ${top-1.6} Q${hx+rx+2.2} ${top-2} ${hx+rx+1.8} ${hy+5} Q${hx+5} ${top+6} ${hx-rx+1} ${hy+2} Z" fill="${hair}"/>`;
+    else if(t.fem)s+=`<path d="M${hx-rx-1.2} ${hy+1} Q${hx-rx-1} ${top-2.6} ${hx+1} ${top-2.2} Q${hx+rx+1.5} ${top-2} ${hx+rx+1} ${hy} Q${hx+2} ${top+4} ${hx-rx+.5} ${hy-1} Z" fill="${hair}"/>`;
+    else if(t.style==='volume')s+=`<path d="M${hx-rx-.8} ${hy-1} Q${hx-rx-2} ${top-5} ${hx} ${top-4.5} Q${hx+rx+2} ${top-5} ${hx+rx+.8} ${hy-1} Q${hx+3} ${top+4} ${hx-rx+.6} ${hy-2} Z" fill="${hair}"/>`;
+    else if(t.style==='part')s+=`<path d="M${hx-rx-.6} ${hy-1} Q${hx-rx} ${top-1} ${hx-3} ${top-2.4} Q${hx+rx+1} ${top-3} ${hx+rx+.6} ${hy-1} Q${hx+rx-2} ${top+3} ${hx-3} ${top+1} Q${hx-rx+1} ${top+3} ${hx-rx+.6} ${hy-2} Z" fill="${hair}"/>`;
+    else if(t.style==='receding')s+=`<path d="M${hx-rx-.7} ${hy+1} Q${hx-rx-.5} ${top+2} ${hx-rx+3} ${top+1} L${hx-rx+3} ${top+5} Q${hx-rx+1} ${top+6} ${hx-rx+.5} ${hy} Z M${hx+rx+.7} ${hy+1} Q${hx+rx+.5} ${top+2} ${hx+rx-3} ${top+1} L${hx+rx-3} ${top+5} Q${hx+rx-1} ${top+6} ${hx+rx-.5} ${hy} Z" fill="${hair}"/>`;
+    else s+=`<path d="M${hx-rx-.6} ${hy-1} Q${hx-rx} ${top-2.2} ${hx} ${top-1.8} Q${hx+rx} ${top-2.2} ${hx+rx+.6} ${hy-1} Q${hx+3} ${top+4} ${hx-rx+.6} ${hy-2} Z" fill="${hair}"/>`;
+  }
+  if(t.bun)s+=`<circle cx="${hx}" cy="${top-2}" r="4.6" fill="${hair}"/>`;
+  if(t.hat)s+=`<ellipse cx="${hx}" cy="${top+4}" rx="${rx+7}" ry="2.6" fill="${D}"/><path d="M${hx-rx+1} ${top+4} L${hx-rx+2} ${top-6} Q${hx} ${top-9} ${hx+rx-2} ${top-6} L${hx+rx-1} ${top+4} Z" fill="${D}"/>`;
+  else if(t.cap)s+=`<path d="M${hx-rx-.5} ${top+6} Q${hx} ${top-6} ${hx+rx+.5} ${top+6} Z" fill="${D}"/><path d="M${hx+2} ${top+5} L${hx+rx+7} ${top+6.5} L${hx+rx} ${top+7.5} Z" fill="${D}"/>`;
+  if(t.glass)s+=`<g fill="none" stroke="#d9cba6" stroke-width="1" opacity=".85"><circle cx="${hx-4}" cy="${hy+1}" r="3"/><circle cx="${hx+4}" cy="${hy+1}" r="3"/><path d="M${hx-1} ${hy+1}h2"/></g>`;
+  if(t.mous&&!t.beard)s+=`<path d="M${hx-4.5} ${hy+7} Q${hx} ${hy+5} ${hx+4.5} ${hy+7}" stroke="${t.grey?'#8a857c':'#55493a'}" stroke-width="1.6" fill="none"/>`;
+  return s+'</svg>';
+}
+function silOfSuspect(sid){const sp=CASE.suspects[sid];const p=(sp.reveal||[]).map(f=>P[f.replace(/^met_/,'')]).find(Boolean)||Object.values(P).find(x=>x.n===sp.name)||{n:sp.name};return sil(p,'mugsil')}
 function renderTalk(pid){
   const p=P[pid],tr=S.tr[pid]||[];
   const tps=topicsOf(pid).filter(t=>reqOk(t.req)&&(t.rep||!S.done[pid+':'+t.id]));
   const loy=STAFF.includes(pid)?`<p class="mut">Lojalitás: ${loyBar(pid)}</p>`:'';
   return`<div class="pane talk"><button class="back" data-a="back">← ${L[S.loc].n}</button>
-  <h1>${p.n}</h1><p class="mut">${p.r}</p>${loy}<p class="bio">${p.bio}</p>
+  <div class="thead">${sil(p,'big')}<div><h1>${p.n}</h1><p class="mut">${p.r}</p>${loy}</div></div><p class="bio">${p.bio}</p>
   <div class="tr">${tr.map(x=>`<div class="q">${x.q}</div><div class="a">${x.a}</div>`).join('')}</div>
   <h3>${p.suspect?'Kihallgatás':p.staff?'Beszélgetés':'Meghallgatás'}</h3>
   <div class="list">${tps.map(t=>`<button class="topic${t.req?' conf':''}" data-a="tp:${pid}:${t.id}" ${(t.drink&&S.money<900)||(t.cost&&S.money<t.cost)||(t.drinkStaff&&S.money<1800)?'disabled':''}>${t.l}</button>`).join('')||'<p class="mut">Most nincs több kérdésed.</p>'}</div></div>`;
@@ -485,7 +558,7 @@ function renderBoard(){
     if(!rv)return`<div class="col locked"><div class="mug">?</div><h4>Ismeretlen</h4><p class="mut">Még nem tudod, ki ez.</p></div>`;
     const rows=['I','A','M'].map(r=>{const c=Object.entries(S.board).filter(([,v])=>v.s===s&&v.r===r).map(([id])=>card(id,' pinned')).join('');
       return`<div class="row${one?' drop':''}" ${one?`data-a="pin:${s}:${r}"`:''}><em>${CAT[r]}</em>${c||(one?'<i>ide tűzöd</i>':'')}</div>`}).join('');
-    return`<div class="col"><div class="mug">${sp.short[0]}</div><h4>${sp.name}</h4>${rows}<button class="accuse" data-a="acc?:${s}">Vádemelés</button></div>`;
+    return`<div class="col"><div class="mug">${silOfSuspect(s)}</div><h4>${sp.name}</h4>${rows}<button class="accuse" data-a="acc?:${s}">Vádemelés</button></div>`;
   }).join('');
   let bar;
   if(two)bar=`<div class="bd two">${S.sel.map(id=>`<div><b>${E[id].n}</b><p>${E[id].d}</p></div>`).join('')}</div><div class="pb"><button data-a="deduce">Összefüggést keresel (15′)</button><button class="ghost" data-a="clearsel">Mégse</button></div>`;
@@ -513,7 +586,7 @@ function renderStaff(){
   const mood=S.pat>70?'A főnököd még bízik benned.':S.pat>40?'A főnököd türelme fogy.':'A főnököd a felfüggesztéseden gondolkodik.';
   const fitW=(tk,sid)=>{const f=chance(tk,sid);return f>=.85?'erőssége':f>=.6?'elmegy':'nem az ő műfaja'};
   return`<div class="pane wide staff"><h1>Stáb</h1><p class="mut">${mood}${S.loc!=='kapitanysag'?' · Telefonon intézed: +5 perc.':''} A lojalitás növeli a sikeresélyt. Este meghívhatod őket egy italra, de ha egy nap háromnál többször küldöd ki őket, fogy.</p>
-  <div class="scards">${STAFF.map(id=>{const st=staffState(id);return`<div class="sc ${st.k}"><b>${P[id].n}</b><span>${P[id].r}</span><p>${P[id].bio}</p><p class="ly">${loyBar(id)}</p><em>${st.x}</em></div>`}).join('')}</div>
+  <div class="scards">${STAFF.map(id=>{const st=staffState(id);return`<div class="sc ${st.k}"><div class="sch">${sil(P[id])}<div><b>${P[id].n}</b><span>${P[id].r}</span></div></div><p>${P[id].bio}</p><p class="ly">${loyBar(id)}</p><em>${st.x}</em></div>`}).join('')}</div>
   ${pend?`<h3>Folyamatban</h3><ul class="pend">${pend}</ul>`:''}
   <h3>Kiadható feladatok</h3>${tasks.length?tasks.map(tk=>`<div class="task"><b>${tk.l}</b><span>${Math.round(tk.dur/60)} óra</span><div>${Object.keys(tk.fit).map(sid=>`<button data-a="disp:${tk.id}:${sid}" ${staffState(sid).k!=='free'?'disabled':''}>${P[sid].n.split(' ').slice(-1)[0]} · ${fitW(tk,sid)}</button>`).join('')}</div></div>`).join(''):'<p class="mut">Most nincs kiadható feladat. Nyomozz tovább.</p>'}</div>`;
 }

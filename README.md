@@ -11,10 +11,11 @@ Böngészős noir nyomozós játék egy Budapest-szerű városban. Főhős: Mát
 4. **Áradás** – március
 5. **Apadás** – július
 6. **Násznép** – október
+7. **Köd** – november
 
 A 6. ügytől minden ügynek több változata van: indításkor véletlenszerűen dől el, ki a tettes, és a bizonyítékok is ehhez igazodnak. Újrajátszva más lehet a megoldás.
 
 A személyes döntések (lányod, apád, Nóra, a stáb lojalitása) átkerülnek a következő ügybe. A mentés a böngészőben tárolódik.
 
 ## Forrás
-A `src/` mappában: `engine.js` (motor), `case1.js`, `case2.js`, `case3.js`, `case4.js`, `case5.js`, `case6.js` (ügyek), `shell.html` (váz és stílus). A `build.py` ezekből állítja össze az `index.html`-t.
+A `src/` mappában: `engine.js` (motor), `case1.js`, `case2.js`, `case3.js`, `case4.js`, `case5.js`, `case6.js`, `case7.js` (ügyek), `shell.html` (váz és stílus). A `build.py` ezekből állítja össze az `index.html`-t.
